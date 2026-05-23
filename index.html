@@ -7,12 +7,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@500;800&family=Playfair+Display:ital,wght=1,600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f7e6d4;      /* اللون الكريمي الهادئ للموقع */
-            --primary-color: #8c6239; /* البني الداكن المعتمد للخطوط والعجلة */
-            --accent-color: #b07d53;  /* البني الفاتح للأزرار والجوائز */
-            --light-prize: #d9b48f;   /* اللون التناوبي الفاتح في العجلة */
+            --bg-color: #f5e4d3;      /* اللون الكريمي الدافئ الموحد للخلفية والصفحة بالكامل */
+            --primary-color: #8c6239; /* البني الداكن المعتمد للخطوط والنصوص */
+            --accent-color: #b07d53;  /* بني متوسط للأزرار */
+            --input-bg: #fffbf7;      /* لون الحقول الكريمي الفاتح جداً والمتناسق مع الصورة المرفقة */
             --insta-color: #d62976;   /* لون إنستغرام */
-            --input-bg: #eddccb;      /* لون الحقول الجديد المتناسق مع الهوية بدلاً من الأبيض */
         }
 
         body {
@@ -28,7 +27,7 @@
             position: relative;
         }
 
-        /* تأثير العناصر المتطايرة في الخلفية */
+        /* تأثير العناصر الزخرفية المتطايرة بالخلفية كالصورة (أدوات التجميل والنجوم الخفيفة) */
         .floating-icons-container {
             position: absolute;
             top: 0;
@@ -43,35 +42,35 @@
         .floating-icon {
             position: absolute;
             font-size: 24px;
-            opacity: 0.25;
-            animation: floatAnimation 12s linear infinite;
+            opacity: 0.15;
+            animation: floatAnimation 14s linear infinite;
         }
 
         @keyframes floatAnimation {
             0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
-            100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
+            10% { opacity: 0.2; }
+            90% { opacity: 0.2; }
+            100% { transform: translateY(-10vh) rotate(360deg) scale(1.1); opacity: 0; }
         }
 
-        /* حاوية الصفحات الرئيسية */
+        /* حاوية التصميم المحدثة - مدمجة، بدون خلفية بيضاء شاذة وطبقاً للصورة المرفقة */
         .container {
             text-align: center;
             max-width: 480px;
             width: 90%;
-            padding: 30px 20px;
+            padding: 40px 25px;
             box-sizing: border-box;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 30px rgba(140, 98, 57, 0.05);
+            background: rgba(255, 255, 255, 0.12); /* شفافية مدمجة مع لون الخلفية العام */
+            border-radius: 24px;
+            backdrop-filter: blur(10px); /* تأثير زجاجي ناعم جداً مقتبس من الصورة */
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 15px 35px rgba(140, 98, 57, 0.04);
             z-index: 5;
         }
 
-        /* تنسيق اللوجو وحذف الخلفية البيضاء نهائياً */
+        /* صندوق الشعار مدمج تماماً وشفاف */
         .logo-box {
-            max-width: 150px;
+            max-width: 130px;
             margin: 0 auto 20px auto;
             display: flex;
             justify-content: center;
@@ -82,14 +81,13 @@
         .logo {
             max-width: 100%;
             height: auto;
-            /* عزل الخلفية البيضاء للشعار ليدمج مع الكرت تلقائياً */
-            mix-blend-mode: multiply; 
-            filter: contrast(1.1);
+            mix-blend-mode: multiply; /* عزل الخلفية البيضاء الحافة للشعار ميكانيكياً ليتداخل مع اللون الكريمي */
+            filter: contrast(1.05);
         }
 
         h1 {
             color: var(--primary-color);
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 800;
             margin-bottom: 25px;
             line-height: 1.6;
@@ -97,41 +95,80 @@
 
         .spin-win-text {
             font-family: 'Playfair Display', serif;
-            font-size: 26px;
+            font-size: 24px;
             font-style: italic;
             color: var(--accent-color);
             display: block;
-            margin-top: 5px;
+            margin-top: 6px;
         }
 
-        /* تصميم الأزرار الاحترافية مع تأثير التكبير المطلب */
+        /* تصميم الحقول الدائرية والمطابقة للصورة مع حماية وتوحيد كامل للألوان */
+        .form-group {
+            margin-bottom: 16px;
+            text-align: right;
+            width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 16px;
+            border: 1.5px solid rgba(140, 98, 57, 0.15);
+            border-radius: 16px; /* زوايا الحقول الدائرية المنبثقة من صورتك */
+            background-color: var(--input-bg);
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+            text-align: center;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: bold;
+            color: var(--primary-color);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); /* مرونة التحويل والتكبير */
+        }
+
+        /* تطبيق فكرتك المتميزة: تكبير بسيط للعنصر عند مرور الماوس فوقه أو اختياره للتفعيل */
+        .form-group input:hover,
+        .form-group input:focus {
+            border-color: var(--accent-color);
+            background-color: #ffffff;
+            transform: scale(1.025); /* نسبة تكبير بسيطة وراقية تعطي انطباعاً بالتفاعلية الحية */
+            box-shadow: 0 5px 15px rgba(140, 98, 57, 0.05);
+        }
+
+        .form-group input::placeholder {
+            color: #bfa38a;
+        }
+
+        /* أزرار الإجراءات المتوافقة لونياً */
         .btn-main {
             background-color: var(--accent-color);
             color: white;
             border: none;
             padding: 15px 45px;
-            font-size: 18px;
+            font-size: 17px;
             border-radius: 30px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(176,125,83,0.2);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(176,125,83,0.2);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: bold;
             width: 85%;
             font-family: 'Tajawal', sans-serif;
             display: inline-block;
             text-decoration: none;
+            margin-top: 10px;
         }
 
         .btn-main:hover {
-            transform: scale(1.03); /* تأثير التكبير عند الحوم */
-            box-shadow: 0 8px 22px rgba(176,125,83,0.35);
+            transform: scale(1.03); /* تكبير سلس للزر أيضاً عند تفاعل الماوس */
+            box-shadow: 0 6px 20px rgba(176,125,83,0.35);
         }
 
         .btn-main:disabled {
             background-color: #b3b3b3 !important;
             cursor: not-allowed;
             transform: none !important;
-            box-shadow: none;
+            box-shadow: none !important;
         }
 
         .btn-insta {
@@ -152,62 +189,23 @@
             width: 85%;
             box-sizing: border-box;
             box-shadow: 0 4px 12px rgba(214, 41, 118, 0.2);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             font-family: 'Tajawal', sans-serif;
         }
 
         .btn-insta:hover {
-            transform: scale(1.03); /* تأثير التكبير */
+            transform: scale(1.03);
             box-shadow: 0 6px 18px rgba(214, 41, 118, 0.35);
         }
 
-        /* تحسين الفورم وتوحيد الألوان بناءً على رؤيتك */
-        .form-group {
-            margin-bottom: 18px;
-            text-align: right;
-            width: 85%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 15px 16px;
-            border: 1.5px solid #d9c5b2;
-            border-radius: 15px;
-            background-color: var(--input-bg); /* اللون الموحد الجديد */
-            font-size: 15px;
-            box-sizing: border-box;
-            outline: none;
-            text-align: center;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: bold;
-            color: var(--primary-color);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* نعومة الحركة */
-        }
-
-        /* تأثير التكبير عند تمرير الماوس أو الكتابة داخل الحقول */
-        .form-group input:hover,
-        .form-group input:focus {
-            border-color: var(--accent-color);
-            background-color: #e6d3c0; 
-            transform: scale(1.02); /* التكبير البسيط المطلب للخيارات */
-            box-shadow: 0 4px 12px rgba(140, 98, 57, 0.06);
-        }
-
-        .form-group input::placeholder {
-            color: #a88463;
-            opacity: 0.8;
-        }
-
-        /* إدارة تفعيل وتعطيل الشاشات */
+        /* أنظمة الشاشات الانتقالية */
         .screen {
             display: none;
         }
 
         .active-screen {
             display: block;
-            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         @keyframes fadeIn {
@@ -215,7 +213,7 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* تصميم قسم العجلة والمؤشر */
+        /* العجلة ومحيط المؤشر العلوي */
         .wheel-outer-wrapper {
             position: relative;
             margin: 20px auto 30px auto;
@@ -243,7 +241,7 @@
             border-radius: 50%;
             overflow: hidden;
             border: 5px solid var(--primary-color);
-            box-shadow: 0 8px 25px rgba(140, 98, 57, 0.2);
+            box-shadow: 0 8px 25px rgba(140, 98, 57, 0.15);
         }
 
         #wheelCanvas {
@@ -269,10 +267,10 @@
 <body>
 
     <div class="floating-icons-container">
-        <div class="floating-icon" style="left: 10%; animation-delay: 0s;">✨</div>
-        <div class="floating-icon" style="left: 30%; animation-delay: 3s;">🌸</div>
-        <div class="floating-icon" style="left: 70%; animation-delay: 1s;">✨</div>
-        <div class="floating-icon" style="left: 85%; animation-delay: 5s;">💄</div>
+        <div class="floating-icon" style="left: 8%; top: 20%; animation-delay: 0s;">✨</div>
+        <div class="floating-icon" style="left: 25%; top: 45%; animation-delay: 3s;">🌸</div>
+        <div class="floating-icon" style="left: 75%; top: 15%; animation-delay: 1s;">✨</div>
+        <div class="floating-icon" style="left: 88%; top: 60%; animation-delay: 5s;">💄</div>
     </div>
 
     <div class="container">
@@ -321,6 +319,7 @@
         let userData = {};
         let isSpinning = false;
 
+        // نظام سحب آمن ونسب مدروسة للجوائز
         const weightedPrizes = [
             { text: 'خصم ٢٠٪', weight: 5 },
             { text: 'تقسيمة ١٠ مللي', weight: 3 },
@@ -337,6 +336,8 @@
         function navigateToScreen2() {
             const name = document.getElementById('userName').value.trim();
             const phone = document.getElementById('userPhone').value.trim();
+            
+            // التعبير النمطي لفحص الهاتف السعودي بدقة
             const phoneRegex = /^(05)\d{8}$/;
 
             if (name.length < 3) {
@@ -364,6 +365,7 @@
             drawWheelStructure();
         }
 
+        // رسم قطاعات العجلة والجوائز بألوان متناغمة مع التصميم الموحد
         function drawWheelStructure() {
             const canvas = document.getElementById('wheelCanvas');
             const ctx = canvas.getContext('2d');
@@ -398,9 +400,10 @@
                 ctx.restore();
             }
 
+            // مركز الدائرة التجميلي للعجلة
             ctx.beginPath();
             ctx.arc(center, center, 15, 0, 2 * Math.PI);
-            ctx.fillStyle = '#f7e6d4';
+            ctx.fillStyle = '#f5e4d3';
             ctx.strokeStyle = '#8c6239';
             ctx.lineWidth = 3;
             ctx.fill();
