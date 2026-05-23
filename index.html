@@ -12,6 +12,7 @@
             --accent-color: #b07d53;  /* البني الفاتح للأزرار والجوائز */
             --light-prize: #d9b48f;   /* اللون التناوبي الفاتح في العجلة */
             --insta-color: #d62976;   /* لون إنستغرام */
+            --input-bg: #eddccb;      /* لون الحقول الجديد المتناسق مع الهوية بدلاً من الأبيض */
         }
 
         body {
@@ -60,17 +61,17 @@
             width: 90%;
             padding: 30px 20px;
             box-sizing: border-box;
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 20px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 10px 30px rgba(140, 98, 57, 0.05);
             z-index: 5;
         }
 
-        /* تنسيق اللوجو وحذف الخلفية البيضاء نهائياً بالـ Filter */
+        /* تنسيق اللوجو وحذف الخلفية البيضاء نهائياً */
         .logo-box {
-            max-width: 160px;
+            max-width: 150px;
             margin: 0 auto 20px auto;
             display: flex;
             justify-content: center;
@@ -81,8 +82,9 @@
         .logo {
             max-width: 100%;
             height: auto;
-            filter: contrast(1.5) brightness(0.95) drop-shadow(0px 0px 1px rgba(0,0,0,0.05));
-            mix-blend-mode: multiply;
+            /* عزل الخلفية البيضاء للشعار ليدمج مع الكرت تلقائياً */
+            mix-blend-mode: multiply; 
+            filter: contrast(1.1);
         }
 
         h1 {
@@ -102,17 +104,17 @@
             margin-top: 5px;
         }
 
-        /* تصميم الأزرار الاحترافية والمحسنة */
+        /* تصميم الأزرار الاحترافية مع تأثير التكبير المطلب */
         .btn-main {
             background-color: var(--accent-color);
             color: white;
             border: none;
-            padding: 14px 45px;
+            padding: 15px 45px;
             font-size: 18px;
             border-radius: 30px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(176,125,83,0.3);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(176,125,83,0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: bold;
             width: 85%;
             font-family: 'Tajawal', sans-serif;
@@ -121,14 +123,14 @@
         }
 
         .btn-main:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(176,125,83,0.45);
+            transform: scale(1.03); /* تأثير التكبير عند الحوم */
+            box-shadow: 0 8px 22px rgba(176,125,83,0.35);
         }
 
         .btn-main:disabled {
             background-color: #b3b3b3 !important;
             cursor: not-allowed;
-            transform: none;
+            transform: none !important;
             box-shadow: none;
         }
 
@@ -149,17 +151,17 @@
             text-decoration: none;
             width: 85%;
             box-sizing: border-box;
-            box-shadow: 0 4px 12px rgba(214, 41, 118, 0.3);
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(214, 41, 118, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-family: 'Tajawal', sans-serif;
         }
 
         .btn-insta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(214, 41, 118, 0.45);
+            transform: scale(1.03); /* تأثير التكبير */
+            box-shadow: 0 6px 18px rgba(214, 41, 118, 0.35);
         }
 
-        /* تحسين الفورم وحقول الإدخال */
+        /* تحسين الفورم وتوحيد الألوان بناءً على رؤيتك */
         .form-group {
             margin-bottom: 18px;
             text-align: right;
@@ -170,24 +172,32 @@
 
         .form-group input {
             width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e0ceba;
-            border-radius: 14px;
-            background-color: #fffaf5;
+            padding: 15px 16px;
+            border: 1.5px solid #d9c5b2;
+            border-radius: 15px;
+            background-color: var(--input-bg); /* اللون الموحد الجديد */
             font-size: 15px;
             box-sizing: border-box;
             outline: none;
-            transition: all 0.3s ease;
             text-align: center;
             font-family: 'Tajawal', sans-serif;
             font-weight: bold;
             color: var(--primary-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* نعومة الحركة */
         }
 
+        /* تأثير التكبير عند تمرير الماوس أو الكتابة داخل الحقول */
+        .form-group input:hover,
         .form-group input:focus {
             border-color: var(--accent-color);
-            background-color: #ffffff;
-            box-shadow: 0 0 8px rgba(176,125,83,0.15);
+            background-color: #e6d3c0; 
+            transform: scale(1.02); /* التكبير البسيط المطلب للخيارات */
+            box-shadow: 0 4px 12px rgba(140, 98, 57, 0.06);
+        }
+
+        .form-group input::placeholder {
+            color: #a88463;
+            opacity: 0.8;
         }
 
         /* إدارة تفعيل وتعطيل الشاشات */
@@ -243,7 +253,7 @@
             border-radius: 50%;
             transform: rotate(0deg);
             transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
-            will-change: transform; /* تحسين استهلاك المعالج أثناء الدوران */
+            will-change: transform;
         }
 
         .result-message {
@@ -267,11 +277,9 @@
 
     <div class="container">
         <div class="logo-box">
-            <!-- ملاحظة: يرجى استبدال مسار الصورة أدناه بالمسار الفعلي والامتداد الصحيح إذا لزم الأمر -->
             <img src="WhatsApp Image 2026-03-05 at 12.12.45 PM.jpeg" alt="صالة العناية | Hall Care" class="logo">
         </div>
 
-        <!-- الشاشة الأولى: إدخال البيانات -->
         <div id="screen1" class="screen active-screen">
             <h1>مرحباً بك في سحب صالة العناية <span class="spin-win-text">Spin & Win</span></h1>
             
@@ -285,7 +293,6 @@
             <button class="btn-main" onclick="navigateToScreen2()">التالي</button>
         </div>
 
-        <!-- الشاشة الثانية: متابعة إنستغرام -->
         <div id="screen2" class="screen">
             <h1>تابعنا على حساب إنستغرام<br>لتفعيل العجلة وبدء اللعب</h1>
             
@@ -296,7 +303,6 @@
             <button id="startPlayBtn" class="btn-main" disabled onclick="navigateToScreen3()">إبدأ اللعب الآن</button>
         </div>
 
-        <!-- الشاشة الثالثة: عجلة الحظ -->
         <div id="screen3" class="screen">
             <h1>أدر العجلة وحظاً موفقاً!</h1>
             
@@ -315,7 +321,6 @@
         let userData = {};
         let isSpinning = false;
 
-        // 1. نظام الجوائز مع تحديد "الأوزان" أو النسب المئوية (مجموع الأوزان الكلي = 100)
         const weightedPrizes = [
             { text: 'خصم ٢٠٪', weight: 5 },
             { text: 'تقسيمة ١٠ مللي', weight: 3 },
@@ -327,14 +332,11 @@
             { text: 'تقسيمة ٦ مللي', weight: 5 }
         ];
 
-        // مصفوفة الأسماء فقط الموجهة للرسم على الـ Canvas بنفس الترتيب
         const prizesList = weightedPrizes.map(p => p.text);
 
         function navigateToScreen2() {
             const name = document.getElementById('userName').value.trim();
             const phone = document.getElementById('userPhone').value.trim();
-
-            // تعبير نمطي (Regex) للتحقق من أن رقم الجوال سعودي صحيح مكون من 10 أرقام ويبدأ بـ 05
             const phoneRegex = /^(05)\d{8}$/;
 
             if (name.length < 3) {
@@ -362,7 +364,6 @@
             drawWheelStructure();
         }
 
-        // رسم قطاعات العجلة والجوائز
         function drawWheelStructure() {
             const canvas = document.getElementById('wheelCanvas');
             const ctx = canvas.getContext('2d');
@@ -374,8 +375,6 @@
 
             for (let i = 0; i < sectionsCount; i++) {
                 const angle = i * arcSize;
-                
-                // تناوب الألوان بين البني الفاتح والبني المتدرج التناوبي
                 ctx.fillStyle = (i % 2 === 0) ? '#b07d53' : '#d9b48f';
                 
                 ctx.beginPath();
@@ -384,12 +383,10 @@
                 ctx.closePath();
                 ctx.fill();
 
-                // خطوط الفصل الدقيقة
                 ctx.strokeStyle = '#8c6239';
                 ctx.lineWidth = 2;
                 ctx.stroke();
 
-                // كتابة نصوص الجوائز
                 ctx.save();
                 ctx.translate(center, center);
                 ctx.rotate(angle + arcSize / 2);
@@ -401,7 +398,6 @@
                 ctx.restore();
             }
 
-            // الدائرة المركزية الجمالية للعجلة
             ctx.beginPath();
             ctx.arc(center, center, 15, 0, 2 * Math.PI);
             ctx.fillStyle = '#f7e6d4';
@@ -411,23 +407,19 @@
             ctx.stroke();
         }
 
-        // اختيار مؤشر الجائزة بناءً على نظام الأوزان والنسب المحددة بالأعلى
         function getRandomPrizeIndex() {
             let num = Math.random() * 100;
             let currentSum = 0;
             for (let i = 0; i < weightedPrizes.length; i++) {
                 currentSum += weightedPrizes[i].weight;
-                if (num <= currentSum) {
-                    return i;
-                }
+                if (num <= currentSum) return i;
             }
-            return 5; // العودة التلقائية لقطاع "حظ أوفر" كأمان إضافي
+            return 5;
         }
 
         function startSpinAction() {
             if (isSpinning) return;
 
-            // التحقق من عدم تكرار المشاركة في نفس اليوم عبر المتصفح
             if (localStorage.getItem('hallCareSpunToday')) {
                 document.getElementById('resultOutput').innerHTML = "عذراً! لقد شاركت في السحب اليوم بالفعل.<br>عد إلينا غداً لفرصة جديدة ⏳";
                 disableSpinButton();
@@ -438,13 +430,10 @@
             const canvas = document.getElementById('wheelCanvas');
             const totalSlices = prizesList.length;
             const degreesPerSlice = 360 / totalSlices;
-
-            // اختيار الفائز الحقيقي بناءً على دالة الأوزان المحدثة
             const luckyIndex = getRandomPrizeIndex();
             
-            // حساب زاوية الدوران بدقة ليتوقف المؤشر العلوي (عند زاوية 270 درجة) على الجائزة تماماً
             const targetOffset = 270 - (luckyIndex * degreesPerSlice) - (degreesPerSlice / 2);
-            const finalRotation = (360 * 6) + targetOffset; // 6 دورات كاملة للتشويق
+            const finalRotation = (360 * 6) + targetOffset;
 
             canvas.style.transform = `rotate(${finalRotation}deg)`;
 
@@ -470,6 +459,7 @@
             btn.disabled = true;
             btn.style.backgroundColor = "#b3b3b3";
             btn.style.boxShadow = "none";
+            btn.style.transform = "none !important";
         }
     </script>
 </body>
