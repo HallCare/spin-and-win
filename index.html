@@ -81,7 +81,6 @@
         .logo {
             max-width: 100%;
             height: auto;
-            /* فلتر متطور يقوم بتحويل اللون الأبيض الشفاف تماماً وعزل الشعار الأسود */
             filter: contrast(1.5) brightness(0.95) drop-shadow(0px 0px 1px rgba(0,0,0,0.05));
             mix-blend-mode: multiply;
         }
@@ -244,6 +243,7 @@
             border-radius: 50%;
             transform: rotate(0deg);
             transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
+            will-change: transform; /* تحسين استهلاك المعالج أثناء الدوران */
         }
 
         .result-message {
@@ -267,9 +267,11 @@
 
     <div class="container">
         <div class="logo-box">
+            <!-- ملاحظة: يرجى استبدال مسار الصورة أدناه بالمسار الفعلي والامتداد الصحيح إذا لزم الأمر -->
             <img src="WhatsApp Image 2026-03-05 at 12.12.45 PM.jpeg" alt="صالة العناية | Hall Care" class="logo">
         </div>
 
+        <!-- الشاشة الأولى: إدخال البيانات -->
         <div id="screen1" class="screen active-screen">
             <h1>مرحباً بك في سحب صالة العناية <span class="spin-win-text">Spin & Win</span></h1>
             
@@ -283,6 +285,7 @@
             <button class="btn-main" onclick="navigateToScreen2()">التالي</button>
         </div>
 
+        <!-- الشاشة الثانية: متابعة إنستغرام -->
         <div id="screen2" class="screen">
             <h1>تابعنا على حساب إنستغرام<br>لتفعيل العجلة وبدء اللعب</h1>
             
@@ -293,6 +296,7 @@
             <button id="startPlayBtn" class="btn-main" disabled onclick="navigateToScreen3()">إبدأ اللعب الآن</button>
         </div>
 
+        <!-- الشاشة الثالثة: عجلة الحظ -->
         <div id="screen3" class="screen">
             <h1>أدر العجلة وحظاً موفقاً!</h1>
             
@@ -311,16 +315,34 @@
         let userData = {};
         let isSpinning = false;
 
+        // 1. نظام الجوائز مع تحديد "الأوزان" أو النسب المئوية (مجموع الأوزان الكلي = 100)
+        const weightedPrizes = [
+            { text: 'خصم ٢٠٪', weight: 5 },
+            { text: 'تقسيمة ١٠ مللي', weight: 3 },
+            { text: 'خصم ٥٪', weight: 25 },
+            { text: 'دهن مسك مجاني', weight: 2 },
+            { text: 'خصم ١٠٪', weight: 15 },
+            { text: 'حظ أوفر', weight: 35 },
+            { text: 'خصم ١٥٪', weight: 10 },
+            { text: 'تقسيمة ٦ مللي', weight: 5 }
+        ];
+
+        // مصفوفة الأسماء فقط الموجهة للرسم على الـ Canvas بنفس الترتيب
+        const prizesList = weightedPrizes.map(p => p.text);
+
         function navigateToScreen2() {
             const name = document.getElementById('userName').value.trim();
             const phone = document.getElementById('userPhone').value.trim();
+
+            // تعبير نمطي (Regex) للتحقق من أن رقم الجوال سعودي صحيح مكون من 10 أرقام ويبدأ بـ 05
+            const phoneRegex = /^(05)\d{8}$/;
 
             if (name.length < 3) {
                 alert('الرجاء إدخال الاسم الكريم الثلاثي.');
                 return;
             }
-            if (phone.length < 9) {
-                alert('الرجاء إدخال رقم جوال صحيح.');
+            if (!phoneRegex.test(phone)) {
+                alert('الرجاء إدخال رقم جوال صحيح مكون من 10 أرقام ويبدأ بـ 05.');
                 return;
             }
 
@@ -340,18 +362,7 @@
             drawWheelStructure();
         }
 
-        // قائمة الجوائز الرسمية والمنسقة للمجموعة 
-        const prizesList = [
-            'خصم ٢٠٪', 
-            'تقسيمة ١٠ مللي', 
-            'خصم ٥٪', 
-            'دهن مسك مجاني', 
-            'خصم ١٠٪', 
-            'حظ أوفر', 
-            'خصم ١٥٪', 
-            'تقسيمة ٦ مللي'
-        ];
-
+        // رسم قطاعات العجلة والجوائز
         function drawWheelStructure() {
             const canvas = document.getElementById('wheelCanvas');
             const ctx = canvas.getContext('2d');
@@ -364,7 +375,7 @@
             for (let i = 0; i < sectionsCount; i++) {
                 const angle = i * arcSize;
                 
-                // تدوير الألوان بالتناوب الفخم المعتمد في هويتك
+                // تناوب الألوان بين البني الفاتح والبني المتدرج التناوبي
                 ctx.fillStyle = (i % 2 === 0) ? '#b07d53' : '#d9b48f';
                 
                 ctx.beginPath();
@@ -373,12 +384,12 @@
                 ctx.closePath();
                 ctx.fill();
 
-                // خطوط الفصل الدقيقة بين الجوائز
+                // خطوط الفصل الدقيقة
                 ctx.strokeStyle = '#8c6239';
                 ctx.lineWidth = 2;
                 ctx.stroke();
 
-                // كتابة نصوص الجوائز بشكل دائري احترافي داخل القطاع
+                // كتابة نصوص الجوائز
                 ctx.save();
                 ctx.translate(center, center);
                 ctx.rotate(angle + arcSize / 2);
@@ -390,7 +401,7 @@
                 ctx.restore();
             }
 
-            // الدائرة المركزية الصغيرة لإعطاء شكل جمالي للعجلة
+            // الدائرة المركزية الجمالية للعجلة
             ctx.beginPath();
             ctx.arc(center, center, 15, 0, 2 * Math.PI);
             ctx.fillStyle = '#f7e6d4';
@@ -400,10 +411,23 @@
             ctx.stroke();
         }
 
+        // اختيار مؤشر الجائزة بناءً على نظام الأوزان والنسب المحددة بالأعلى
+        function getRandomPrizeIndex() {
+            let num = Math.random() * 100;
+            let currentSum = 0;
+            for (let i = 0; i < weightedPrizes.length; i++) {
+                currentSum += weightedPrizes[i].weight;
+                if (num <= currentSum) {
+                    return i;
+                }
+            }
+            return 5; // العودة التلقائية لقطاع "حظ أوفر" كأمان إضافي
+        }
+
         function startSpinAction() {
             if (isSpinning) return;
 
-            // التحقق من عدم تكرار المشاركة في نفس اليوم
+            // التحقق من عدم تكرار المشاركة في نفس اليوم عبر المتصفح
             if (localStorage.getItem('hallCareSpunToday')) {
                 document.getElementById('resultOutput').innerHTML = "عذراً! لقد شاركت في السحب اليوم بالفعل.<br>عد إلينا غداً لفرصة جديدة ⏳";
                 disableSpinButton();
@@ -415,10 +439,10 @@
             const totalSlices = prizesList.length;
             const degreesPerSlice = 360 / totalSlices;
 
-            // اختيار عشوائي للجائزة الفائزة
-            const luckyIndex = Math.floor(Math.random() * totalSlices);
+            // اختيار الفائز الحقيقي بناءً على دالة الأوزان المحدثة
+            const luckyIndex = getRandomPrizeIndex();
             
-            // حساب زاوية الدوران بدقة ليتوقف المؤشر العلوي عليها تماماً
+            // حساب زاوية الدوران بدقة ليتوقف المؤشر العلوي (عند زاوية 270 درجة) على الجائزة تماماً
             const targetOffset = 270 - (luckyIndex * degreesPerSlice) - (degreesPerSlice / 2);
             const finalRotation = (360 * 6) + targetOffset; // 6 دورات كاملة للتشويق
 
