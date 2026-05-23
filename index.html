@@ -11,7 +11,7 @@
             --primary-color: #8c6239; /* البني الداكن المعتمد للخطوط والعجلة */
             --accent-color: #b07d53;  /* البني الفاتح للأزرار والجوائز */
             --light-prize: #d9b48f;   /* اللون التناوبي الفاتح في العجلة */
-            --insta-color: #d62976;   /* لون إنستغرام */
+            --insta-color: #d62976;   /* لون إنستغرام للأزرار */
         }
 
         body {
@@ -78,17 +78,20 @@
             z-index: 5;
         }
 
-        /* دمج اللوجو مع الخلفية وإزالة المربع الأبيض */
+        /* عزل اللون الأبيض من الخلفية ليبقى اللوجو الأسود فقط */
         .logo-container {
             display: inline-block;
-            mix-blend-mode: multiply;
             margin-bottom: 15px;
+            background: transparent;
         }
 
         .logo {
             max-width: 180px;
             height: auto;
             display: block;
+            /* عزل اللون الأبيض برمجياً بشكل كامل ليصبح شفافاً */
+            filter: multiply(1) contrast(1.2);
+            mix-blend-mode: multiply;
         }
 
         h1 {
@@ -291,10 +294,10 @@
         </div>
 
         <div id="screen2" class="screen">
-            <h1>تابعنا على حساب إنستغرام<br>لتفعيل العجلة وبدء اللعب</h1>
-            <a href="https://www.instagram.com/hallcaree?igsh=MWk2YnVycjd5MXF6Yg==" target="_blank" class="btn-insta" onclick="unlockPlayButton()">📸 افتح الرابط وتابعنا هنا</a>
+            <h1>تابعنا على حساباتنا الرسمية<br>لتفعيل العجلة وبدء اللعب</h1>
+            <a href="https://linktr.ee/HALLCARE?gad_source=1&gad_campaignid=23835021527&gclid=Cj0KCQjwoMXQBhDcARIsAH-eEtvM1zVCX1b5rpv_msdIPiJhAt2yLBuW6csJxlDA75nwWrhFgExzjdIaAkjREALw_wcB" target="_blank" class="btn-insta" onclick="unlockPlayButton()">📸 افتح الرابط وتابعنا هنا</a>
             <br><br><br>
-            <button id="startPlayBtn" class="btn-main" disabled onclick="handleStartPlayClick()">إبدأ اللعب الآن</button>
+            <button id="startPlayBtn" class="btn-main" disabled onclick="goToScreen(3)">إبدأ اللعب الآن</button>
         </div>
 
         <div id="screen3" class="screen">
@@ -327,38 +330,13 @@
             container.appendChild(div);
         }
 
-        // 2. الصوت التفاعلي للأزرار والعجلة
+        // 2. الصوت التفاعلي أثناء دوران العجلة فقط (تم حذف صوت الماوس للأزرار)
         let audioCtx = null;
         let audioInterval = null;
 
-        function initAudio() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-        }
-
-        // صوت ضغطة خفيفة وناعمة للأزرار
-        function playClickSound() {
-            try {
-                initAudio();
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.type = 'triangle'; 
-                osc.frequency.setValueAtTime(400, audioCtx.currentTime); 
-                osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.08);
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.08);
-            } catch (e) { console.log("Audio blocked"); }
-        }
-
-        // صوت التكة أثناء دوران العجلة
         function playTickSound() {
             try {
-                initAudio();
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 let osc = audioCtx.createOscillator();
                 let gain = audioCtx.createGain();
                 osc.type = 'sine';
@@ -369,7 +347,7 @@
                 gain.connect(audioCtx.destination);
                 osc.start();
                 osc.stop(audioCtx.currentTime + 0.04);
-            } catch (e) { console.log("Audio blocked"); }
+            } catch (e) { console.log("Audio play blocked."); }
         }
 
         function startSpinningSound() {
@@ -406,7 +384,6 @@
         }
 
         function validateAndProceed() {
-            playClickSound(); // تشغيل صوت الضغطة
             const name = document.getElementById('username').value.trim();
             const phone = document.getElementById('phone').value.trim();
 
@@ -425,11 +402,6 @@
 
         function unlockPlayButton() {
             document.getElementById('startPlayBtn').disabled = false;
-        }
-
-        function handleStartPlayClick() {
-            playClickSound(); // تشغيل صوت الضغطة
-            goToScreen(3);
         }
 
         // 4. رسم العجلة
