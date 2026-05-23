@@ -66,7 +66,7 @@
             z-index: 5;
         }
 
-        /* قالب دائري مخصص ومحمي لمنع ظهور أيقونة الصورة المكسورة الشاذه */
+        /* تنسيق صندوق اللوجو ليظهر بشكل دائري ناعم ومتناسق */
         .logo-box {
             width: 130px;
             height: 130px;
@@ -79,7 +79,6 @@
             box-shadow: 0 4px 12px rgba(140, 98, 57, 0.1);
             overflow: hidden;
             border: 2px solid rgba(140, 98, 57, 0.15);
-            position: relative;
         }
 
         .logo {
@@ -87,7 +86,6 @@
             height: 100%;
             object-fit: cover;
             border-radius: 50%;
-            display: block;
         }
 
         h1 {
@@ -275,7 +273,7 @@
 
     <div class="container">
         <div class="logo-box">
-            <img id="projectLogo" src="logo.png" alt="صالة العناية | Hall Care" class="logo">
+            <img id="projectLogo" src="Hallcare.png" alt="صالة العناية | Hall Care" class="logo" onerror="this.src='logo.png'; this.onerror=null;">
         </div>
 
         <div id="screen1" class="screen active-screen">
@@ -316,28 +314,6 @@
     </div>
 
     <script>
-        // دالة ذكية لفحص أسماء الملفات المحتملة والتأكد من إظهار الصورة فوراً دون كسر المظهر الداخلي
-        window.addEventListener('DOMContentLoaded', () => {
-            const imgElement = document.getElementById('projectLogo');
-            const alternativeNames = [
-                "logo.png",
-                "WhatsApp Image 2026-05-24 at 1.16.16 AM (1).jpeg",
-                "WhatsApp Image 2026-05-24 at 1.12.46 AM.jpeg"
-            ];
-            
-            let currentTry = 0;
-            imgElement.onerror = function() {
-                currentTry++;
-                if (currentTry < alternativeNames.length) {
-                    this.src = alternativeNames[currentTry];
-                } else {
-                    this.onerror = null; 
-                }
-            };
-            // تفعيل الفحص التلقائي الأول المباشر
-            imgElement.src = alternativeNames[0];
-        });
-
         let userData = {};
         let isSpinning = false;
 
