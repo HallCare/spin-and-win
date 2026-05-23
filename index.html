@@ -1,520 +1,451 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TF Taksim Original - Spin & Win</title>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>عجلة الحظ - صالة العناية | Hall Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@500;800&family=Playfair+Display:ital,wght=1,600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f3dec9;       /* لون الخلفية الموحد والشامل لكامل الشاشة */
-            --text-color: #a47652;     /* البني الفاخر للنصوص والخطوط الدقيقة */
-            --btn-brown: #a97954;      /* لون الأزرار الانسيابية المعتمدة */
-            --btn-insta: #bd337c;      /* الوردي المخصص لزر المتابعة */
-        }
-
-        * {
-            box-sizing: border-box;
-            font-family: 'Comfortaa', 'Cairo', sans-serif;
+            --bg-color: #f7e6d4;      /* اللون الكريمي الهادئ للموقع */
+            --primary-color: #8c6239; /* البني الداكن المعتمد للخطوط والعجلة */
+            --accent-color: #b07d53;  /* البني الفاتح للأزرار والجوائز */
+            --light-prize: #d9b48f;   /* اللون التناوبي الفاتح في العجلة */
+            --insta-color: #d62976;   /* لون إنستغرام */
         }
 
         body {
             margin: 0;
             padding: 0;
+            font-family: 'Tajawal', 'Cairo', sans-serif;
             background-color: var(--bg-color);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
-            color: var(--text-color);
-            -webkit-tap-highlight-color: transparent;
         }
 
-        /* سهم العودة للخلف الانسيابي في أعلى اليسار */
-        .back-nav-arrow {
+        /* تأثير العناصر المتطايرة في الخلفية */
+        .floating-icons-container {
             position: absolute;
-            top: 25px;
-            left: 25px;
-            width: 42px;
-            height: 42px;
-            background-color: #ffffff;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(164, 118, 82, 0.12);
-            z-index: 100;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(164, 118, 82, 0.08);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
         }
 
-        .back-nav-arrow:hover {
-            transform: scale(1.05);
+        .floating-icon {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.25;
+            animation: floatAnimation 12s linear infinite;
         }
 
-        /* حاوية التصميم الرئيسية المفتوحة على كامل الشاشة */
-        .app-container-wrapper {
+        @keyframes floatAnimation {
+            0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+
+        /* حاوية الصفحات الرئيسية */
+        .container {
             text-align: center;
-            max-width: 500px;
+            max-width: 480px;
             width: 90%;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(140, 98, 57, 0.05);
+            z-index: 5;
         }
 
-        /* حاوية الشعار المحدثة هندسياً للتخلص من المربع الأبيض */
-        .main-brand-logo-box {
-            width: 140px;
-            height: 140px;
-            margin-bottom: 25px;
+        /* تنسيق اللوجو وحذف الخلفية البيضاء نهائياً بالـ Filter */
+        .logo-box {
+            max-width: 160px;
+            margin: 0 auto 20px auto;
             display: flex;
             justify-content: center;
             align-items: center;
             background: transparent;
-            border-radius: 0;
-            padding: 0;
-            box-shadow: none;
         }
 
-        /* دمج الصورة برمجياً لإلغاء اللون الأبيض وجعل الشعار شفاف ومطابق تماماً */
-        .main-brand-logo {
+        .logo {
             max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            mix-blend-mode: multiply;  /* هذه الخاصية السحرية تحذف الخلفية البيضاء تلقائياً */
-            filter: contrast(1.1) darken;
+            height: auto;
+            /* فلتر متطور يقوم بتحويل اللون الأبيض الشفاف تماماً وعزل الشعار الأسود */
+            filter: contrast(1.5) brightness(0.95) drop-shadow(0px 0px 1px rgba(0,0,0,0.05));
+            mix-blend-mode: multiply;
         }
 
-        /* ضبط الخطوط لتكون دقيقة ونحيفة طبق الأصل */
-        .brand-main-heading {
-            font-size: 20px;
-            font-weight: 400;
-            letter-spacing: 1.5px;
-            margin: 0 0 8px 0;
-            color: var(--text-color);
-            text-transform: uppercase;
-        }
-
-        .brand-sub-heading-italic {
-            font-size: 30px;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-            margin: 0 0 35px 0;
-            color: var(--text-color);
-        }
-
-        /* كبسولات وعناصر استعراض الجوائز العلوية */
-        .prizes-capsules-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 6px;
-            max-width: 420px;
+        h1 {
+            color: var(--primary-color);
+            font-size: 22px;
+            font-weight: 800;
             margin-bottom: 25px;
-            direction: rtl;
+            line-height: 1.6;
         }
 
-        .prize-capsule-item {
-            background-color: rgba(214, 180, 151, 0.4);
-            color: var(--text-color);
-            padding: 6px 14px;
-            font-size: 12px;
-            font-weight: 600;
-            border-radius: 20px;
-            border: 1px solid rgba(164, 118, 82, 0.12);
+        .spin-win-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-style: italic;
+            color: var(--accent-color);
+            display: block;
+            margin-top: 5px;
         }
 
-        /* حقول إدخال البيانات البيضاوية والنظيفة تماماً */
-        .input-fields-group {
-            width: 100%;
-            max-width: 300px;
-            margin-bottom: 25px;
-        }
-
-        .app-rounded-input {
-            width: 100%;
-            padding: 13px 20px;
-            border: 1.5px solid #e5d0be;
-            border-radius: 30px;
-            background-color: rgba(255, 252, 249, 0.55);
-            font-size: 14px;
-            outline: none;
-            text-align: center;
-            color: var(--text-color);
-            font-weight: 600;
-            margin-bottom: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .app-rounded-input:focus {
-            border-color: var(--btn-brown);
-            background-color: #ffffff;
-            box-shadow: 0 4px 12px rgba(169, 121, 84, 0.08);
-        }
-
-        /* تصميم الأزرار البيضاوية الانسيابية طبق الأصل */
-        .app-oval-btn {
-            background-color: var(--btn-brown);
+        /* تصميم الأزرار الاحترافية والمحسنة */
+        .btn-main {
+            background-color: var(--accent-color);
             color: white;
             border: none;
-            padding: 13px 50px;
-            font-size: 15px;
-            font-weight: 600;
+            padding: 14px 45px;
+            font-size: 18px;
             border-radius: 30px;
             cursor: pointer;
-            box-shadow: 0 5px 18px rgba(169, 121, 84, 0.3);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            width: 230px;
+            box-shadow: 0 5px 15px rgba(176,125,83,0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: bold;
+            width: 85%;
+            font-family: 'Tajawal', sans-serif;
             display: inline-block;
             text-decoration: none;
-            letter-spacing: 0.5px;
         }
 
-        .app-oval-btn:hover {
-            transform: translateY(-1.5px);
-            box-shadow: 0 7px 22px rgba(169, 121, 84, 0.4);
+        .btn-main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(176,125,83,0.45);
         }
 
-        .app-oval-btn:disabled {
-            background-color: #cbbba8 !important;
-            box-shadow: none;
+        .btn-main:disabled {
+            background-color: #b3b3b3 !important;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
-        .app-oval-btn.insta-variant {
-            background-color: var(--btn-insta);
-            box-shadow: 0 5px 18px rgba(189, 51, 124, 0.25);
+        .btn-insta {
+            background-color: var(--insta-color);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
             margin-bottom: 15px;
-        }
-
-        .app-oval-btn.insta-variant:hover {
-            box-shadow: 0 7px 22px rgba(189, 51, 124, 0.35);
-        }
-
-        /* إدارة تفعيل الشاشات وسلاستها */
-        .stage-screen {
-            display: none;
-            width: 100%;
-            flex-direction: column;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            width: 85%;
+            box-sizing: border-box;
+            box-shadow: 0 4px 12px rgba(214, 41, 118, 0.3);
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
         }
 
-        .stage-screen.active-stage {
-            display: flex;
-            animation: appFadeIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        .btn-insta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(214, 41, 118, 0.45);
         }
 
-        @keyframes appFadeIn {
-            from { opacity: 0; transform: scale(0.99); }
+        /* تحسين الفورم وحقول الإدخال */
+        .form-group {
+            margin-bottom: 18px;
+            text-align: right;
+            width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0ceba;
+            border-radius: 14px;
+            background-color: #fffaf5;
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-color);
+            background-color: #ffffff;
+            box-shadow: 0 0 8px rgba(176,125,83,0.15);
+        }
+
+        /* إدارة تفعيل وتعطيل الشاشات */
+        .screen {
+            display: none;
+        }
+
+        .active-screen {
+            display: block;
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* تصميم هيكل العجلة الاحترافي مع الإطار المتطابق للموقع */
-        .wheel-structural-frame {
+        /* تصميم قسم العجلة والمؤشر */
+        .wheel-outer-wrapper {
             position: relative;
-            width: 320px;
-            height: 320px;
-            margin: 10px auto 30px auto;
+            margin: 20px auto 30px auto;
+            width: 300px;
+            height: 300px;
         }
 
-        /* السهم المشير العلوي للجائزة */
-        .wheel-structural-frame::before {
+        .wheel-outer-wrapper::before {
             content: '';
             position: absolute;
-            top: -10px;
+            top: -14px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 14px solid transparent;
-            border-right: 14px solid transparent;
-            border-top: 22px solid var(--text-color);
-            z-index: 50;
+            border-left: 16px solid transparent;
+            border-right: 16px solid transparent;
+            border-top: 26px solid var(--primary-color);
+            z-index: 10;
         }
 
-        .canvas-wheel-vault {
+        .wheel-canvas-container {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            box-shadow: 0 6px 25px rgba(164, 118, 82, 0.2);
             overflow: hidden;
-            border: 4px solid var(--text-color);
+            border: 5px solid var(--primary-color);
+            box-shadow: 0 8px 25px rgba(140, 98, 57, 0.2);
         }
 
-        #appLuckWheelCanvas {
+        #wheelCanvas {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
             display: block;
+            border-radius: 50%;
             transform: rotate(0deg);
             transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
         }
 
-        /* رسالة وعرض المكافأة النهائية */
-        .reward-output-text {
+        .result-message {
             font-size: 16px;
-            font-weight: 600;
-            color: var(--text-color);
-            margin-top: -5px;
-            margin-bottom: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 15px auto;
             line-height: 1.6;
-            white-space: pre-line;
-            max-width: 320px;
-            direction: rtl;
+            max-width: 85%;
         }
     </style>
 </head>
 <body>
 
-    <div class="back-nav-arrow" id="appBackArrow" onclick="triggerBackStep()" style="display: none;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a47652" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    <div class="floating-icons-container">
+        <div class="floating-icon" style="left: 10%; animation-delay: 0s;">✨</div>
+        <div class="floating-icon" style="left: 30%; animation-delay: 3s;">🌸</div>
+        <div class="floating-icon" style="left: 70%; animation-delay: 1s;">✨</div>
+        <div class="floating-icon" style="left: 85%; animation-delay: 5s;">💄</div>
     </div>
 
-    <div class="app-container-wrapper">
-        <div class="main-brand-logo-box">
-            <img src="WhatsApp Image 2026-03-05 at 12.12.45 PM.jpeg" alt="Hall Care Logo" class="main-brand-logo">
+    <div class="container">
+        <div class="logo-box">
+            <img src="WhatsApp Image 2026-03-05 at 12.12.45 PM.jpeg" alt="صالة العناية | Hall Care" class="logo">
         </div>
 
-        <div id="stageScreen1" class="stage-screen active-stage">
-            <h1 class="brand-main-heading">WELCOME TO TF TAKSIM ORIGINAL</h1>
-            <p class="brand-sub-heading-italic">Spin & Win</p>
+        <div id="screen1" class="screen active-screen">
+            <h1>مرحباً بك في سحب صالة العناية <span class="spin-win-text">Spin & Win</span></h1>
             
-            <div class="input-fields-group">
-                <input type="text" id="clName" class="app-rounded-input" placeholder="الاسم الكريم الثلاثي">
-                <input type="tel" id="clPhone" class="app-rounded-input" placeholder="رقم الجوال (05xxxxxxxx)" maxlength="10">
+            <div class="form-group">
+                <input type="text" id="userName" placeholder="الاسم الكريم الثلاثي">
+            </div>
+            <div class="form-group">
+                <input type="tel" id="userPhone" placeholder="رقم الجوال (05xxxxxxxx)" maxlength="10">
             </div>
 
-            <button class="app-oval-btn" onclick="processIdentityAndNext()">Spin Now</button>
+            <button class="btn-main" onclick="navigateToScreen2()">التالي</button>
         </div>
 
-        <div id="stageScreen2" class="stage-screen">
-            <h1 class="brand-main-heading">FOLLOW US ON INSTAGRAM</h1>
-            <p class="brand-sub-heading-italic" style="font-size: 22px; margin-bottom: 25px;">TO START PLAY</p>
+        <div id="screen2" class="screen">
+            <h1>تابعنا على حساب إنستغرام<br>لتفعيل العجلة وبدء اللعب</h1>
             
-            <a href="https://linktr.ee/HALLCARE" target="_blank" class="app-oval-btn insta-variant" onclick="enableWheelAccess()">Open & Follow</a>
-            <button id="activatePlayBtn" class="app-oval-btn" disabled onclick="switchStageScreen(3)">START NOW</button>
+            <a href="https://linktr.ee/HALLCARE?gad_source=1" target="_blank" class="btn-insta" onclick="unlockWheelButton()">
+                <span>📸</span> افتح الرابط وتابعنا هنا
+            </a>
+            
+            <button id="startPlayBtn" class="btn-main" disabled onclick="navigateToScreen3()">إبدأ اللعب الآن</button>
         </div>
 
-        <div id="stageScreen3" class="stage-screen">
-            <p class="brand-sub-heading-italic" style="font-size: 22px; margin-bottom: 15px;">Spin the wheel to win</p>
+        <div id="screen3" class="screen">
+            <h1>أدر العجلة وحظاً موفقاً!</h1>
             
-            <div class="prizes-capsules-grid">
-                <div class="prize-capsule-item">خصم ٢٠٪</div>
-                <div class="prize-capsule-item">تقسيمة ١٠ مللي</div>
-                <div class="prize-capsule-item">خصم ٥٪</div>
-                <div class="prize-capsule-item">دهن مسك مجاني</div>
-                <div class="prize-capsule-item">خصم ١٠٪</div>
-                <div class="prize-capsule-item">حظ اوفر</div>
-                <div class="prize-capsule-item">خصم ١٥٪</div>
-                <div class="prize-capsule-item">تقسيمة ٦ مللي</div>
-            </div>
-
-            <div class="wheel-structural-frame">
-                <div class="canvas-wheel-vault">
-                    <canvas id="appLuckWheelCanvas" width="400" height="400"></canvas>
+            <div class="wheel-outer-wrapper">
+                <div class="wheel-canvas-container">
+                    <canvas id="wheelCanvas" width="400" height="400"></canvas>
                 </div>
             </div>
-            
-            <div id="appRewardStatusBox" class="reward-output-text"></div>
-            <button id="appTriggerSpinBtn" class="app-oval-btn" onclick="executeWheelRotation()">START NOW</button>
+
+            <div id="resultOutput" class="result-message"></div>
+            <button id="spinActionBtn" class="btn-main" onclick="startSpinAction()">أدر العجلة الآن</button>
         </div>
     </div>
 
     <script>
-        let screenPointer = 1;
-        let clientDataObj = {};
-        let rotationActive = false;
+        let userData = {};
+        let isSpinning = false;
 
-        function switchStageScreen(targetNum) {
-            document.querySelectorAll('.stage-screen').forEach(sc => sc.classList.remove('active-stage'));
-            document.getElementById('stageScreen' + targetNum).classList.add('active-stage');
-            screenPointer = targetNum;
+        function navigateToScreen2() {
+            const name = document.getElementById('userName').value.trim();
+            const phone = document.getElementById('userPhone').value.trim();
 
-            const backArrow = document.getElementById('appBackArrow');
-            if (targetNum === 2) {
-                backArrow.style.display = 'flex';
-            } else {
-                backArrow.style.display = 'none';
-            }
-
-            if (targetNum === 3) {
-                renderVectorWheel();
-            }
-        }
-
-        function triggerBackStep() {
-            if (screenPointer === 2) {
-                switchStageScreen(1);
-            }
-        }
-
-        function processIdentityAndNext() {
-            const entryName = document.getElementById('clName').value.trim();
-            const entryPhone = document.getElementById('clPhone').value.trim();
-
-            if (!entryName || entryName.length < 3) {
-                alert('الرجاء تزويدنا بالاسم الكريم الثلاثي.');
+            if (name.length < 3) {
+                alert('الرجاء إدخال الاسم الكريم الثلاثي.');
                 return;
             }
-            if (!entryPhone || entryPhone.length < 9) {
+            if (phone.length < 9) {
                 alert('الرجاء إدخال رقم جوال صحيح.');
                 return;
             }
 
-            clientDataObj = { name: entryName, phone: entryPhone };
-            switchStageScreen(2);
+            userData = { name: name, phone: phone };
+            
+            document.getElementById('screen1').classList.remove('active-screen');
+            document.getElementById('screen2').classList.add('active-screen');
         }
 
-        function enableWheelAccess() {
-            document.getElementById('activatePlayBtn').disabled = false;
+        function unlockWheelButton() {
+            document.getElementById('startPlayBtn').disabled = false;
         }
 
-        const corePrizeArray = [
+        function navigateToScreen3() {
+            document.getElementById('screen2').classList.remove('active-screen');
+            document.getElementById('screen3').classList.add('active-screen');
+            drawWheelStructure();
+        }
+
+        // قائمة الجوائز الرسمية والمنسقة للمجموعة 
+        const prizesList = [
             'خصم ٢٠٪', 
             'تقسيمة ١٠ مللي', 
             'خصم ٥٪', 
             'دهن مسك مجاني', 
             'خصم ١٠٪', 
-            'حظ اوفر', 
+            'حظ أوفر', 
             'خصم ١٥٪', 
             'تقسيمة ٦ مللي'
         ];
 
-        function renderVectorWheel() {
-            const canvas = document.getElementById('appLuckWheelCanvas');
+        function drawWheelStructure() {
+            const canvas = document.getElementById('wheelCanvas');
             const ctx = canvas.getContext('2d');
-            const totalSlices = corePrizeArray.length;
-            const sliceRad = (2 * Math.PI) / totalSlices;
-            const middleX = canvas.width / 2;
+            const sectionsCount = prizesList.length;
+            const arcSize = (2 * Math.PI) / sectionsCount;
+            const center = canvas.width / 2;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            for (let i = 0; i < totalSlices; i++) {
-                const startAngle = i * sliceRad;
-                const endAngle = startAngle + sliceRad;
-
-                ctx.fillStyle = (i % 2 === 0) ? '#d6b497' : '#a1724d';
+            for (let i = 0; i < sectionsCount; i++) {
+                const angle = i * arcSize;
+                
+                // تدوير الألوان بالتناوب الفخم المعتمد في هويتك
+                ctx.fillStyle = (i % 2 === 0) ? '#b07d53' : '#d9b48f';
                 
                 ctx.beginPath();
-                ctx.moveTo(middleX, middleX);
-                ctx.arc(middleX, middleX, middleX - 2, startAngle, endAngle);
+                ctx.moveTo(center, center);
+                ctx.arc(center, center, center - 5, angle, angle + arcSize);
                 ctx.closePath();
                 ctx.fill();
 
-                ctx.strokeStyle = '#a47652';
-                ctx.lineWidth = 1.2;
+                // خطوط الفصل الدقيقة بين الجوائز
+                ctx.strokeStyle = '#8c6239';
+                ctx.lineWidth = 2;
                 ctx.stroke();
 
+                // كتابة نصوص الجوائز بشكل دائري احترافي داخل القطاع
                 ctx.save();
-                ctx.translate(middleX, middleX);
-                ctx.rotate(startAngle + sliceRad / 2);
+                ctx.translate(center, center);
+                ctx.rotate(angle + arcSize / 2);
                 ctx.textAlign = "right";
                 ctx.textBaseline = "middle";
-                ctx.fillStyle = (i % 2 === 0) ? '#a1724d' : '#f3dec9';
-                ctx.font = "bold 14px 'Cairo', Arial";
-                
-                ctx.fillText(corePrizeArray[i], middleX - 35, 0);
+                ctx.fillStyle = (i % 2 === 0) ? '#fffaf5' : '#8c6239';
+                ctx.font = "bold 15px 'Tajawal', Arial";
+                ctx.fillText(prizesList[i], center - 30, 0);
                 ctx.restore();
             }
 
+            // الدائرة المركزية الصغيرة لإعطاء شكل جمالي للعجلة
             ctx.beginPath();
-            ctx.arc(middleX, middleX, 16, 0, 2 * Math.PI);
-            ctx.fillStyle = '#f3dec9';
-            ctx.strokeStyle = '#a47652';
+            ctx.arc(center, center, 15, 0, 2 * Math.PI);
+            ctx.fillStyle = '#f7e6d4';
+            ctx.strokeStyle = '#8c6239';
             ctx.lineWidth = 3;
             ctx.fill();
             ctx.stroke();
         }
 
-        let audioContext = null;
-        let rotationSoundInterval = null;
+        function startSpinAction() {
+            if (isSpinning) return;
 
-        function playDynamicTick(frequency) {
-            try {
-                if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                let osc = audioContext.createOscillator();
-                let gain = audioContext.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(frequency, audioContext.currentTime); 
-                gain.gain.setValueAtTime(0.05, audioContext.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.04);
-                osc.connect(gain);
-                gain.connect(audioContext.destination);
-                osc.start();
-                osc.stop(audioContext.currentTime + 0.04);
-            } catch (e) { }
-        }
-
-        function runAudioEngine() {
-            let delay = 60;
-            let currentFreq = 520;
-            
-            function scheduleTick() {
-                if (!rotationActive) return;
-                playDynamicTick(currentFreq);
-                
-                if (delay < 400) {
-                    delay += 6; 
-                    currentFreq -= 3;
-                }
-                rotationSoundInterval = setTimeout(scheduleTick, delay);
-            }
-            scheduleTick();
-        }
-
-        function executeWheelRotation() {
-            if (rotationActive) return;
-
-            if (localStorage.getItem('taksimOriginalSpun')) {
-                document.getElementById('appRewardStatusBox').innerText = "عذراً! لقد شاركت بالسحب اليوم بالفعل. \nعد إلينا غداً لفرصة جديدة ⏳";
-                applyCompletionStyle();
+            // التحقق من عدم تكرار المشاركة في نفس اليوم
+            if (localStorage.getItem('hallCareSpunToday')) {
+                document.getElementById('resultOutput').innerHTML = "عذراً! لقد شاركت في السحب اليوم بالفعل.<br>عد إلينا غداً لفرصة جديدة ⏳";
+                disableSpinButton();
                 return;
             }
 
-            rotationActive = true;
-            runAudioEngine(); 
+            isSpinning = true;
+            const canvas = document.getElementById('wheelCanvas');
+            const totalSlices = prizesList.length;
+            const degreesPerSlice = 360 / totalSlices;
 
-            const canvas = document.getElementById('appLuckWheelCanvas');
-            const slicesCount = corePrizeArray.length;
-            const degreesPerSlice = 360 / slicesCount;
+            // اختيار عشوائي للجائزة الفائزة
+            const luckyIndex = Math.floor(Math.random() * totalSlices);
             
-            const selectedWinnerIndex = Math.floor(Math.random() * slicesCount);
-            const stopAngleOffset = 270 - (selectedWinnerIndex * degreesPerSlice) - (degreesPerSlice / 2);
-            const totalRotationDeg = (360 * 8) + stopAngleOffset;
+            // حساب زاوية الدوران بدقة ليتوقف المؤشر العلوي عليها تماماً
+            const targetOffset = 270 - (luckyIndex * degreesPerSlice) - (degreesPerSlice / 2);
+            const finalRotation = (360 * 6) + targetOffset; // 6 دورات كاملة للتشويق
 
-            canvas.style.transform = `rotate(${totalRotationDeg}deg)`;
+            canvas.style.transform = `rotate(${finalRotation}deg)`;
 
             setTimeout(() => {
-                rotationActive = false;
-                clearTimeout(rotationSoundInterval); 
-                
-                const finalPrizeString = corePrizeArray[selectedWinnerIndex];
-                const displayArea = document.getElementById('appRewardStatusBox');
+                isSpinning = false;
+                const wonPrize = prizesList[luckyIndex];
+                const displayArea = document.getElementById('resultOutput');
 
-                if (finalPrizeString === 'حظ اوفر') {
-                    displayArea.innerHTML = `حظ أوفر المرة القادمة يا <strong>${clientDataObj.name}</strong>! 🤍<br>نسعد جداً بزيارتك ومحاولتك مجدداً.`;
+                if (wonPrize === 'حظ أوفر') {
+                    displayArea.innerHTML = `حظ أوفر المرة القادمة يا <strong>${userData.name}</strong>! 🤍<br>نسعد جداً بزيارتك وتجربتك القادمة.`;
                 } else {
-                    displayArea.innerHTML = `تهانينا يا <strong>${clientDataObj.name}</strong>! 🎉<br>لقد ربحت معنا: <span style="color:#a97954; font-size:18px;">${finalPrizeString}</span><br>كود الجائزة الفوري: <strong>TAKSIM2026</strong>`;
+                    displayArea.innerHTML = `تهانينا يا <strong>${userData.name}</strong>! 🎉<br>لقد ربحت معنا: <span style="color:var(--primary-color); font-size:18px;">${wonPrize}</span><br>كود الجائزة الفوري: <strong>CARE2026</strong>`;
                 }
 
-                localStorage.setItem('taksimOriginalSpun', 'true');
-                applyCompletionStyle();
-            }, 5000); 
+                localStorage.setItem('hallCareSpunToday', 'true');
+                disableSpinButton();
+            }, 5000);
         }
 
-        function applyCompletionStyle() {
-            const actionBtn = document.getElementById('appTriggerSpinBtn');
-            actionBtn.innerText = "Come Back Tomorrow";
-            actionBtn.disabled = true;
-            actionBtn.style.backgroundColor = "#9da3a6";
-            actionBtn.style.boxShadow = "none";
+        function disableSpinButton() {
+            const btn = document.getElementById('spinActionBtn');
+            btn.innerText = "عد إلينا غداً";
+            btn.disabled = true;
+            btn.style.backgroundColor = "#b3b3b3";
+            btn.style.boxShadow = "none";
         }
     </script>
 </body>
