@@ -7,11 +7,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@500;800&family=Playfair+Display:ital,wght=1,600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f5e4d3;      /* اللون الكريمي الدافئ الموحد للخلفية والصفحة بالكامل */
-            --primary-color: #8c6239; /* البني الداكن المعتمد للخطوط والنصوص */
-            --accent-color: #b07d53;  /* بني متوسط للأزرار */
-            --input-bg: #fffbf7;      /* لون الحقول الكريمي الفاتح جداً والمتناسق مع الصورة المرفقة */
-            --insta-color: #d62976;   /* لون إنستغرام */
+            --bg-color: #f5e4d3;      
+            --primary-color: #8c6239; 
+            --accent-color: #b07d53;  
+            --input-bg: #fffbf7;      
+            --insta-color: #d62976;   
         }
 
         body {
@@ -27,7 +27,6 @@
             position: relative;
         }
 
-        /* تأثير العناصر الزخرفية المتطايرة بالخلفية كالصورة (أدوات التجميل والنجوم الخفيفة) */
         .floating-icons-container {
             position: absolute;
             top: 0;
@@ -53,36 +52,42 @@
             100% { transform: translateY(-10vh) rotate(360deg) scale(1.1); opacity: 0; }
         }
 
-        /* حاوية التصميم المحدثة - مدمجة، بدون خلفية بيضاء شاذة وطبقاً للصورة المرفقة */
         .container {
             text-align: center;
             max-width: 480px;
             width: 90%;
             padding: 40px 25px;
             box-sizing: border-box;
-            background: rgba(255, 255, 255, 0.12); /* شفافية مدمجة مع لون الخلفية العام */
+            background: rgba(255, 255, 255, 0.12); 
             border-radius: 24px;
-            backdrop-filter: blur(10px); /* تأثير زجاجي ناعم جداً مقتبس من الصورة */
+            backdrop-filter: blur(10px); 
             border: 1px solid rgba(255, 255, 255, 0.25);
             box-shadow: 0 15px 35px rgba(140, 98, 57, 0.04);
             z-index: 5;
         }
 
-        /* صندوق الشعار مدمج تماماً وشفاف */
+        /* قالب دائري مخصص ومحمي لمنع ظهور أيقونة الصورة المكسورة الشاذه */
         .logo-box {
-            max-width: 140px;
+            width: 130px;
+            height: 130px;
             margin: 0 auto 20px auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: transparent;
+            background: #fffbf7; 
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(140, 98, 57, 0.1);
+            overflow: hidden;
+            border: 2px solid rgba(140, 98, 57, 0.15);
+            position: relative;
         }
 
         .logo {
-            max-width: 100%;
-            height: auto;
-            border-radius: 50%; /* تدوير إطار الصورة ليتناسب تماماً مع الشعار الدائري الجديد */
+            width: 100%;
+            height: 100%;
             object-fit: cover;
+            border-radius: 50%;
+            display: block;
         }
 
         h1 {
@@ -102,7 +107,6 @@
             margin-top: 6px;
         }
 
-        /* تصميم الحقول الدائرية والمطابقة للصورة مع حماية وتوحيد كامل للألوان */
         .form-group {
             margin-bottom: 16px;
             text-align: right;
@@ -115,7 +119,7 @@
             width: 100%;
             padding: 15px 16px;
             border: 1.5px solid rgba(140, 98, 57, 0.15);
-            border-radius: 16px; /* زوايا الحقول الدائرية المنبثقة من صورتك */
+            border-radius: 16px; 
             background-color: var(--input-bg);
             font-size: 15px;
             box-sizing: border-box;
@@ -124,15 +128,14 @@
             font-family: 'Tajawal', sans-serif;
             font-weight: bold;
             color: var(--primary-color);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); /* مرونة التحويل والتكبير */
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
         }
 
-        /* تأثير التكبير الحركي المطلب (Scale Dynamic Effect) عند تمرير الماوس أو التفعيل للكتابة */
         .form-group input:hover,
         .form-group input:focus {
             border-color: var(--accent-color);
             background-color: #ffffff;
-            transform: scale(1.025); /* نسبة تكبير بسيطة وراقية تعطي انطباعاً بالتفاعلية الحية */
+            transform: scale(1.025); 
             box-shadow: 0 5px 15px rgba(140, 98, 57, 0.05);
         }
 
@@ -140,7 +143,6 @@
             color: #bfa38a;
         }
 
-        /* أزرار الإجراءات المتوافقة لونياً */
         .btn-main {
             background-color: var(--accent-color);
             color: white;
@@ -160,7 +162,7 @@
         }
 
         .btn-main:hover {
-            transform: scale(1.03); /* تكبير سلس للزر أيضاً عند تفاعل الماوس */
+            transform: scale(1.03); 
             box-shadow: 0 6px 20px rgba(176,125,83,0.35);
         }
 
@@ -198,7 +200,6 @@
             box-shadow: 0 6px 18px rgba(214, 41, 118, 0.35);
         }
 
-        /* أنظمة الشاشات الانتقالية */
         .screen {
             display: none;
         }
@@ -213,7 +214,6 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* العجلة ومحيط المؤشر العلوي */
         .wheel-outer-wrapper {
             position: relative;
             margin: 20px auto 30px auto;
@@ -275,7 +275,7 @@
 
     <div class="container">
         <div class="logo-box">
-            <img src="logo.png" alt="صالة العناية | Hall Care" class="logo">
+            <img id="projectLogo" src="logo.png" alt="صالة العناية | Hall Care" class="logo">
         </div>
 
         <div id="screen1" class="screen active-screen">
@@ -298,4 +298,189 @@
                 <span>📸</span> افتح الرابط وتابعنا هنا
             </a>
             
-            <button id="startPlayBtn" class="btn-main" disabled onclick="navigateToScreen3()">
+            <button id="startPlayBtn" class="btn-main" disabled onclick="navigateToScreen3()">إبدأ اللعب الآن</button>
+        </div>
+
+        <div id="screen3" class="screen">
+            <h1>أدر العجلة وحظاً موفقاً!</h1>
+            
+            <div class="wheel-outer-wrapper">
+                <div class="wheel-canvas-container">
+                    <canvas id="wheelCanvas" width="400" height="400"></canvas>
+                </div>
+            </div>
+
+            <div id="resultOutput" class="result-message"></div>
+            <button id="spinActionBtn" class="btn-main" onclick="startSpinAction()">أدر العجلة الآن</button>
+        </div>
+    </div>
+
+    <script>
+        // دالة ذكية لفحص أسماء الملفات المحتملة والتأكد من إظهار الصورة فوراً دون كسر المظهر الداخلي
+        window.addEventListener('DOMContentLoaded', () => {
+            const imgElement = document.getElementById('projectLogo');
+            const alternativeNames = [
+                "logo.png",
+                "WhatsApp Image 2026-05-24 at 1.16.16 AM (1).jpeg",
+                "WhatsApp Image 2026-05-24 at 1.12.46 AM.jpeg"
+            ];
+            
+            let currentTry = 0;
+            imgElement.onerror = function() {
+                currentTry++;
+                if (currentTry < alternativeNames.length) {
+                    this.src = alternativeNames[currentTry];
+                } else {
+                    this.onerror = null; 
+                }
+            };
+            // تفعيل الفحص التلقائي الأول المباشر
+            imgElement.src = alternativeNames[0];
+        });
+
+        let userData = {};
+        let isSpinning = false;
+
+        const weightedPrizes = [
+            { text: 'خصم ٢٠٪', weight: 5 },
+            { text: 'تقسيمة ١٠ مللي', weight: 3 },
+            { text: 'خصم ٥٪', weight: 25 },
+            { text: 'دهن مسك مجاني', weight: 2 },
+            { text: 'خصم ١٠٪', weight: 15 },
+            { text: 'حظ أوفر', weight: 35 },
+            { text: 'خصم ١٥٪', weight: 10 },
+            { text: 'تقسيمة ٦ مللي', weight: 5 }
+        ];
+
+        const prizesList = weightedPrizes.map(p => p.text);
+
+        function navigateToScreen2() {
+            const name = document.getElementById('userName').value.trim();
+            const phone = document.getElementById('userPhone').value.trim();
+            const phoneRegex = /^(05)\d{8}$/;
+
+            if (name.length < 3) {
+                alert('الرجاء إدخال الاسم الكريم الثلاثي.');
+                return;
+            }
+            if (!phoneRegex.test(phone)) {
+                alert('الرجاء إدخال رقم جوال صحيح مكون من 10 أرقام ويبدأ بـ 05.');
+                return;
+            }
+
+            userData = { name: name, phone: phone };
+            
+            document.getElementById('screen1').classList.remove('active-screen');
+            document.getElementById('screen2').classList.add('active-screen');
+        }
+
+        function unlockWheelButton() {
+            document.getElementById('startPlayBtn').disabled = false;
+        }
+
+        function navigateToScreen3() {
+            document.getElementById('screen2').classList.remove('active-screen');
+            document.getElementById('screen3').classList.add('active-screen');
+            drawWheelStructure();
+        }
+
+        function drawWheelStructure() {
+            const canvas = document.getElementById('wheelCanvas');
+            const ctx = canvas.getContext('2d');
+            const sectionsCount = prizesList.length;
+            const arcSize = (2 * Math.PI) / sectionsCount;
+            const center = canvas.width / 2;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < sectionsCount; i++) {
+                const angle = i * arcSize;
+                ctx.fillStyle = (i % 2 === 0) ? '#b07d53' : '#d9b48f';
+                
+                ctx.beginPath();
+                ctx.moveTo(center, center);
+                ctx.arc(center, center, center - 5, angle, angle + arcSize);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.strokeStyle = '#8c6239';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.save();
+                ctx.translate(center, center);
+                ctx.rotate(angle + arcSize / 2);
+                ctx.textAlign = "right";
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = (i % 2 === 0) ? '#fffaf5' : '#8c6239';
+                ctx.font = "bold 15px 'Tajawal', Arial";
+                ctx.fillText(prizesList[i], center - 30, 0);
+                ctx.restore();
+            }
+
+            ctx.beginPath();
+            ctx.arc(center, center, 15, 0, 2 * Math.PI);
+            ctx.fillStyle = '#f5e4d3';
+            ctx.strokeStyle = '#8c6239';
+            ctx.lineWidth = 3;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function getRandomPrizeIndex() {
+            let num = Math.random() * 100;
+            let currentSum = 0;
+            for (let i = 0; i < weightedPrizes.length; i++) {
+                currentSum += weightedPrizes[i].weight;
+                if (num <= currentSum) return i;
+            }
+            return 5;
+        }
+
+        function startSpinAction() {
+            if (isSpinning) return;
+
+            if (localStorage.getItem('hallCareSpunToday')) {
+                document.getElementById('resultOutput').innerHTML = "عذراً! لقد شاركت في السحب اليوم بالفعل.<br>عد إلينا غداً لفرصة جديدة ⏳";
+                disableSpinButton();
+                return;
+            }
+
+            isSpinning = true;
+            const canvas = document.getElementById('wheelCanvas');
+            const totalSlices = prizesList.length;
+            const degreesPerSlice = 360 / totalSlices;
+            const luckyIndex = getRandomPrizeIndex();
+            
+            const targetOffset = 270 - (luckyIndex * degreesPerSlice) - (degreesPerSlice / 2);
+            const finalRotation = (360 * 6) + targetOffset;
+
+            canvas.style.transform = `rotate(${finalRotation}deg)`;
+
+            setTimeout(() => {
+                isSpinning = false;
+                const wonPrize = prizesList[luckyIndex];
+                const displayArea = document.getElementById('resultOutput');
+
+                if (wonPrize === 'حظ أوفر') {
+                    displayArea.innerHTML = `حظ أوفر المرة القادمة يا <strong>${userData.name}</strong>! 🤍<br>نسعد جداً بزيارتك وتجربتك القادمة.`;
+                } else {
+                    displayArea.innerHTML = `تهانينا يا <strong>${userData.name}</strong>! 🎉<br>لقد ربحت معنا: <span style="color:var(--primary-color); font-size:18px;">${wonPrize}</span><br>كود الجائزة الفوري: <strong>CARE2026</strong>`;
+                }
+
+                localStorage.setItem('hallCareSpunToday', 'true');
+                disableSpinButton();
+            }, 5000);
+        }
+
+        function disableSpinButton() {
+            const btn = document.getElementById('spinActionBtn');
+            btn.innerText = "عد إلينا غداً";
+            btn.disabled = true;
+            btn.style.backgroundColor = "#b3b3b3";
+            btn.style.boxShadow = "none";
+            btn.style.transform = "none !important";
+        }
+    </script>
+</body>
+</html>
