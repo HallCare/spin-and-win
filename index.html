@@ -1,23 +1,26 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عجلة الحظ - صالة العناية | Hall Care</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@500;800&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+    <title>TF Taksim Original - Spin & Win</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f7e6d4;      /* اللون الكريمي الهادئ للهوية البصرية */
-            --primary-color: #8c6239; /* البني الداكن المعتمد للخطوط والعجلة */
-            --accent-color: #b07d53;  /* البني الفاتح للأزرار والجوائز */
-            --light-prize: #d9b48f;   /* اللون التناوبي الفاتح في العجلة */
-            --insta-color: #d62976;   /* لون إنستغرام للأزرار */
+            --bg-color: #f3dec9;       /* لون الخلفية الموحد والشامل لكامل الشاشة */
+            --text-color: #a47652;     /* البني الفاخر للنصوص والخطوط الدقيقة */
+            --btn-brown: #a97954;      /* لون الأزرار الانسيابية المعتمدة */
+            --btn-insta: #bd337c;      /* الوردي المخصص لزر المتابعة */
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Comfortaa', 'Cairo', sans-serif;
         }
 
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Tajawal', 'Cairo', sans-serif;
             background-color: var(--bg-color);
             display: flex;
             justify-content: center;
@@ -25,225 +28,223 @@
             min-height: 100vh;
             overflow: hidden;
             position: relative;
+            color: var(--text-color);
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* تأثير العناصر المتطايرة في الخلفية */
-        .floating-icons-container {
+        /* سهم العودة للخلف الانسيابي في أعلى اليسار */
+        .back-nav-arrow {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 1;
-            pointer-events: none;
+            top: 25px;
+            left: 25px;
+            width: 42px;
+            height: 42px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(164, 118, 82, 0.12);
+            z-index: 100;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(164, 118, 82, 0.08);
         }
 
-        .floating-icon {
-            position: absolute;
-            font-size: 24px;
-            opacity: 0.25;
-            animation: floatAnimation 12s linear infinite;
+        .back-nav-arrow:hover {
+            transform: scale(1.05);
         }
 
-        @keyframes floatAnimation {
-            0% {
-                transform: translateY(110vh) rotate(0deg) scale(0.8);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.3;
-            }
-            90% {
-                opacity: 0.3;
-            }
-            100% {
-                transform: translateY(-10vh) rotate(360deg) scale(1.2);
-                opacity: 0;
-            }
-        }
-
-        /* حاوية الصفحات الرئيسية */
-        .container {
+        /* حاوية التصميم الرئيسية المفتوحة على كامل الشاشة */
+        .app-container-wrapper {
             text-align: center;
-            max-width: 480px;
+            max-width: 500px;
             width: 90%;
-            padding: 30px 20px;
-            box-sizing: border-box;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 20px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 10px 30px rgba(140, 98, 57, 0.05);
-            z-index: 5;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* عزل اللون الأبيض من الخلفية ليبقى اللوجو الأسود فقط */
-        .logo-container {
-            display: inline-block;
-            margin-bottom: 15px;
+        /* الشعار الدائري الشفاف المندمج تماماً بدون أي خلفيات بيضاء */
+        .main-brand-logo-box {
+            width: 140px;
+            height: 140px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background: transparent;
         }
 
-        .logo {
-            max-width: 180px;
-            height: auto;
-            display: block;
-            /* عزل اللون الأبيض برمجياً بشكل كامل ليصبح شفافاً */
-            filter: multiply(1) contrast(1.2);
+        .main-brand-logo {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
             mix-blend-mode: multiply;
+            filter: contrast(1.1);
         }
 
-        h1 {
-            color: var(--primary-color);
-            font-size: 22px;
-            font-weight: 800;
+        /* ضبط الخطوط لتكون دقيقة ونحيفة طبق الأصل */
+        .brand-main-heading {
+            font-size: 20px;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            margin: 0 0 8px 0;
+            color: var(--text-color);
+            text-transform: uppercase;
+        }
+
+        .brand-sub-heading-italic {
+            font-size: 30px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            margin: 0 0 35px 0;
+            color: var(--text-color);
+        }
+
+        /* كبسولات وعناصر استعراض الجوائز العلوية */
+        .prizes-capsules-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            max-width: 420px;
             margin-bottom: 25px;
-            line-height: 1.6;
+            direction: rtl;
         }
 
-        .spin-win-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 26px;
-            font-style: italic;
-            color: var(--accent-color);
-            display: block;
-            margin-top: 5px;
+        .prize-capsule-item {
+            background-color: rgba(214, 180, 151, 0.4);
+            color: var(--text-color);
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 20px;
+            border: 1px solid rgba(164, 118, 82, 0.12);
         }
 
-        /* تصميم الأزرار الاحترافية والمحسنة */
-        .btn-main {
-            background-color: var(--accent-color);
+        /* حقول إدخال البيانات البيضاوية والنظيفة تماماً */
+        .input-fields-group {
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 25px;
+        }
+
+        .app-rounded-input {
+            width: 100%;
+            padding: 13px 20px;
+            border: 1.5px solid #e5d0be;
+            border-radius: 30px;
+            background-color: rgba(255, 252, 249, 0.55);
+            font-size: 14px;
+            outline: none;
+            text-align: center;
+            color: var(--text-color);
+            font-weight: 600;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .app-rounded-input:focus {
+            border-color: var(--btn-brown);
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(169, 121, 84, 0.08);
+        }
+
+        /* تصميم الأزرار البيضاوية الانسيابية طبق الأصل */
+        .app-oval-btn {
+            background-color: var(--btn-brown);
             color: white;
             border: none;
-            padding: 14px 45px;
-            font-size: 18px;
+            padding: 13px 50px;
+            font-size: 15px;
+            font-weight: 600;
             border-radius: 30px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(176,125,83,0.3);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-weight: bold;
-            width: 85%;
-            font-family: 'Tajawal', sans-serif;
+            box-shadow: 0 5px 18px rgba(169, 121, 84, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            width: 230px;
+            display: inline-block;
+            text-decoration: none;
+            letter-spacing: 0.5px;
         }
 
-        .btn-main:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(176,125,83,0.45);
+        .app-oval-btn:hover {
+            transform: translateY(-1.5px);
+            box-shadow: 0 7px 22px rgba(169, 121, 84, 0.4);
         }
 
-        .btn-main:disabled {
-            background-color: #b3b3b3 !important;
+        .app-oval-btn:disabled {
+            background-color: #cbbba8 !important;
+            box-shadow: none;
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
         }
 
-        .btn-insta {
-            background-color: var(--insta-color);
-            color: white;
-            border: none;
-            padding: 14px 35px;
-            font-size: 16px;
-            border-radius: 30px;
-            cursor: pointer;
-            margin-bottom: 10px;
-            display: inline-flex;
+        .app-oval-btn.insta-variant {
+            background-color: var(--btn-insta);
+            box-shadow: 0 5px 18px rgba(189, 51, 124, 0.25);
+            margin-bottom: 15px;
+        }
+
+        .app-oval-btn.insta-variant:hover {
+            box-shadow: 0 7px 22px rgba(189, 51, 124, 0.35);
+        }
+
+        /* إدارة تفعيل الشاشات وسلاستها */
+        .stage-screen {
+            display: none;
+            width: 100%;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            font-weight: bold;
-            text-decoration: none;
-            width: 85%;
-            box-sizing: border-box;
-            box-shadow: 0 4px 12px rgba(214, 41, 118, 0.3);
-            transition: all 0.3s ease;
-            font-family: 'Tajawal', sans-serif;
         }
 
-        .btn-insta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(214, 41, 118, 0.45);
+        .stage-screen.active-stage {
+            display: flex;
+            animation: appFadeIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        /* تحسين الفورم وحقول الإدخال */
-        .form-group {
-            margin-bottom: 18px;
-            text-align: right;
-            width: 85%;
-            margin-left: auto;
-            margin-right: auto;
+        @keyframes appFadeIn {
+            from { opacity: 0; transform: scale(0.99); }
+            to { opacity: 1; transform: scale(1); }
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            color: var(--primary-color);
-            font-size: 15px;
-            font-weight: bold;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e0ceba;
-            border-radius: 14px;
-            background-color: #fffaf5;
-            font-size: 15px;
-            box-sizing: border-box;
-            outline: none;
-            transition: all 0.3s ease;
-            text-align: right;
-            font-family: 'Tajawal', sans-serif;
-        }
-
-        .form-group input:focus {
-            border-color: var(--accent-color);
-            background-color: #ffffff;
-            box-shadow: 0 0 8px rgba(176,125,83,0.15);
-        }
-
-        .screen {
-            display: none;
-        }
-
-        .active-screen {
-            display: block;
-            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        /* تصميم قسم العجلة والمؤشر */
-        .wheel-outer-wrapper {
+        /* تصميم هيكل العجلة الاحترافي مع الإطار المتطابق للموقع */
+        .wheel-structural-frame {
             position: relative;
-            margin: 30px auto;
             width: 320px;
             height: 320px;
+            margin: 10px auto 30px auto;
         }
 
-        /* السهم العلوي المشير للجائزة */
-        .wheel-outer-wrapper::before {
+        /* السهم المشير العلوي للجائزة */
+        .wheel-structural-frame::before {
             content: '';
             position: absolute;
-            top: -14px;
+            top: -10px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 16px solid transparent;
-            border-right: 16px solid transparent;
-            border-top: 26px solid var(--primary-color);
-            z-index: 10;
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-top: 22px solid var(--text-color);
+            z-index: 50;
         }
 
-        .wheel-canvas-container {
+        .canvas-wheel-vault {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            box-shadow: 0 6px 25px rgba(140,98,57,0.3);
+            box-shadow: 0 6px 25px rgba(164, 118, 82, 0.2);
             overflow: hidden;
+            border: 4px solid var(--text-color);
         }
 
-        #wheelCanvas {
+        #appLuckWheelCanvas {
             width: 100%;
             height: 100%;
             border-radius: 50%;
@@ -252,251 +253,61 @@
             transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
         }
 
-        #resultMessage {
-            font-size: 19px;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-top: 22px;
+        /* رسالة وعرض المكافأة النهائية */
+        .reward-output-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-top: -5px;
+            margin-bottom: 20px;
             line-height: 1.6;
             white-space: pre-line;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
+            max-width: 320px;
+            direction: rtl;
         }
     </style>
 </head>
 <body>
 
-    <div class="floating-icons-container" id="iconsContainer"></div>
-
-    <div class="container">
-        <div class="logo-container">
-            <img src="WhatsApp Image 2026-03-05 at 12.12.45 PM.jpeg" alt="شعار صالة العناية" class="logo">
-        </div>
-
-        <div id="screen1" class="screen active-screen">
-            <h1>مرحباً بك في سحب صالة العناية<br><span class="spin-win-text">Spin & Win</span></h1>
-            
-            <div class="form-group">
-                <label for="username">الاسم الكريم:</label>
-                <input type="text" id="username" placeholder="أدخل اسمك الثلاثي">
-            </div>
-            
-            <div class="form-group">
-                <label for="phone">رقم الجوال:</label>
-                <input type="tel" id="phone" placeholder="05xxxxxxxx" maxlength="10">
-            </div>
-            
-            <br>
-            <button class="btn-main" onclick="validateAndProceed()">التالي</button>
-        </div>
-
-        <div id="screen2" class="screen">
-            <h1>تابعنا على حساباتنا الرسمية<br>لتفعيل العجلة وبدء اللعب</h1>
-            <a href="https://linktr.ee/HALLCARE?gad_source=1&gad_campaignid=23835021527&gclid=Cj0KCQjwoMXQBhDcARIsAH-eEtvM1zVCX1b5rpv_msdIPiJhAt2yLBuW6csJxlDA75nwWrhFgExzjdIaAkjREALw_wcB" target="_blank" class="btn-insta" onclick="unlockPlayButton()">📸 افتح الرابط وتابعنا هنا</a>
-            <br><br><br>
-            <button id="startPlayBtn" class="btn-main" disabled onclick="goToScreen(3)">إبدأ اللعب الآن</button>
-        </div>
-
-        <div id="screen3" class="screen">
-            <h1>أدر العجلة وحظاً موفقاً!</h1>
-            
-            <div class="wheel-outer-wrapper">
-                <div class="wheel-canvas-container">
-                    <canvas id="wheelCanvas" width="400" height="400"></canvas>
-                </div>
-            </div>
-            
-            <button id="spinBtn" class="btn-main" onclick="triggerSpin()">تدوير العجلة 🎰</button>
-            <p id="resultMessage"></p>
-        </div>
+    <div class="back-nav-arrow" id="appBackArrow" onclick="triggerBackStep()" style="display: none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a47652" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
     </div>
 
-    <script>
-        // 1. مؤثرات الخلفية المتساقطة للمنتجات
-        const items = ['💄', '💅', '✨', '🧴', '🌸', '💜', '🛍️', '👑'];
-        const container = document.getElementById('iconsContainer');
-        const count = 20;
+    <div class="app-container-wrapper">
+        <div class="main-brand-logo-box">
+            <img src="WhatsApp Image 2026-03-05 at 12.12.45 PM.jpeg" alt="TF Taksim" class="main-brand-logo">
+        </div>
 
-        for (let i = 0; i < count; i++) {
-            const div = document.createElement('div');
-            div.className = 'floating-icon';
-            div.innerText = items[Math.floor(Math.random() * items.length)];
-            div.style.left = Math.random() * 100 + '%';
-            div.style.animationDelay = Math.random() * 8 + 's';
-            div.style.fontSize = (Math.random() * 15 + 18) + 'px';
-            container.appendChild(div);
-        }
-
-        // 2. الصوت التفاعلي أثناء دوران العجلة فقط (تم حذف صوت الماوس للأزرار)
-        let audioCtx = null;
-        let audioInterval = null;
-
-        function playTickSound() {
-            try {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(550, audioCtx.currentTime); 
-                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.04);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.04);
-            } catch (e) { console.log("Audio play blocked."); }
-        }
-
-        function startSpinningSound() {
-            audioInterval = setInterval(() => {
-                playTickSound();
-            }, 65);
-        }
-
-        function stopSpinningSound() {
-            if (audioInterval) clearInterval(audioInterval);
-        }
-
-        // 3. مصفوفة الجوائز
-        const prizes = [
-            'خصم 5%', 
-            'دهن مسك مجاني', 
-            'خصم 10%', 
-            'حظ أوفر', 
-            'خصم 15%', 
-            'تقسيمة 6 مللي', 
-            'خصم 20%', 
-            'تقسيمة 10 مللي'
-        ];
-
-        let isSpinning = false;
-        let userData = {};
-
-        function goToScreen(num) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
-            document.getElementById('screen' + num).classList.add('active-screen');
-            if(num === 3) {
-                renderCanvasWheel();
-            }
-        }
-
-        function validateAndProceed() {
-            const name = document.getElementById('username').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-
-            if(!name || name.length < 3) {
-                alert('الرجاء إدخال الاسم الثلاثي الكريم.');
-                return;
-            }
-            if(!phone || phone.length < 9) {
-                alert('الرجاء إدخال رقم جوال صحيح.');
-                return;
-            }
-
-            userData = { name, phone };
-            goToScreen(2);
-        }
-
-        function unlockPlayButton() {
-            document.getElementById('startPlayBtn').disabled = false;
-        }
-
-        // 4. رسم العجلة
-        function renderCanvasWheel() {
-            const canvas = document.getElementById('wheelCanvas');
-            const ctx = canvas.getContext('2d');
-            const numSegments = prizes.length;
-            const anglePerSeg = (2 * Math.PI) / numSegments;
-            const radius = canvas.width / 2;
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            for (let i = 0; i < numSegments; i++) {
-                const startAngle = i * anglePerSeg;
-                const endAngle = startAngle + anglePerSeg;
-
-                ctx.fillStyle = (i % 2 === 0) ? '#d9b48f' : '#8c6239';
-                
-                ctx.beginPath();
-                ctx.moveTo(radius, radius);
-                ctx.arc(radius, radius, radius - 6, startAngle, endAngle);
-                ctx.closePath();
-                ctx.fill();
-
-                ctx.strokeStyle = '#8c6239';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                ctx.save();
-                ctx.translate(radius, radius);
-                ctx.rotate(startAngle + anglePerSeg / 2);
-                ctx.textAlign = "right";
-                ctx.textBaseline = "middle";
-                ctx.fillStyle = (i % 2 === 0) ? '#8c6239' : '#f7e6d4';
-                ctx.font = "bold 15px 'Tajawal', Arial";
-                
-                ctx.fillText(prizes[i], radius - 30, 0);
-                ctx.restore();
-            }
-
-            ctx.beginPath();
-            ctx.arc(radius, radius, 22, 0, 2 * Math.PI);
-            ctx.fillStyle = '#f7e6d4';
-            ctx.strokeStyle = '#8c6239';
-            ctx.lineWidth = 4;
-            ctx.fill();
-            ctx.stroke();
-        }
-
-        // 5. حركة الدوران والنتائج
-        function triggerSpin() {
-            if (isSpinning) return;
-
-            if (localStorage.getItem('hallCareSpun')) {
-                document.getElementById('resultMessage').innerText = "عذراً! لقد شاركت بالسحب اليوم بالفعل. \nعد إلينا غداً لفرصة جديدة ⏳";
-                disableSpinButton();
-                return;
-            }
-
-            isSpinning = true;
-            startSpinningSound(); 
-
-            const canvas = document.getElementById('wheelCanvas');
-            const totalSegments = prizes.length;
-            const degPerSeg = 360 / totalSegments;
+        <div id="stageScreen1" class="stage-screen active-stage">
+            <h1 class="brand-main-heading">WELCOME TO TF TAKSIM ORIGINAL</h1>
+            <p class="brand-sub-heading-italic">Spin & Win</p>
             
-            const winningIndex = Math.floor(Math.random() * totalSegments);
-            const stopAngle = 270 - (winningIndex * degPerSeg) - (degPerSeg / 2);
-            const finalRotation = (360 * 8) + stopAngle;
+            <div class="input-fields-group">
+                <input type="text" id="clName" class="app-rounded-input" placeholder="الاسم الكريم الثلاثي">
+                <input type="tel" id="clPhone" class="app-rounded-input" placeholder="رقم الجوال (05xxxxxxxx)" maxlength="10">
+            </div>
 
-            canvas.style.transform = `rotate(${finalRotation}deg)`;
+            <button class="app-oval-btn" onclick="processIdentityAndNext()">Spin Now</button>
+        </div>
 
-            setTimeout(() => {
-                stopSpinningSound(); 
-                
-                const finalPrize = prizes[winningIndex];
-                const msgElement = document.getElementById('resultMessage');
+        <div id="stageScreen2" class="stage-screen">
+            <h1 class="brand-main-heading">FOLLOW US ON INSTAGRAM</h1>
+            <p class="brand-sub-heading-italic" style="font-size: 22px; margin-bottom: 25px;">TO START PLAY</p>
+            
+            <a href="https://linktr.ee/HALLCARE?gad_source=1&gad_campaignid=23835021527&gclid=Cj0KCQjwoMXQBhDcARIsAH-eEtvM1zVCX1b5rpv_msdIPiJhAt2yLBuW6csJxlDA75nwWrhFgExzjdIaAkjREALw_wcB" target="_blank" class="app-oval-btn insta-variant" onclick="enableWheelAccess()">Open & Follow</a>
+            <button id="activatePlayBtn" class="app-oval-btn" disabled onclick="switchStageScreen(3)">START NOW</button>
+        </div>
 
-                if (finalPrize === 'حظ أوفر') {
-                    msgElement.innerHTML = `حظ أوفر المرة القادمة يا <strong>${userData.name}</strong>! 💜<br>نسعد بزيارتك ومحاولتك مجدداً في وقت لاحق.`;
-                } else {
-                    msgElement.innerHTML = `تهانينا يا <strong>${userData.name}</strong>! 🎉<br>لقد ربحت معنا: <span style="color:#b07d53; font-size:20px;">${finalPrize}</span><br>كود تفعيل الجائزة الخاص بك: <strong>CARE2026</strong>`;
-                }
-
-                localStorage.setItem('hallCareSpun', 'true');
-                disableSpinButton();
-                isSpinning = false;
-            }, 5000); 
-        }
-
-        function disableSpinButton() {
-            const btn = document.getElementById('spinBtn');
-            btn.innerText = "عد إلينا غداً";
-            btn.disabled = true;
-        }
-    </script>
-</body>
-</html>
+        <div id="stageScreen3" class="stage-screen">
+            <p class="brand-sub-heading-italic" style="font-size: 22px; margin-bottom: 15px;">Spin the wheel to win</p>
+            
+            <div class="prizes-capsules-grid">
+                <div class="prize-capsule-item">خصم ٢٠٪</div>
+                <div class="prize-capsule-item">تقسيمة ١٠ مللي</div>
+                <div class="prize-capsule-item">خصم ٥٪</div>
+                <div class="prize-capsule-item">دهن مسك مجاني</div>
+                <div class="prize-capsule-item">خصم ١٠٪</div>
+                <div class="prize-capsule-item">حظ اوفر</div>
+                <div class="prize-capsule-item">خصم ١٥٪</div>
+                <div class="prize-capsule-item">تقسيمة ٦ مللي</div>
+            </div>
