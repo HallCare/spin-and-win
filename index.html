@@ -229,4 +229,268 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            box
+            box-shadow: 0 6px 25px rgba(140,98,57,0.3);
+            overflow: hidden;
+        }
+
+        #wheelCanvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: block;
+            transform: rotate(0deg);
+            transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
+        }
+
+        #resultMessage {
+            font-size: 19px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-top: 22px;
+            line-height: 1.6;
+            white-space: pre-line;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="floating-icons-container" id="iconsContainer"></div>
+
+    <div class="container">
+        <img src="WhatsApp Image 2026-03-05 at 12.12.45 PM.jpeg" alt="شعار صالة العناية" class="logo">
+
+        <div id="screen1" class="screen active-screen">
+            <h1>مرحباً بك في سحب صالة العناية<br><span class="spin-win-text">Spin & Win</span></h1>
+            
+            <div class="form-group">
+                <label for="username">الاسم الكريم:</label>
+                <input type="text" id="username" placeholder="أدخل اسمك الثلاثي">
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">رقم الجوال:</label>
+                <input type="tel" id="phone" placeholder="05xxxxxxxx" maxlength="10">
+            </div>
+
+            <div class="form-group">
+                <label for="email">البريد الإلكتروني (اختياري):</label>
+                <input type="email" id="email" placeholder="example@mail.com">
+            </div>
+            
+            <br>
+            <button class="btn-main" onclick="validateAndProceed()">التالي</button>
+        </div>
+
+        <div id="screen2" class="screen">
+            <h1>تابعنا على حساب إنستغرام<br>لتفعيل العجلة وبدء اللعب</h1>
+            <a href="https://www.instagram.com/hallcaree?igsh=MWk2YnVycjd5MXF6Yg==" target="_blank" class="btn-insta" onclick="unlockPlayButton()">📸 افتح الرابط وتابعنا هنا</a>
+            <br><br><br>
+            <button id="startPlayBtn" class="btn-main" disabled onclick="goToScreen(3)">إبدأ اللعب الآن</button>
+        </div>
+
+        <div id="screen3" class="screen">
+            <h1>أدر العجلة وحظاً موفقاً!</h1>
+            
+            <div class="wheel-outer-wrapper">
+                <div class="wheel-canvas-container">
+                    <canvas id="wheelCanvas" width="400" height="400"></canvas>
+                </div>
+            </div>
+            
+            <button id="spinBtn" class="btn-main" onclick="triggerSpin()">تدوير العجلة 🎰</button>
+            <p id="resultMessage"></p>
+        </div>
+    </div>
+
+    <script>
+        // 1. مؤثرات الخلفية المتساقطة للمنتجات
+        const items = ['💄', '💅', '✨', '🧴', '🌸', '💜', '🛍️', '👑'];
+        const container = document.getElementById('iconsContainer');
+        const count = 20;
+
+        for (let i = 0; i < count; i++) {
+            const div = document.createElement('div');
+            div.className = 'floating-icon';
+            div.innerText = items[Math.floor(Math.random() * items.length)];
+            div.style.left = Math.random() * 100 + '%';
+            div.style.animationDelay = Math.random() * 8 + 's';
+            div.style.fontSize = (Math.random() * 15 + 18) + 'px';
+            container.appendChild(div);
+        }
+
+        // 2. الصوت التفاعلي أثناء الدوران
+        let audioCtx = null;
+        let audioInterval = null;
+
+        function playTickSound() {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(550, audioCtx.currentTime); 
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.04);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.04);
+            } catch (e) { console.log("Audio play blocked."); }
+        }
+
+        function startSpinningSound() {
+            audioInterval = setInterval(() => {
+                playTickSound();
+            }, 65);
+        }
+
+        function stopSpinningSound() {
+            if (audioInterval) clearInterval(audioInterval);
+        }
+
+        // 3. مصفوفة الجوائز
+        const prizes = [
+            'خصم 5%', 
+            'دهن مسك مجاني', 
+            'خصم 10%', 
+            'حظ أوفر', 
+            'خصم 15%', 
+            'تقسيمة 6 مللي', 
+            'خصم 20%', 
+            'تقسيمة 10 مللي'
+        ];
+
+        let isSpinning = false;
+        let userData = {};
+
+        function goToScreen(num) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
+            document.getElementById('screen' + num).classList.add('active-screen');
+            if(num === 3) {
+                renderCanvasWheel();
+            }
+        }
+
+        function validateAndProceed() {
+            const name = document.getElementById('username').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            if(!name || name.length < 3) {
+                alert('الرجاء إدخال الاسم الثلاثي الكريم.');
+                return;
+            }
+            if(!phone || phone.length < 9) {
+                alert('الرجاء إدخال رقم جوال صحيح.');
+                return;
+            }
+
+            userData = { name, phone, email };
+            goToScreen(2);
+        }
+
+        function unlockPlayButton() {
+            document.getElementById('startPlayBtn').disabled = false;
+        }
+
+        // 4. رسم العجلة
+        function renderCanvasWheel() {
+            const canvas = document.getElementById('wheelCanvas');
+            const ctx = canvas.getContext('2d');
+            const numSegments = prizes.length;
+            const anglePerSeg = (2 * Math.PI) / numSegments;
+            const radius = canvas.width / 2;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < numSegments; i++) {
+                const startAngle = i * anglePerSeg;
+                const endAngle = startAngle + anglePerSeg;
+
+                ctx.fillStyle = (i % 2 === 0) ? '#d9b48f' : '#8c6239';
+                
+                ctx.beginPath();
+                ctx.moveTo(radius, radius);
+                ctx.arc(radius, radius, radius - 6, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.strokeStyle = '#8c6239';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.save();
+                ctx.translate(radius, radius);
+                ctx.rotate(startAngle + anglePerSeg / 2);
+                ctx.textAlign = "right";
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = (i % 2 === 0) ? '#8c6239' : '#f7e6d4';
+                ctx.font = "bold 15px 'Tajawal', Arial";
+                
+                ctx.fillText(prizes[i], radius - 30, 0);
+                ctx.restore();
+            }
+
+            ctx.beginPath();
+            ctx.arc(radius, radius, 22, 0, 2 * Math.PI);
+            ctx.fillStyle = '#f7e6d4';
+            ctx.strokeStyle = '#8c6239';
+            ctx.lineWidth = 4;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        // 5. حركة الدوران والنتائج
+        function triggerSpin() {
+            if (isSpinning) return;
+
+            if (localStorage.getItem('hallCareSpun')) {
+                document.getElementById('resultMessage').innerText = "عذراً! لقد شاركت بالسحب اليوم بالفعل. \nعد إلينا غداً لفرصة جديدة ⏳";
+                disableSpinButton();
+                return;
+            }
+
+            isSpinning = true;
+            startSpinningSound(); 
+
+            const canvas = document.getElementById('wheelCanvas');
+            const totalSegments = prizes.length;
+            const degPerSeg = 360 / totalSegments;
+            
+            const winningIndex = Math.floor(Math.random() * totalSegments);
+            const stopAngle = 270 - (winningIndex * degPerSeg) - (degPerSeg / 2);
+            const finalRotation = (360 * 8) + stopAngle;
+
+            canvas.style.transform = `rotate(${finalRotation}deg)`;
+
+            setTimeout(() => {
+                stopSpinningSound(); 
+                
+                const finalPrize = prizes[winningIndex];
+                const msgElement = document.getElementById('resultMessage');
+
+                if (finalPrize === 'حظ أوفر') {
+                    msgElement.innerHTML = `حظ أوفر المرة القادمة يا <strong>${userData.name}</strong>! 💜<br>نسعد بزيارتك ومحاولتك مجدداً في وقت لاحق.`;
+                } else {
+                    msgElement.innerHTML = `تهانينا يا <strong>${userData.name}</strong>! 🎉<br>لقد ربحت معنا: <span style="color:#b07d53; font-size:20px;">${finalPrize}</span><br>كود تفعيل الجائزة الخاص بك: <strong>CARE2026</strong>`;
+                }
+
+                localStorage.setItem('hallCareSpun', 'true');
+                disableSpinButton();
+                isSpinning = false;
+            }, 5000); 
+        }
+
+        function disableSpinButton() {
+            const btn = document.getElementById('spinBtn');
+            btn.innerText = "عد إلينا غداً";
+            btn.disabled = true;
+        }
+    </script>
+</body>
+</html>
