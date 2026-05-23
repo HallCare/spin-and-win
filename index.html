@@ -67,23 +67,27 @@
             justify-content: center;
         }
 
-        /* الشعار الدائري الشفاف المندمج تماماً بدون أي خلفيات بيضاء */
+        /* حاوية الشعار المحدثة هندسياً للتخلص من المربع الأبيض */
         .main-brand-logo-box {
             width: 140px;
             height: 140px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             display: flex;
             justify-content: center;
             align-items: center;
             background: transparent;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
         }
 
+        /* دمج الصورة برمجياً لإلغاء اللون الأبيض وجعل الشعار شفاف ومطابق تماماً */
         .main-brand-logo {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            mix-blend-mode: multiply;
-            filter: contrast(1.1);
+            mix-blend-mode: multiply;  /* هذه الخاصية السحرية تحذف الخلفية البيضاء تلقائياً */
+            filter: contrast(1.1) darken;
         }
 
         /* ضبط الخطوط لتكون دقيقة ونحيفة طبق الأصل */
@@ -275,7 +279,7 @@
 
     <div class="app-container-wrapper">
         <div class="main-brand-logo-box">
-            <img src="WhatsApp Image 2026-03-05 at 12.12.45 PM.jpeg" alt="TF Taksim" class="main-brand-logo">
+            <img src="WhatsApp Image 2026-03-05 at 12.12.45 PM.jpeg" alt="Hall Care Logo" class="main-brand-logo">
         </div>
 
         <div id="stageScreen1" class="stage-screen active-stage">
@@ -294,7 +298,7 @@
             <h1 class="brand-main-heading">FOLLOW US ON INSTAGRAM</h1>
             <p class="brand-sub-heading-italic" style="font-size: 22px; margin-bottom: 25px;">TO START PLAY</p>
             
-            <a href="https://linktr.ee/HALLCARE?gad_source=1&gad_campaignid=23835021527&gclid=Cj0KCQjwoMXQBhDcARIsAH-eEtvM1zVCX1b5rpv_msdIPiJhAt2yLBuW6csJxlDA75nwWrhFgExzjdIaAkjREALw_wcB" target="_blank" class="app-oval-btn insta-variant" onclick="enableWheelAccess()">Open & Follow</a>
+            <a href="https://linktr.ee/HALLCARE" target="_blank" class="app-oval-btn insta-variant" onclick="enableWheelAccess()">Open & Follow</a>
             <button id="activatePlayBtn" class="app-oval-btn" disabled onclick="switchStageScreen(3)">START NOW</button>
         </div>
 
@@ -311,3 +315,207 @@
                 <div class="prize-capsule-item">خصم ١٥٪</div>
                 <div class="prize-capsule-item">تقسيمة ٦ مللي</div>
             </div>
+
+            <div class="wheel-structural-frame">
+                <div class="canvas-wheel-vault">
+                    <canvas id="appLuckWheelCanvas" width="400" height="400"></canvas>
+                </div>
+            </div>
+            
+            <div id="appRewardStatusBox" class="reward-output-text"></div>
+            <button id="appTriggerSpinBtn" class="app-oval-btn" onclick="executeWheelRotation()">START NOW</button>
+        </div>
+    </div>
+
+    <script>
+        let screenPointer = 1;
+        let clientDataObj = {};
+        let rotationActive = false;
+
+        function switchStageScreen(targetNum) {
+            document.querySelectorAll('.stage-screen').forEach(sc => sc.classList.remove('active-stage'));
+            document.getElementById('stageScreen' + targetNum).classList.add('active-stage');
+            screenPointer = targetNum;
+
+            const backArrow = document.getElementById('appBackArrow');
+            if (targetNum === 2) {
+                backArrow.style.display = 'flex';
+            } else {
+                backArrow.style.display = 'none';
+            }
+
+            if (targetNum === 3) {
+                renderVectorWheel();
+            }
+        }
+
+        function triggerBackStep() {
+            if (screenPointer === 2) {
+                switchStageScreen(1);
+            }
+        }
+
+        function processIdentityAndNext() {
+            const entryName = document.getElementById('clName').value.trim();
+            const entryPhone = document.getElementById('clPhone').value.trim();
+
+            if (!entryName || entryName.length < 3) {
+                alert('الرجاء تزويدنا بالاسم الكريم الثلاثي.');
+                return;
+            }
+            if (!entryPhone || entryPhone.length < 9) {
+                alert('الرجاء إدخال رقم جوال صحيح.');
+                return;
+            }
+
+            clientDataObj = { name: entryName, phone: entryPhone };
+            switchStageScreen(2);
+        }
+
+        function enableWheelAccess() {
+            document.getElementById('activatePlayBtn').disabled = false;
+        }
+
+        const corePrizeArray = [
+            'خصم ٢٠٪', 
+            'تقسيمة ١٠ مللي', 
+            'خصم ٥٪', 
+            'دهن مسك مجاني', 
+            'خصم ١٠٪', 
+            'حظ اوفر', 
+            'خصم ١٥٪', 
+            'تقسيمة ٦ مللي'
+        ];
+
+        function renderVectorWheel() {
+            const canvas = document.getElementById('appLuckWheelCanvas');
+            const ctx = canvas.getContext('2d');
+            const totalSlices = corePrizeArray.length;
+            const sliceRad = (2 * Math.PI) / totalSlices;
+            const middleX = canvas.width / 2;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < totalSlices; i++) {
+                const startAngle = i * sliceRad;
+                const endAngle = startAngle + sliceRad;
+
+                ctx.fillStyle = (i % 2 === 0) ? '#d6b497' : '#a1724d';
+                
+                ctx.beginPath();
+                ctx.moveTo(middleX, middleX);
+                ctx.arc(middleX, middleX, middleX - 2, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.strokeStyle = '#a47652';
+                ctx.lineWidth = 1.2;
+                ctx.stroke();
+
+                ctx.save();
+                ctx.translate(middleX, middleX);
+                ctx.rotate(startAngle + sliceRad / 2);
+                ctx.textAlign = "right";
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = (i % 2 === 0) ? '#a1724d' : '#f3dec9';
+                ctx.font = "bold 14px 'Cairo', Arial";
+                
+                ctx.fillText(corePrizeArray[i], middleX - 35, 0);
+                ctx.restore();
+            }
+
+            ctx.beginPath();
+            ctx.arc(middleX, middleX, 16, 0, 2 * Math.PI);
+            ctx.fillStyle = '#f3dec9';
+            ctx.strokeStyle = '#a47652';
+            ctx.lineWidth = 3;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        let audioContext = null;
+        let rotationSoundInterval = null;
+
+        function playDynamicTick(frequency) {
+            try {
+                if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                let osc = audioContext.createOscillator();
+                let gain = audioContext.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(frequency, audioContext.currentTime); 
+                gain.gain.setValueAtTime(0.05, audioContext.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.04);
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                osc.start();
+                osc.stop(audioContext.currentTime + 0.04);
+            } catch (e) { }
+        }
+
+        function runAudioEngine() {
+            let delay = 60;
+            let currentFreq = 520;
+            
+            function scheduleTick() {
+                if (!rotationActive) return;
+                playDynamicTick(currentFreq);
+                
+                if (delay < 400) {
+                    delay += 6; 
+                    currentFreq -= 3;
+                }
+                rotationSoundInterval = setTimeout(scheduleTick, delay);
+            }
+            scheduleTick();
+        }
+
+        function executeWheelRotation() {
+            if (rotationActive) return;
+
+            if (localStorage.getItem('taksimOriginalSpun')) {
+                document.getElementById('appRewardStatusBox').innerText = "عذراً! لقد شاركت بالسحب اليوم بالفعل. \nعد إلينا غداً لفرصة جديدة ⏳";
+                applyCompletionStyle();
+                return;
+            }
+
+            rotationActive = true;
+            runAudioEngine(); 
+
+            const canvas = document.getElementById('appLuckWheelCanvas');
+            const slicesCount = corePrizeArray.length;
+            const degreesPerSlice = 360 / slicesCount;
+            
+            const selectedWinnerIndex = Math.floor(Math.random() * slicesCount);
+            const stopAngleOffset = 270 - (selectedWinnerIndex * degreesPerSlice) - (degreesPerSlice / 2);
+            const totalRotationDeg = (360 * 8) + stopAngleOffset;
+
+            canvas.style.transform = `rotate(${totalRotationDeg}deg)`;
+
+            setTimeout(() => {
+                rotationActive = false;
+                clearTimeout(rotationSoundInterval); 
+                
+                const finalPrizeString = corePrizeArray[selectedWinnerIndex];
+                const displayArea = document.getElementById('appRewardStatusBox');
+
+                if (finalPrizeString === 'حظ اوفر') {
+                    displayArea.innerHTML = `حظ أوفر المرة القادمة يا <strong>${clientDataObj.name}</strong>! 🤍<br>نسعد جداً بزيارتك ومحاولتك مجدداً.`;
+                } else {
+                    displayArea.innerHTML = `تهانينا يا <strong>${clientDataObj.name}</strong>! 🎉<br>لقد ربحت معنا: <span style="color:#a97954; font-size:18px;">${finalPrizeString}</span><br>كود الجائزة الفوري: <strong>TAKSIM2026</strong>`;
+                }
+
+                localStorage.setItem('taksimOriginalSpun', 'true');
+                applyCompletionStyle();
+            }, 5000); 
+        }
+
+        function applyCompletionStyle() {
+            const actionBtn = document.getElementById('appTriggerSpinBtn');
+            actionBtn.innerText = "Come Back Tomorrow";
+            actionBtn.disabled = true;
+            actionBtn.style.backgroundColor = "#9da3a6";
+            actionBtn.style.boxShadow = "none";
+        }
+    </script>
+</body>
+</html>
