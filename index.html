@@ -66,26 +66,27 @@
             z-index: 5;
         }
 
-        /* تنسيق صندوق اللوجو ليظهر بشكل دائري ناعم ومتناسق */
+        /* ضبط الصندوق ليحتوي اللوجو الجديد ذو الأبعاد الضخمة بشكل متناسق ومريح */
         .logo-box {
-            width: 130px;
-            height: 130px;
+            width: 140px;
+            height: 140px;
             margin: 0 auto 20px auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #fffbf7; 
+            background: #ffffff; 
             border-radius: 50%;
             box-shadow: 0 4px 12px rgba(140, 98, 57, 0.1);
             overflow: hidden;
             border: 2px solid rgba(140, 98, 57, 0.15);
+            box-sizing: border-box;
+            padding: 12px; /* مسافة أمان لمنع خروج خطوط اللوجو العريضة */
         }
 
         .logo {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
+            object-fit: contain; /* يضمن احتواء كامل تفاصيل اللوجو والكلام بالأسفل دون أي قص */
         }
 
         h1 {
@@ -388,75 +389,4 @@
                 ctx.rotate(angle + arcSize / 2);
                 ctx.textAlign = "right";
                 ctx.textBaseline = "middle";
-                ctx.fillStyle = (i % 2 === 0) ? '#fffaf5' : '#8c6239';
-                ctx.font = "bold 15px 'Tajawal', Arial";
-                ctx.fillText(prizesList[i], center - 30, 0);
-                ctx.restore();
-            }
-
-            ctx.beginPath();
-            ctx.arc(center, center, 15, 0, 2 * Math.PI);
-            ctx.fillStyle = '#f5e4d3';
-            ctx.strokeStyle = '#8c6239';
-            ctx.lineWidth = 3;
-            ctx.fill();
-            ctx.stroke();
-        }
-
-        function getRandomPrizeIndex() {
-            let num = Math.random() * 100;
-            let currentSum = 0;
-            for (let i = 0; i < weightedPrizes.length; i++) {
-                currentSum += weightedPrizes[i].weight;
-                if (num <= currentSum) return i;
-            }
-            return 5;
-        }
-
-        function startSpinAction() {
-            if (isSpinning) return;
-
-            if (localStorage.getItem('hallCareSpunToday')) {
-                document.getElementById('resultOutput').innerHTML = "عذراً! لقد شاركت في السحب اليوم بالفعل.<br>عد إلينا غداً لفرصة جديدة ⏳";
-                disableSpinButton();
-                return;
-            }
-
-            isSpinning = true;
-            const canvas = document.getElementById('wheelCanvas');
-            const totalSlices = prizesList.length;
-            const degreesPerSlice = 360 / totalSlices;
-            const luckyIndex = getRandomPrizeIndex();
-            
-            const targetOffset = 270 - (luckyIndex * degreesPerSlice) - (degreesPerSlice / 2);
-            const finalRotation = (360 * 6) + targetOffset;
-
-            canvas.style.transform = `rotate(${finalRotation}deg)`;
-
-            setTimeout(() => {
-                isSpinning = false;
-                const wonPrize = prizesList[luckyIndex];
-                const displayArea = document.getElementById('resultOutput');
-
-                if (wonPrize === 'حظ أوفر') {
-                    displayArea.innerHTML = `حظ أوفر المرة القادمة يا <strong>${userData.name}</strong>! 🤍<br>نسعد جداً بزيارتك وتجربتك القادمة.`;
-                } else {
-                    displayArea.innerHTML = `تهانينا يا <strong>${userData.name}</strong>! 🎉<br>لقد ربحت معنا: <span style="color:var(--primary-color); font-size:18px;">${wonPrize}</span><br>كود الجائزة الفوري: <strong>CARE2026</strong>`;
-                }
-
-                localStorage.setItem('hallCareSpunToday', 'true');
-                disableSpinButton();
-            }, 5000);
-        }
-
-        function disableSpinButton() {
-            const btn = document.getElementById('spinActionBtn');
-            btn.innerText = "عد إلينا غداً";
-            btn.disabled = true;
-            btn.style.backgroundColor = "#b3b3b3";
-            btn.style.boxShadow = "none";
-            btn.style.transform = "none !important";
-        }
-    </script>
-</body>
-</html>
+                ctx.fillStyle = (i % 2 === 0) ? '#fffaf5' : '#8c62
