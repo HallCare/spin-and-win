@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عجلة الحظ - صالة العناية | Hall Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@500;800&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f7e6d4;      /* اللون الكريمي الهادئ للموقع */
+            --primary-color: #8c6239; /* البني الداكن المعتمد للخطوط والعجلة */
+            --accent-color: #b07d53;  /* البني الفاتح للأزرار والجوائز */
+            --light-prize: #d9b48f;   /* اللون التناوبي الفاتح في العجلة */
+            --insta-color: #d62976;   /* لون إنستغرام */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* تأثير العناصر المتطايرة في الخلفية */
+        .floating-icons-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.25;
+            animation: floatAnimation 12s linear infinite;
+        }
+
+        @keyframes floatAnimation {
+            0% {
+                transform: translateY(110vh) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* حاوية الصفحات الرئيسية */
+        .container {
+            text-align: center;
+            max-width: 480px;
+            width: 90%;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(140, 98, 57, 0.05);
+            z-index: 5;
+        }
+
+        .logo {
+            max-width: 160px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .spin-win-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-style: italic;
+            color: var(--accent-color);
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* تصميم الأزرار الاحترافية والمحسنة */
+        .btn-main {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 14px 45px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(176,125,83,0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: bold;
+            width: 85%;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(176,125,83,0.45);
+        }
+
+        .btn-main:disabled {
+            background-color: #b3b3b3 !important;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-insta {
+            background-color: var(--insta-color);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            width: 85%;
+            box-sizing: border-box;
+            box-shadow: 0 4px 12px rgba(214, 41, 118, 0.3);
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn-insta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(214, 41, 118, 0.45);
+        }
+
+        /* تحسين الفورم وحقول الإدخال */
+        .form-group {
+            margin-bottom: 18px;
+            text-align: right;
+            width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--primary-color);
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0ceba;
+            border-radius: 14px;
+            background-color: #fffaf5;
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.3s ease;
+            text-align: right;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-color);
+            background-color: #ffffff;
+            box-shadow: 0 0 8px rgba(176,125,83,0.15);
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .active-screen {
+            display: block;
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* تصميم قسم العجلة والمؤشر */
+        .wheel-outer-wrapper {
+            position: relative;
+            margin: 30px auto;
+            width: 320px;
+            height: 320px;
+        }
+
+        /* السهم العلوي المشير للجائزة */
+        .wheel-outer-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 16px solid transparent;
+            border-right: 16px solid transparent;
+            border-top: 26px solid var(--primary-color);
+            z-index: 10;
+        }
+
+        .wheel-canvas-container {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box
