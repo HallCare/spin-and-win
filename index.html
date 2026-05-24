@@ -1,843 +1,798 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>عجلة الحظ - صالة العناية | Hall Care</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hall Care | Spin & Win</title>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@500;800&family=Playfair+Display:ital,wght=1,600&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 
-    <!-- Confetti -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
-    <!-- QR CODE -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <!-- QRCode -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 
-    <style>
-        :root {
-            --bg-color: #f5e4d3;
-            --primary-color: #8c6239;
-            --accent-color: #b07d53;
-            --input-bg: #fffbf7;
-            --insta-color: #d62976;
-        }
+  <style>
 
-        * {
-            box-sizing: border-box;
-        }
+    :root{
+      --bg:#0f0b08;
+      --card:rgba(255,255,255,0.06);
+      --gold:#c79a63;
+      --gold2:#f2d0a7;
+      --white:#ffffff;
+      --soft:#ffffffaa;
+      --border:rgba(255,255,255,0.12);
+    }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Tajawal', 'Cairo', sans-serif;
-            background-color: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
 
-        .floating-icons-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 1;
-            pointer-events: none;
-        }
+    body{
+      font-family:'Tajawal',sans-serif;
+      background:var(--bg);
+      overflow:hidden;
+      color:white;
+      height:100vh;
+      width:100%;
+      position:relative;
+    }
 
-        .floating-icon {
-            position: absolute;
-            font-size: 24px;
-            opacity: 0.15;
-            animation: floatAnimation 14s linear infinite;
-        }
+    /* Animated Background */
 
-        @keyframes floatAnimation {
-            0% {
-                transform: translateY(110vh) rotate(0deg);
-                opacity: 0;
-            }
+    .bg{
+      position:fixed;
+      inset:0;
+      background:
+      radial-gradient(circle at top left,#5a3217 0%,transparent 35%),
+      radial-gradient(circle at bottom right,#3f2512 0%,transparent 35%),
+      linear-gradient(135deg,#120d09,#0f0b08,#1a120c);
+      animation:bgMove 12s ease infinite alternate;
+    }
 
-            10% {
-                opacity: 0.2;
-            }
+    @keyframes bgMove{
+      0%{filter:hue-rotate(0deg);transform:scale(1);}
+      100%{filter:hue-rotate(8deg);transform:scale(1.05);}
+    }
 
-            90% {
-                opacity: 0.2;
-            }
+    /* Particles */
 
-            100% {
-                transform: translateY(-10vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
+    .particles span{
+      position:absolute;
+      width:4px;
+      height:4px;
+      background:#ffffff88;
+      border-radius:50%;
+      animation:float linear infinite;
+    }
 
-        .container {
-            text-align: center;
-            max-width: 480px;
-            width: 92%;
-            padding: 40px 25px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 15px 35px rgba(140, 98, 57, 0.05);
-            z-index: 5;
-        }
+    @keyframes float{
+      from{
+        transform:translateY(100vh) scale(0);
+        opacity:0;
+      }
+      20%{opacity:1;}
+      to{
+        transform:translateY(-20vh) scale(1.4);
+        opacity:0;
+      }
+    }
 
-        .logo-box {
-            width: 160px;
-            margin: auto;
-            margin-bottom: 15px;
-        }
+    .app{
+      position:relative;
+      z-index:5;
+      width:100%;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:20px;
+    }
 
-        .logo {
-            width: 100%;
-        }
+    .screen{
+      display:none;
+      width:100%;
+      max-width:460px;
+      animation:fade .5s ease;
+    }
 
-        h1 {
-            color: var(--primary-color);
-            font-size: 20px;
-            line-height: 1.7;
-            margin-bottom: 25px;
-        }
+    .screen.active{
+      display:block;
+    }
 
-        .spin-win-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            font-style: italic;
-            color: var(--accent-color);
-            display: block;
-            margin-top: 5px;
-        }
+    @keyframes fade{
+      from{
+        opacity:0;
+        transform:translateY(20px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
 
-        .form-group {
-            width: 85%;
-            margin: auto;
-            margin-bottom: 16px;
-        }
+    .glass{
+      background:var(--card);
+      border:1px solid var(--border);
+      backdrop-filter:blur(18px);
+      border-radius:35px;
+      padding:35px 28px;
+      box-shadow:
+      0 10px 40px rgba(0,0,0,.35),
+      inset 0 1px 1px rgba(255,255,255,.06);
+    }
 
-        .form-group input {
-            width: 100%;
-            padding: 15px;
-            border-radius: 16px;
-            border: 1px solid rgba(140, 98, 57, 0.15);
-            background: var(--input-bg);
-            font-size: 15px;
-            text-align: center;
-            font-family: inherit;
-            outline: none;
-            transition: 0.3s;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
+    .logo{
+      width:130px;
+      display:block;
+      margin:0 auto 25px;
+      filter:drop-shadow(0 0 15px rgba(255,215,160,.15));
+    }
 
-        .form-group input:focus {
-            border-color: var(--accent-color);
-            transform: scale(1.02);
-            background: white;
-        }
+    h1{
+      text-align:center;
+      line-height:1.6;
+      font-size:33px;
+      font-weight:800;
+      margin-bottom:14px;
+      background:linear-gradient(90deg,#fff,#f3d1a7);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
 
-        .btn-main,
-        .btn-insta {
-            width: 85%;
-            border: none;
-            border-radius: 30px;
-            padding: 15px;
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: bold;
-            font-family: inherit;
-            transition: 0.3s;
-        }
+    .sub{
+      text-align:center;
+      color:var(--soft);
+      line-height:1.8;
+      margin-bottom:35px;
+      font-size:15px;
+    }
 
-        .btn-main {
-            background: var(--accent-color);
-            color: white;
-            margin-top: 10px;
-            box-shadow: 0 5px 15px rgba(176, 125, 83, 0.25);
-        }
+    .inputs{
+      display:flex;
+      flex-direction:column;
+      gap:15px;
+      margin-bottom:22px;
+    }
 
-        .btn-main:hover,
-        .btn-insta:hover {
-            transform: scale(1.03);
-        }
+    .input{
+      width:100%;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      padding:18px;
+      color:white;
+      outline:none;
+      font-size:15px;
+      text-align:center;
+      transition:.3s;
+    }
 
-        .btn-main:disabled {
-            background: #bcbcbc !important;
-            cursor: not-allowed;
-        }
+    .input:focus{
+      border-color:#c79a63;
+      transform:translateY(-2px);
+      box-shadow:0 0 25px rgba(199,154,99,.15);
+    }
 
-        .btn-insta {
-            background: var(--insta-color);
-            color: white;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            text-decoration: none;
-            margin-bottom: 15px;
-        }
+    .btn{
+      width:100%;
+      border:none;
+      height:58px;
+      border-radius:18px;
+      background:linear-gradient(135deg,#c79a63,#9d6d3e);
+      color:white;
+      font-size:16px;
+      font-weight:800;
+      cursor:pointer;
+      transition:.35s;
+      box-shadow:0 8px 30px rgba(199,154,99,.25);
+    }
 
-        .screen {
-            display: none;
-        }
+    .btn:hover{
+      transform:translateY(-2px) scale(1.02);
+      box-shadow:0 12px 35px rgba(199,154,99,.35);
+    }
 
-        .active-screen {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
+    .btn:disabled{
+      opacity:.5;
+      cursor:not-allowed;
+    }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.97);
-            }
+    .insta-btn{
+      text-decoration:none;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:10px;
+      margin-bottom:22px;
+    }
 
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
+    .qr-box{
+      width:180px;
+      height:180px;
+      background:white;
+      padding:12px;
+      border-radius:28px;
+      margin:25px auto;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
 
-        .wheel-outer-wrapper {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            margin: 20px auto 30px;
-        }
+    .wheel-wrap{
+      position:relative;
+      width:320px;
+      height:320px;
+      margin:25px auto;
+    }
 
-        .wheel-outer-wrapper::before {
-            content: '';
-            position: absolute;
-            top: -14px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-left: 16px solid transparent;
-            border-right: 16px solid transparent;
-            border-top: 26px solid var(--primary-color);
-            z-index: 10;
-        }
+    .wheel-wrap::before{
+      content:'';
+      position:absolute;
+      top:-15px;
+      left:50%;
+      transform:translateX(-50%);
+      border-left:18px solid transparent;
+      border-right:18px solid transparent;
+      border-top:34px solid #f3d1a7;
+      z-index:10;
+      filter:drop-shadow(0 0 15px rgba(255,215,170,.5));
+    }
 
-        .wheel-canvas-container {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 5px solid var(--primary-color);
-            box-shadow: 0 8px 25px rgba(140, 98, 57, 0.15);
-        }
+    .wheel-container{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      overflow:hidden;
+      border:8px solid rgba(255,255,255,.12);
+      box-shadow:
+      0 0 60px rgba(199,154,99,.15),
+      inset 0 0 40px rgba(255,255,255,.08);
+    }
 
-        #wheelCanvas {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
-        }
+    #wheelCanvas{
+      width:100%;
+      height:100%;
+      transition:transform 5s cubic-bezier(.08,.9,.2,1);
+    }
 
-        .result-message {
-            font-size: 16px;
-            color: var(--primary-color);
-            line-height: 1.8;
-            font-weight: bold;
-            margin-top: 15px;
-        }
+    .result{
+      text-align:center;
+      margin-top:18px;
+      line-height:2;
+      font-size:17px;
+      color:#fff;
+      min-height:70px;
+    }
 
-        #countdownBox {
-            margin-top: 15px;
-            color: var(--primary-color);
-            line-height: 1.7;
-            font-weight: bold;
-        }
+    .countdown{
+      text-align:center;
+      color:#ffffffaa;
+      margin-top:15px;
+      line-height:1.8;
+    }
 
-        #qrCodeBox {
-            background: white;
-            width: 170px;
-            height: 170px;
-            margin: auto;
-            padding: 10px;
-            border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-        }
-    </style>
+    .luxury-text{
+      text-align:center;
+      margin-bottom:18px;
+      color:#f1cfa4;
+      font-size:15px;
+    }
+
+    @media(max-width:500px){
+
+      h1{
+        font-size:28px;
+      }
+
+      .wheel-wrap{
+        width:280px;
+        height:280px;
+      }
+
+    }
+
+  </style>
 </head>
-
 <body>
 
-    <!-- صوت -->
-    <audio id="spinSound" preload="auto">
-        <source src="https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3" type="audio/mpeg">
-    </audio>
+<div class="bg"></div>
 
-    <!-- Floating Icons -->
-    <div class="floating-icons-container">
-        <div class="floating-icon" style="left:8%;top:20%;animation-delay:0s;">✨</div>
-        <div class="floating-icon" style="left:25%;top:45%;animation-delay:3s;">🌸</div>
-        <div class="floating-icon" style="left:75%;top:15%;animation-delay:1s;">💄</div>
-        <div class="floating-icon" style="left:88%;top:60%;animation-delay:5s;">✨</div>
-    </div>
+<div class="particles" id="particles"></div>
 
-    <div class="container">
+<audio id="spinSound">
+  <source src="https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3" type="audio/mpeg">
+</audio>
 
-        <!-- Logo -->
-        <div class="logo-box">
-            <img src="Hallcare.png" class="logo">
-        </div>
+<div class="app">
 
-        <!-- SCREEN 1 -->
-        <div id="screen1" class="screen active-screen">
+  <!-- SCREEN 1 -->
 
-            <h1>
-                مرحباً بك في سحب صالة العناية
-                <span class="spin-win-text">Spin & Win</span>
-            </h1>
+  <div class="screen active" id="screen1">
 
-            <div class="form-group">
-                <input type="text" id="userName" placeholder="الاسم الكريم الثلاثي">
-            </div>
+    <div class="glass">
 
-            <div class="form-group">
-                <input type="tel" id="userPhone" placeholder="رقم الجوال (05xxxxxxxx)" maxlength="10">
-            </div>
+      <img src="Hallcare.png" class="logo">
 
-            <button class="btn-main" onclick="navigateToScreen2()">
-                التالي
-            </button>
+      <h1>
+        Hall Care
+        <br>
+        Spin & Win
+      </h1>
 
-        </div>
+      <p class="sub">
+        جرّب حظك واربح خصومات وهدايا فاخرة ✨
+      </p>
 
-        <!-- SCREEN 2 -->
-        <div id="screen2" class="screen">
+      <div class="inputs">
 
-            <h1>
-                تابعنا على إنستغرام
-                <br>
-                لتفعيل العجلة 🎉
-            </h1>
+        <input class="input" type="text" id="userName" placeholder="الاسم الكريم الثلاثي">
 
-            <a href="https://linktr.ee/HALLCARE?gad_source=1"
-                target="_blank"
-                class="btn-insta"
-                onclick="unlockWheelButton()">
+        <input class="input" type="tel" id="userPhone" maxlength="10" placeholder="رقم الجوال 05xxxxxxxx">
 
-                📸 افتح الرابط وتابعنا هنا
+      </div>
 
-            </a>
-
-            <!-- QR -->
-            <div style="margin-bottom:20px;">
-
-                <p style="color:#8c6239;font-weight:bold;">
-                    أو امسح الكود 📱
-                </p>
-
-                <div id="qrCodeBox"></div>
-
-            </div>
-
-            <button id="startPlayBtn"
-                class="btn-main"
-                disabled
-                onclick="navigateToScreen3()">
-
-                ابدأ اللعب الآن
-
-            </button>
-
-        </div>
-
-        <!-- SCREEN 3 -->
-        <div id="screen3" class="screen">
-
-            <h1>
-                أدر العجلة وحظاً موفقاً 🎯
-            </h1>
-
-            <div class="wheel-outer-wrapper">
-
-                <div class="wheel-canvas-container">
-
-                    <canvas id="wheelCanvas"
-                        width="400"
-                        height="400"></canvas>
-
-                </div>
-
-            </div>
-
-            <div id="resultOutput" class="result-message"></div>
-
-            <div id="countdownBox"></div>
-
-            <button id="spinActionBtn"
-                class="btn-main"
-                onclick="startSpinAction()">
-
-                أدر العجلة الآن
-
-            </button>
-
-        </div>
+      <button class="btn" onclick="goToInstagram()">
+        متابعة وبدء اللعب
+      </button>
 
     </div>
 
-    <script>
+  </div>
 
-        let userData = {};
-        let isSpinning = false;
+  <!-- SCREEN 2 -->
 
-        const instagramLink = "https://linktr.ee/HALLCARE?gad_source=1";
+  <div class="screen" id="screen2">
 
-        const weightedPrizes = [
+    <div class="glass">
 
-            { text: 'خصم ٢٠٪', weight: 5 },
-            { text: 'تقسيمة ١٠ مللي', weight: 3 },
-            { text: 'خصم ٥٪', weight: 25 },
-            { text: 'دهن مسك مجاني', weight: 2 },
-            { text: 'خصم ١٠٪', weight: 15 },
-            { text: 'حظ أوفر', weight: 35 },
-            { text: 'خصم ١٥٪', weight: 10 },
-            { text: 'تقسيمة ٦ مللي', weight: 5 }
+      <h1>
+        تابعنا على إنستغرام
+      </h1>
 
-        ];
+      <p class="sub">
+        افتح الرابط أو امسح الكود لتفعيل العجلة 🎯
+      </p>
 
-        const prizesList = weightedPrizes.map(p => p.text);
+      <a href="https://linktr.ee/HALLCARE?gad_source=1"
+      target="_blank"
+      class="btn insta-btn"
+      onclick="unlockPlay()">
 
-        /* ===================== */
-        /* QR CODE */
-        /* ===================== */
+      📸 متابعة الحساب
 
-        window.onload = () => {
+      </a>
 
-            new QRCode(document.getElementById("qrCodeBox"), {
+      <div class="qr-box" id="qr"></div>
 
-                text: instagramLink,
-                width: 140,
-                height: 140
+      <button class="btn" id="playBtn" disabled onclick="openWheel()">
+        ابدأ اللعب الآن
+      </button>
 
-            });
+    </div>
 
-            checkCooldown();
-        };
+  </div>
 
-        /* ===================== */
-        /* SCREEN 2 */
-        /* ===================== */
+  <!-- SCREEN 3 -->
 
-        function navigateToScreen2() {
+  <div class="screen" id="screen3">
 
-            const name =
-                document.getElementById('userName').value.trim();
+    <div class="glass">
 
-            const phone =
-                document.getElementById('userPhone').value.trim();
+      <h1>
+        Spin The Wheel
+      </h1>
 
-            const phoneRegex = /^(05)\d{8}$/;
+      <p class="luxury-text">
+        حظاً موفقاً ✨
+      </p>
 
-            if (name.length < 3) {
+      <div class="wheel-wrap">
 
-                alert('الرجاء إدخال الاسم الكريم الثلاثي');
+        <div class="wheel-container">
 
-                return;
-            }
+          <canvas id="wheelCanvas" width="500" height="500"></canvas>
 
-            if (!phoneRegex.test(phone)) {
+        </div>
 
-                alert('أدخل رقم جوال صحيح يبدأ بـ 05');
+      </div>
 
-                return;
-            }
+      <button class="btn" id="spinBtn" onclick="spinWheel()">
+        أدر العجلة
+      </button>
 
-            userData = {
-                name,
-                phone
-            };
+      <div class="result" id="result"></div>
 
-            document.getElementById('screen1')
-                .classList.remove('active-screen');
+      <div class="countdown" id="countdown"></div>
 
-            document.getElementById('screen2')
-                .classList.add('active-screen');
-        }
+    </div>
 
-        /* ===================== */
-        /* ENABLE BUTTON */
-        /* ===================== */
+  </div>
 
-        function unlockWheelButton() {
+</div>
 
-            document.getElementById('startPlayBtn')
-                .disabled = false;
-        }
+<script>
 
-        /* ===================== */
-        /* SCREEN 3 */
-        /* ===================== */
+  /* PARTICLES */
 
-        function navigateToScreen3() {
+  const particles=document.getElementById('particles');
 
-            document.getElementById('screen2')
-                .classList.remove('active-screen');
+  for(let i=0;i<40;i++){
 
-            document.getElementById('screen3')
-                .classList.add('active-screen');
+    const s=document.createElement('span');
 
-            drawWheelStructure();
-        }
+    s.style.left=Math.random()*100+'%';
 
-        /* ===================== */
-        /* DRAW WHEEL */
-        /* ===================== */
+    s.style.animationDuration=(8+Math.random()*12)+'s';
 
-        function drawWheelStructure() {
+    s.style.animationDelay=Math.random()*5+'s';
 
-            const canvas =
-                document.getElementById('wheelCanvas');
+    particles.appendChild(s);
+  }
 
-            const ctx =
-                canvas.getContext('2d');
+  /* DATA */
 
-            const sectionsCount =
-                prizesList.length;
+  let userData={};
 
-            const arcSize =
-                (2 * Math.PI) / sectionsCount;
+  let spinning=false;
 
-            const center =
-                canvas.width / 2;
+  const prizes=[
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+    {text:'خصم 20%',weight:5},
+    {text:'خصم 15%',weight:12},
+    {text:'خصم 10%',weight:18},
+    {text:'خصم 5%',weight:25},
+    {text:'تقسيمة 10 مللي',weight:4},
+    {text:'تقسيمة 6 مللي',weight:7},
+    {text:'دهن مسك مجاني',weight:2},
+    {text:'حظ أوفر',weight:27}
 
-            for (let i = 0; i < sectionsCount; i++) {
+  ];
 
-                const angle = i * arcSize;
+  const prizeNames=prizes.map(p=>p.text);
 
-                ctx.fillStyle =
-                    (i % 2 === 0)
-                        ? '#b07d53'
-                        : '#d9b48f';
+  /* QR */
 
-                ctx.beginPath();
+  new QRCode(document.getElementById('qr'),{
 
-                ctx.moveTo(center, center);
+    text:'https://linktr.ee/HALLCARE?gad_source=1',
+    width:150,
+    height:150
 
-                ctx.arc(
-                    center,
-                    center,
-                    center - 5,
-                    angle,
-                    angle + arcSize
-                );
+  });
 
-                ctx.closePath();
+  /* NAVIGATION */
 
-                ctx.fill();
+  function goToInstagram(){
 
-                ctx.strokeStyle = '#8c6239';
+    const name=document.getElementById('userName').value.trim();
 
-                ctx.lineWidth = 2;
+    const phone=document.getElementById('userPhone').value.trim();
 
-                ctx.stroke();
+    const regex=/^(05)\d{8}$/;
 
-                ctx.save();
+    if(name.length<3){
 
-                ctx.translate(center, center);
+      alert('يرجى إدخال الاسم الثلاثي');
 
-                ctx.rotate(angle + arcSize / 2);
+      return;
+    }
 
-                ctx.textAlign = "right";
+    if(!regex.test(phone)){
 
-                ctx.fillStyle =
-                    (i % 2 === 0)
-                        ? '#fffaf5'
-                        : '#8c6239';
+      alert('أدخل رقم صحيح يبدأ بـ 05');
 
-                ctx.font = "bold 15px Tajawal";
+      return;
+    }
 
-                ctx.fillText(prizesList[i], center - 30, 0);
+    userData={name,phone};
 
-                ctx.restore();
-            }
+    changeScreen('screen1','screen2');
 
-            ctx.beginPath();
+  }
 
-            ctx.arc(center, center, 15, 0, 2 * Math.PI);
+  function unlockPlay(){
 
-            ctx.fillStyle = '#f5e4d3';
+    document.getElementById('playBtn').disabled=false;
 
-            ctx.fill();
+  }
 
-            ctx.strokeStyle = '#8c6239';
+  function openWheel(){
 
-            ctx.lineWidth = 3;
+    changeScreen('screen2','screen3');
 
-            ctx.stroke();
-        }
+    drawWheel();
 
-        /* ===================== */
-        /* RANDOM PRIZE */
-        /* ===================== */
+    checkCooldown();
 
-        function getRandomPrizeIndex() {
+  }
 
-            let num = Math.random() * 100;
+  function changeScreen(oldId,newId){
 
-            let currentSum = 0;
+    document.getElementById(oldId).classList.remove('active');
 
-            for (let i = 0; i < weightedPrizes.length; i++) {
+    document.getElementById(newId).classList.add('active');
 
-                currentSum += weightedPrizes[i].weight;
+  }
 
-                if (num <= currentSum) {
+  /* DRAW WHEEL */
 
-                    return i;
-                }
-            }
+  function drawWheel(){
 
-            return 5;
-        }
+    const canvas=document.getElementById('wheelCanvas');
 
-        /* ===================== */
-        /* START SPIN */
-        /* ===================== */
+    const ctx=canvas.getContext('2d');
 
-        function startSpinAction() {
+    const center=canvas.width/2;
 
-            if (isSpinning) return;
+    const slices=prizeNames.length;
 
-            if (localStorage.getItem('hallCareSpinTime')) {
+    const arc=(2*Math.PI)/slices;
 
-                showRemainingTime();
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
-                return;
-            }
+    for(let i=0;i<slices;i++){
 
-            isSpinning = true;
+      const angle=i*arc;
 
-            const spinSound =
-                document.getElementById('spinSound');
+      ctx.fillStyle=i%2===0?'#c79a63':'#8f5c33';
 
-            spinSound.currentTime = 0;
+      ctx.beginPath();
 
-            spinSound.play();
+      ctx.moveTo(center,center);
 
-            const canvas =
-                document.getElementById('wheelCanvas');
+      ctx.arc(center,center,center-10,angle,angle+arc);
 
-            const totalSlices =
-                prizesList.length;
+      ctx.closePath();
 
-            const degreesPerSlice =
-                360 / totalSlices;
+      ctx.fill();
 
-            const luckyIndex =
-                getRandomPrizeIndex();
+      ctx.save();
 
-            const targetOffset =
-                270 -
-                (luckyIndex * degreesPerSlice) -
-                (degreesPerSlice / 2);
+      ctx.translate(center,center);
 
-            const finalRotation =
-                (360 * 6) + targetOffset;
+      ctx.rotate(angle+arc/2);
 
-            canvas.style.transform =
-                `rotate(${finalRotation}deg)`;
+      ctx.fillStyle='#fff';
 
-            setTimeout(() => {
+      ctx.font='bold 22px Tajawal';
 
-                isSpinning = false;
+      ctx.textAlign='right';
 
-                const wonPrize =
-                    prizesList[luckyIndex];
+      ctx.fillText(prizeNames[i],center-45,10);
 
-                const displayArea =
-                    document.getElementById('resultOutput');
+      ctx.restore();
 
-                const next24Hours =
-                    Date.now() + (24 * 60 * 60 * 1000);
+    }
 
-                localStorage.setItem(
-                    'hallCareSpinTime',
-                    next24Hours
-                );
+    ctx.beginPath();
 
-                sendDataToGoogleSheets(wonPrize);
+    ctx.arc(center,center,25,0,2*Math.PI);
 
-                if (wonPrize === 'حظ أوفر') {
+    ctx.fillStyle='#f3d1a7';
 
-                    displayArea.innerHTML =
-                        `
-                        حظ أوفر يا
-                        <strong>${userData.name}</strong>
-                        🤍
-                        `;
+    ctx.fill();
 
-                } else {
+  }
 
-                    displayArea.innerHTML =
-                        `
-                        تهانينا يا
-                        <strong>${userData.name}</strong>
-                        🎉
-                        <br><br>
-                        لقد ربحت:
-                        <br>
-                        <span style="font-size:20px;color:#8c6239;">
-                            ${wonPrize}
-                        </span>
-                        `;
+  /* RANDOM PRIZE */
 
-                    confetti({
+  function getPrizeIndex(){
 
-                        particleCount: 200,
-                        spread: 100,
-                        origin: { y: 0.6 }
+    let random=Math.random()*100;
 
-                    });
-                }
+    let total=0;
 
-                disableSpinButton();
+    for(let i=0;i<prizes.length;i++){
 
-                showRemainingTime();
+      total+=prizes[i].weight;
 
-            }, 5000);
-        }
+      if(random<=total){
 
-        /* ===================== */
-        /* DISABLE BUTTON */
-        /* ===================== */
+        return i;
+      }
 
-        function disableSpinButton() {
+    }
 
-            const btn =
-                document.getElementById('spinActionBtn');
+    return prizes.length-1;
 
-            btn.disabled = true;
+  }
 
-            btn.innerText = "تم اللعب اليوم";
-        }
+  /* SPIN */
 
-        /* ===================== */
-        /* COUNTDOWN */
-        /* ===================== */
+  function spinWheel(){
 
-        function showRemainingTime() {
+    if(spinning)return;
 
-            const countdownBox =
-                document.getElementById('countdownBox');
+    if(localStorage.getItem('hallcareCooldown')){
 
-            const savedTime =
-                localStorage.getItem('hallCareSpinTime');
+      updateCountdown();
 
-            if (!savedTime) return;
+      return;
 
-            const interval = setInterval(() => {
+    }
 
-                const now = Date.now();
+    spinning=true;
 
-                const distance =
-                    savedTime - now;
+    const sound=document.getElementById('spinSound');
 
-                if (distance <= 0) {
+    sound.currentTime=0;
 
-                    clearInterval(interval);
+    sound.play();
 
-                    localStorage.removeItem('hallCareSpinTime');
+    const canvas=document.getElementById('wheelCanvas');
 
-                    countdownBox.innerHTML =
-                        "يمكنك اللعب الآن 🎉";
+    const result=document.getElementById('result');
 
-                    document.getElementById('spinActionBtn')
-                        .disabled = false;
+    const slices=prizeNames.length;
 
-                    return;
-                }
+    const degPerSlice=360/slices;
 
-                const hours =
-                    Math.floor(distance / (1000 * 60 * 60));
+    const index=getPrizeIndex();
 
-                const minutes =
-                    Math.floor(
-                        (distance % (1000 * 60 * 60))
-                        / (1000 * 60)
-                    );
+    const target=270-(index*degPerSlice)-(degPerSlice/2);
 
-                const seconds =
-                    Math.floor(
-                        (distance % (1000 * 60))
-                        / 1000
-                    );
+    const finalRotation=(360*7)+target;
 
-                countdownBox.innerHTML =
-                    `
-                    يمكنك اللعب بعد:
-                    <br>
-                    ${hours} ساعة
-                    ${minutes} دقيقة
-                    ${seconds} ثانية
-                    `;
-            }, 1000);
-        }
+    canvas.style.transform=`rotate(${finalRotation}deg)`;
 
-        /* ===================== */
-        /* CHECK COOLDOWN */
-        /* ===================== */
+    setTimeout(()=>{
 
-        function checkCooldown() {
+      spinning=false;
 
-            if (localStorage.getItem('hallCareSpinTime')) {
+      const prize=prizeNames[index];
 
-                disableSpinButton();
+      if(prize==='حظ أوفر'){
 
-                showRemainingTime();
-            }
-        }
+        result.innerHTML=`
+        حظ أوفر يا <strong>${userData.name}</strong> 🤍
+        `;
 
-        /* ===================== */
-        /* GOOGLE SHEETS */
-        /* ===================== */
+      }else{
 
-        function sendDataToGoogleSheets(prize) {
+        result.innerHTML=`
+        مبروك يا <strong>${userData.name}</strong> 🎉
+        <br>
+        لقد ربحت:
+        <br><br>
+        <span style="font-size:24px;color:#f3d1a7;font-weight:800;">
+        ${prize}
+        </span>
+        `;
 
-            const scriptURL =
-                "PUT_YOUR_GOOGLE_SCRIPT_URL_HERE";
+        confetti({
+          particleCount:250,
+          spread:100,
+          origin:{y:.6}
+        });
 
-            fetch(scriptURL, {
+      }
 
-                method: 'POST',
+      saveCooldown();
 
-                mode: 'no-cors',
+      disableSpin();
 
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+      updateCountdown();
 
-                body: JSON.stringify({
+      sendToGoogleSheets(prize);
 
-                    name: userData.name,
+    },5000);
 
-                    phone: userData.phone,
+  }
 
-                    prize: prize,
+  /* COOLDOWN */
 
-                    date: new Date().toLocaleString()
+  function saveCooldown(){
 
-                })
+    const next=Date.now()+(24*60*60*1000);
 
-            });
-        }
+    localStorage.setItem('hallcareCooldown',next);
 
-    </script>
+  }
+
+  function disableSpin(){
+
+    const btn=document.getElementById('spinBtn');
+
+    btn.disabled=true;
+
+    btn.innerText='تم اللعب اليوم';
+
+  }
+
+  function checkCooldown(){
+
+    if(localStorage.getItem('hallcareCooldown')){
+
+      disableSpin();
+
+      updateCountdown();
+
+    }
+
+  }
+
+  function updateCountdown(){
+
+    const box=document.getElementById('countdown');
+
+    const saved=localStorage.getItem('hallcareCooldown');
+
+    if(!saved)return;
+
+    const timer=setInterval(()=>{
+
+      const distance=saved-Date.now();
+
+      if(distance<=0){
+
+        clearInterval(timer);
+
+        localStorage.removeItem('hallcareCooldown');
+
+        document.getElementById('spinBtn').disabled=false;
+
+        document.getElementById('spinBtn').innerText='أدر العجلة';
+
+        box.innerHTML='يمكنك اللعب الآن 🎉';
+
+        return;
+
+      }
+
+      const h=Math.floor(distance/(1000*60*60));
+
+      const m=Math.floor((distance%(1000*60*60))/(1000*60));
+
+      const s=Math.floor((distance%(1000*60))/1000);
+
+      box.innerHTML=`
+      يمكنك اللعب بعد:
+      <br>
+      ${h} ساعة ${m} دقيقة ${s} ثانية
+      `;
+
+    },1000);
+
+  }
+
+  /* GOOGLE SHEETS */
+
+  function sendToGoogleSheets(prize){
+
+    const scriptURL='PUT_YOUR_GOOGLE_SCRIPT_URL_HERE';
+
+    fetch(scriptURL,{
+
+      method:'POST',
+
+      mode:'no-cors',
+
+      headers:{
+        'Content-Type':'application/json'
+      },
+
+      body:JSON.stringify({
+
+        name:userData.name,
+
+        phone:userData.phone,
+
+        prize:prize,
+
+        date:new Date().toLocaleString()
+
+      })
+
+    });
+
+  }
+
+</script>
 
 </body>
-
 </html>
