@@ -4,61 +4,481 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عجلة الحظ - صالة العناية | Hall Care</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@500;800&family=Playfair+Display:ital,wght=1,600&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-color: #f7e6d4; --primary-color: #8c6239; --accent-color: #b07d53; }
-        body { background-color: var(--bg-color); font-family: 'Tajawal', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { text-align: center; max-width: 480px; width: 90%; }
-        
-        /* حل اللوجو النهائي: تخلصنا من المربع الأبيض تماماً */
-        .logo { 
-            max-width: 180px; 
-            margin-bottom: 20px;
-            mix-blend-mode: multiply; 
-            filter: brightness(0.9) contrast(1.1);
+        :root {
+            --bg-color: #f5e4d3;      
+            --primary-color: #8c6239; 
+            --accent-color: #b07d53;  
+            --input-bg: #fffbf7;      
+            --insta-color: #d62976;   
         }
-        
-        .screen { display: none; }
-        .active-screen { display: block; }
-        
-        input { width: 80%; padding: 15px; margin: 10px 0; border-radius: 15px; border: 1px solid #dcdcdc; text-align: center; }
-        button { background: var(--accent-color); color: white; border: none; padding: 15px 40px; border-radius: 30px; cursor: pointer; font-size: 16px; margin-top: 20px; }
-        a { text-decoration: none; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .floating-icons-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 28px;
+            opacity: 0.18;
+            filter: drop-shadow(0 2px 5px rgba(140, 98, 57, 0.15));
+            animation: floatAnimation 12s linear infinite;
+            bottom: -50px;
+        }
+
+        @keyframes floatAnimation {
+            0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
+            15% { opacity: 0.25; }
+            85% { opacity: 0.25; }
+            100% { transform: translateY(-115vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+
+        .container {
+            text-align: center;
+            max-width: 480px;
+            width: 90%;
+            padding: 30px 25px;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.15); 
+            border-radius: 24px;
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 20px 45px rgba(140, 98, 57, 0.06);
+            z-index: 5;
+            position: relative;
+        }
+
+        /* تنسيق اللوجو مباشرة بعد حذف الحاوية البيضاء ليصبح مدمجاً بانسجام */
+        .logo {
+            width: 100%;
+            max-width: 160px;
+            height: auto;
+            margin: 0 auto 20px auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .spin-win-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-style: italic;
+            color: var(--accent-color);
+            display: block;
+            margin-top: 6px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            text-align: right;
+            width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 16px;
+            border: 1.5px solid rgba(140, 98, 57, 0.18);
+            border-radius: 16px; 
+            background-color: var(--input-bg);
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+            text-align: center;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: bold;
+            color: var(--primary-color);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+
+        .form-group input:hover,
+        .form-group input:focus {
+            border-color: var(--accent-color);
+            background-color: #ffffff;
+            transform: scale(1.02); 
+            box-shadow: 0 5px 15px rgba(140, 98, 57, 0.05);
+        }
+
+        .form-group input::placeholder {
+            color: #bfa38a;
+        }
+
+        .btn-main {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 15px 45px;
+            font-size: 17px;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(176,125,83,0.2);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: bold;
+            width: 85%;
+            font-family: 'Tajawal', sans-serif;
+            display: inline-block;
+            text-decoration: none;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-main::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 30%;
+            height: 200%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            transform: rotate(25deg);
+            animation: shineEffect 4s ease-in-out infinite;
+        }
+
+        @keyframes shineEffect {
+            0% { left: -60%; }
+            15% { left: 130%; }
+            100% { left: 130%; }
+        }
+
+        .btn-main:hover {
+            transform: scale(1.03); 
+            box-shadow: 0 6px 20px rgba(176,125,83,0.35);
+        }
+
+        .btn-main:disabled {
+            background-color: #b3b3b3 !important;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .btn-main:disabled::after {
+            display: none;
+        }
+
+        .btn-insta {
+            background-color: var(--insta-color);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            width: 85%;
+            box-sizing: border-box;
+            box-shadow: 0 4px 12px rgba(214, 41, 118, 0.2);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Tajawal', sans-serif;
+            animation: pulseAttention 2s infinite;
+        }
+
+        @keyframes pulseAttention {
+            0% { transform: scale(1); box-shadow: 0 4px 12px rgba(214, 41, 118, 0.2); }
+            50% { transform: scale(1.03); box-shadow: 0 6px 20px rgba(214, 41, 118, 0.45); }
+            100% { transform: scale(1); box-shadow: 0 4px 12px rgba(214, 41, 118, 0.2); }
+        }
+
+        .btn-insta:hover {
+            animation-play-state: paused;
+            transform: scale(1.04);
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .active-screen {
+            display: block;
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .wheel-outer-wrapper {
+            position: relative;
+            margin: 20px auto 30px auto;
+            width: 300px;
+            height: 300px;
+        }
+
+        .wheel-outer-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 16px solid transparent;
+            border-right: 16px solid transparent;
+            border-top: 26px solid var(--primary-color);
+            z-index: 10;
+        }
+
+        .wheel-canvas-container {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--primary-color);
+            box-shadow: 0 8px 25px rgba(140, 98, 57, 0.15);
+        }
+
+        #wheelCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            border-radius: 50%;
+            transform: rotate(0deg);
+            transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
+            will-change: transform;
+        }
+
+        .result-message {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 15px auto;
+            line-height: 1.6;
+            max-width: 85%;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="screen1" class="screen active-screen">
-        <img src="WhatsApp Image 2026-03-05 at 12.12.45 PM.jpeg" class="logo">
-        <h1>صالة العناية | Hall Care</h1>
-        <input type="text" id="name" placeholder="الاسم الكريم">
-        <br>
-        <input type="tel" id="phone" placeholder="رقم الجوال">
-        <br>
-        <button onclick="showScreen(2)">التالي</button>
+    <div class="floating-icons-container">
+        <div class="floating-icon" style="left: 5%; animation-delay: 0s; animation-duration: 11s;">🧴</div>
+        <div class="floating-icon" style="left: 15%; animation-delay: 3s; animation-duration: 14s;">✨</div>
+        <div class="floating-icon" style="left: 28%; animation-delay: 1s; animation-duration: 12s;">💄</div>
+        <div class="floating-icon" style="left: 45%; animation-delay: 5s; animation-duration: 15s;">🪞</div>
+        <div class="floating-icon" style="left: 65%; animation-delay: 2s; animation-duration: 13s;">✨</div>
+        <div class="floating-icon" style="left: 78%; animation-delay: 7s; animation-duration: 11s;">🧴</div>
+        <div class="floating-icon" style="left: 92%; animation-delay: 4s; animation-duration: 16s;">💄</div>
     </div>
 
-    <div id="screen2" class="screen">
-        <h1>تابعنا على إنستغرام</h1>
-        <a href="https://linktr.ee/HALLCARE" target="_blank" onclick="document.getElementById('btnStart').disabled=false">
-            <button>افتح الرابط وتابعنا</button>
-        </a>
-        <br>
-        <button id="btnStart" onclick="showScreen(3)" disabled>إبدأ اللعب</button>
+    <div class="container">
+        <img id="projectLogo" src="Hallcare.png" alt="صالة العناية | Hall Care" class="logo" onerror="this.src='logo.png'; this.onerror=null;">
+
+        <div id="screen1" class="screen active-screen">
+            <h1>مرحباً بك في سحب صالة العناية <span class="spin-win-text">Spin & Win</span></h1>
+            
+            <div class="form-group">
+                <input type="text" id="userName" placeholder="الاسم الكريم">
+            </div>
+            <div class="form-group">
+                <input type="tel" id="userPhone" placeholder="رقم الجوال (05xxxxxxxx)">
+            </div>
+
+            <button class="btn-main" onclick="navigateToScreen2()">التالي</button>
+        </div>
+
+        <div id="screen2" class="screen">
+            <h1>تابعنا على حساباتنا<br>لتفعيل العجلة وبدء اللعب</h1>
+            
+            <a href="https://linktr.ee/HALLCARE?gad_source=1" target="_blank" class="btn-insta" onclick="unlockWheelButton()">
+                <span>🔗</span> افتح الرابط وتابعنا من هنا
+            </a>
+            
+            <button id="startPlayBtn" class="btn-main" disabled onclick="navigateToScreen3()">إبدأ اللعب الآن</button>
+        </div>
+
+        <div id="screen3" class="screen">
+            <h1>أدر العجلة وحظاً موفقاً!</h1>
+            
+            <div class="wheel-outer-wrapper">
+                <div class="wheel-canvas-container">
+                    <canvas id="wheelCanvas" width="400" height="400"></canvas>
+                </div>
+            </div>
+
+            <div id="resultOutput" class="result-message"></div>
+            <button id="spinActionBtn" class="btn-main" onclick="startSpinAction()">أدر العجلة الآن</button>
+        </div>
     </div>
 
-    <div id="screen3" class="screen">
-        <h1>حظاً موفقاً!</h1>
-        <p>استمتع بتجربة العجلة</p>
-    </div>
-</div>
+    <script>
+        let userData = {};
+        let isSpinning = false;
 
-<script>
-    function showScreen(n) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
-        document.getElementById('screen' + n).classList.add('active-screen');
-    }
-</script>
-</body>
-</html>
+        const weightedPrizes = [
+            { text: 'خصم ٢٠٪', weight: 5 },
+            { text: 'تقسيمة ١٠ مللي', weight: 3 },
+            { text: 'خصم ٥٪', weight: 25 },
+            { text: 'دهن مسك مجاني', weight: 2 },
+            { text: 'خصم ١٠٪', weight: 15 },
+            { text: 'حظ أوفر', weight: 35 },
+            { text: 'خصم ١٥٪', weight: 10 },
+            { text: 'تقسيمة ٦ مللي', weight: 5 }
+        ];
+
+        const prizesList = weightedPrizes.map(p => p.text);
+
+        function navigateToScreen2() {
+            const nameInput = document.getElementById('userName');
+            const phoneInput = document.getElementById('userPhone');
+            
+            if (!nameInput || !phoneInput) return;
+
+            const name = nameInput.value.trim();
+            const phone = phoneInput.value.trim();
+
+            if (name === "" || phone === "") {
+                alert('الرجاء تعبئة الاسم ورقم الجوال للمتابعة.');
+                return;
+            }
+
+            userData = { name: name, phone: phone };
+            
+            document.getElementById('screen1').classList.remove('active-screen');
+            document.getElementById('screen2').classList.add('active-screen');
+        }
+
+        function unlockWheelButton() {
+            const btn = document.getElementById('startPlayBtn');
+            if(btn) btn.disabled = false;
+        }
+
+        function navigateToScreen3() {
+            document.getElementById('screen2').classList.remove('active-screen');
+            document.getElementById('screen3').classList.add('active-screen');
+            drawWheelStructure();
+        }
+
+        function drawWheelStructure() {
+            const canvas = document.getElementById('wheelCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const sectionsCount = prizesList.length;
+            const arcSize = (2 * Math.PI) / sectionsCount;
+            const center = canvas.width / 2;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < sectionsCount; i++) {
+                const angle = i * arcSize;
+                ctx.fillStyle = (i % 2 === 0) ? '#b07d53' : '#d9b48f';
+                
+                ctx.beginPath();
+                ctx.moveTo(center, center);
+                ctx.arc(center, center, center - 5, angle, angle + arcSize);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.strokeStyle = '#8c6239';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.save();
+                ctx.translate(center, center);
+                ctx.rotate(angle + arcSize / 2);
+                ctx.textAlign = "right";
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = (i % 2 === 0) ? '#fffaf5' : '#8c6239';
+                ctx.font = "bold 15px 'Tajawal', Arial";
+                ctx.fillText(prizesList[i], center - 30, 0);
+                ctx.restore();
+            }
+
+            ctx.beginPath();
+            ctx.arc(center, center, 15, 0, 2 * Math.PI);
+            ctx.fillStyle = '#f5e4d3';
+            ctx.strokeStyle = '#8c6239';
+            ctx.lineWidth = 3;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function getRandomPrizeIndex() {
+            let num = Math.random() * 100;
+            let currentSum = 0;
+            for (let i = 0; i < weightedPrizes.length; i++) {
+                currentSum += weightedPrizes[i].weight;
+                if (num <= currentSum) return i;
+            }
+            return 5;
+        }
+
+        function startSpinAction() {
+            if (isSpinning) return;
+
+            if (localStorage.getItem('hallCareSpunToday')) {
+                document.getElementById('resultOutput').innerHTML = "عذراً! لقد شاركت في السحب اليوم بالفعل.<br>عد إلينا غداً لفرصة جديدة ⏳";
+                disableSpinButton();
+                return;
+            }
+
+            isSpinning = true;
+            const canvas = document.getElementById('wheelCanvas');
+            const totalSlices = prizesList.length;
+            const degreesPerSlice = 360 / totalSlices;
+            const luckyIndex = getRandomPrizeIndex();
+            
+            const targetOffset = 270 - (luckyIndex * degreesPerSlice) - (degreesPerSlice / 2);
+            const finalRotation = (360 * 6) + targetOffset;
+
+            canvas.style.transform = rotate(${finalRotation}deg);
+
+            setTimeout(() => {
+                isSpinning = false;
+                const wonPrize = prizesList[luckyIndex];
+                const displayArea = document.getElementById('resultOutput');
+
+                if (wonPrize === 'حظ أوفر') {
+                    displayArea.innerHTML = حظ أوفر المرة القادمة يا <strong>${userData.name}</strong>! 🤍<br>نسعد جداً بزيارتك وتجربتك القادمة.;
+                } else {
+                    displayArea.innerHTML = تهانينا يا <strong>${userData.name}</strong>! 🎉<br>لقد ربحت معنا: <span style="color:var(--primary-color); font-size:18px;">${wonPrize}</span><br>كود الجائزة الفوري: <strong>CARE2026</strong>;
+                }
+
+                localStorage.setItem('hallCareSpunToday', 'true');
+                disableSpinButton();
+            }, 5000);
+        }
+
+        function disableSpinButton() {
+            const btn = document.getElementById('spinActionBtn');
+            if (!btn) return;
+            btn.innerText = "عد إلينا غداً";
+            btn.disabled = true;
+            btn.style.backgroundColor = "#b3b3b3";
+            btn.style.boxShadow
