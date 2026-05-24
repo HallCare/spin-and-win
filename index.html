@@ -3,41 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عجلة الحظ - صالة العناية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <title>عجلة الحظ - صالة العناية | Hall Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@500;800&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-color: #f5e4d3; --primary-color: #8c6239; --btn-color: #b07d53; }
-        body { margin: 0; font-family: 'Tajawal', sans-serif; background-color: var(--bg-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        :root {
+            --bg-color: #f5e4d3;      
+            --primary-color: #8c6239; 
+            --accent-color: #b07d53;  
+            --input-bg: #fffbf7;      
+            --insta-color: #d62976;   
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 480px;
+            width: 90%;
+            padding: 30px 25px;
+            background: rgba(255, 255, 255, 0.15); 
+            border-radius: 24px;
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 20px 45px rgba(140, 98, 57, 0.06);
+            z-index: 5;
+        }
+
+        .logo { width: 100%; max-width: 160px; margin: 0 auto 20px auto; display: block; }
+        h1 { color: var(--primary-color); font-size: 20px; font-weight: 800; margin-bottom: 25px; line-height: 1.6; }
+        .spin-win-text { font-family: 'Playfair Display', serif; font-size: 24px; font-style: italic; color: var(--accent-color); display: block; }
         
-        .container { text-align: center; max-width: 400px; width: 90%; padding: 40px 25px; background: rgba(255, 255, 255, 0.5); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .logo { width: 120px; margin-bottom: 20px; }
-        h1 { color: var(--primary-color); font-size: 18px; margin-bottom: 20px; }
-        
-        input { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: none; box-sizing: border-box; text-align: center; font-family: inherit; }
-        .btn-main { background-color: var(--btn-color); color: white; border: none; padding: 15px; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold; font-family: inherit; }
-        .btn-main:disabled { background-color: #a0a0a0; }
+        .form-group { margin-bottom: 16px; width: 85%; margin-left: auto; margin-right: auto; }
+        .form-group input { width: 100%; padding: 15px 16px; border: 1.5px solid rgba(140, 98, 57, 0.18); border-radius: 16px; background-color: var(--input-bg); text-align: center; font-weight: bold; color: var(--primary-color); box-sizing: border-box; outline: none; }
+
+        .btn-main { background-color: var(--accent-color); color: white; border: none; padding: 15px 45px; font-size: 17px; border-radius: 30px; cursor: pointer; font-weight: bold; width: 85%; margin-top: 10px; font-family: 'Tajawal', sans-serif; }
+        .btn-insta { background-color: var(--insta-color); color: white; border: none; padding: 14px 35px; font-size: 16px; border-radius: 30px; margin-bottom: 15px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-weight: bold; text-decoration: none; width: 85%; box-sizing: border-box; }
 
         .screen { display: none; }
         .active-screen { display: block; }
-        
-        .wheel-canvas-container { width: 280px; height: 280px; margin: 20px auto; border-radius: 50%; border: 6px solid var(--primary-color); overflow: hidden; }
+
+        .wheel-canvas-container { width: 300px; height: 300px; margin: 20px auto; border-radius: 50%; overflow: hidden; border: 5px solid var(--primary-color); }
         #wheelCanvas { width: 100%; height: 100%; transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1); }
+        .result-message { font-size: 16px; font-weight: bold; color: var(--primary-color); margin: 15px auto; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <img src="Hallcare.png" alt="Logo" class="logo">
+        <img src="Hallcare.png" alt="صالة العناية" class="logo">
 
         <div id="screen1" class="screen active-screen">
-            <h1>مرحباً بك في سحب صالة العناية</h1>
-            <input type="text" id="userName" placeholder="الاسم الكريم">
-            <input type="tel" id="userPhone" placeholder="رقم الجوال">
+            <h1>مرحباً بك في سحب صالة العناية <span class="spin-win-text">Spin & Win</span></h1>
+            <div class="form-group"><input type="text" id="userName" placeholder="الاسم الكريم"></div>
+            <div class="form-group"><input type="tel" id="userPhone" placeholder="رقم الجوال"></div>
             <button class="btn-main" onclick="navigateToScreen2()">التالي</button>
         </div>
 
         <div id="screen2" class="screen">
-            <h1>تابعنا على حساباتنا للمزيد</h1>
+            <h1>تابعنا على حساباتنا للمزيد من العروض</h1>
+            <a href="https://linktr.ee/HALLCARE?gad_source=1" target="_blank" class="btn-insta">
+                <span>🔗</span> افتح الرابط وتابعنا من هنا
+            </a>
             <button class="btn-main" onclick="navigateToScreen3()">إبدأ اللعب الآن</button>
         </div>
 
@@ -46,18 +82,19 @@
             <div class="wheel-canvas-container">
                 <canvas id="wheelCanvas" width="400" height="400"></canvas>
             </div>
-            <div id="resultOutput" style="font-weight:bold; color:var(--primary-color); margin-bottom:10px;"></div>
+            <div id="resultOutput" class="result-message"></div>
             <button id="spinActionBtn" class="btn-main" onclick="startSpinAction()">أدر العجلة الآن</button>
         </div>
     </div>
 
     <script>
-        const prizesList = ['٢٠٪', '١٠ مللي', '٥٪', 'مسك', '١٠٪', 'حظ أوفر', '١٥٪', '٦ مللي'];
-        let userName = "";
+        let userData = {};
+        const prizesList = ['خصم ٢٠٪', 'تقسيمة ١٠ مللي', 'خصم ٥٪', 'دهن مسك مجاني', 'خصم ١٠٪', 'حظ أوفر', 'خصم ١٥٪', 'تقسيمة ٦ مللي'];
 
         function navigateToScreen2() {
-            userName = document.getElementById('userName').value;
-            if(!userName) return alert("الرجاء إدخال الاسم");
+            const name = document.getElementById('userName').value.trim();
+            if (name === "") { alert('الرجاء إدخال الاسم'); return; }
+            userData.name = name;
             document.getElementById('screen1').classList.remove('active-screen');
             document.getElementById('screen2').classList.add('active-screen');
         }
@@ -66,44 +103,32 @@
             document.getElementById('screen2').classList.remove('active-screen');
             document.getElementById('screen3').classList.add('active-screen');
             drawWheel();
-            if (localStorage.getItem('lastSpinDate') === new Date().toDateString()) startTimer();
         }
 
         function drawWheel() {
-            const ctx = document.getElementById('wheelCanvas').getContext('2d');
-            const slice = (2 * Math.PI) / prizesList.length;
-            prizesList.forEach((p, i) => {
-                ctx.beginPath(); ctx.moveTo(200, 200);
-                ctx.arc(200, 200, 200, i * slice, (i + 1) * slice);
+            const canvas = document.getElementById('wheelCanvas');
+            const ctx = canvas.getContext('2d');
+            const center = 200;
+            ctx.clearRect(0, 0, 400, 400);
+            prizesList.forEach((prize, i) => {
+                const angle = i * (2 * Math.PI / prizesList.length);
                 ctx.fillStyle = (i % 2 === 0) ? '#b07d53' : '#d9b48f';
+                ctx.beginPath(); ctx.moveTo(center, center);
+                ctx.arc(center, center, 195, angle, angle + (2 * Math.PI / prizesList.length));
                 ctx.fill();
-                ctx.save(); ctx.translate(200, 200); ctx.rotate(i * slice + slice / 2);
-                ctx.fillStyle = "#fff"; ctx.font = "bold 20px Tajawal";
-                ctx.fillText(p, 100, 10); ctx.restore();
             });
         }
 
         function startSpinAction() {
             const canvas = document.getElementById('wheelCanvas');
-            const btn = document.getElementById('spinActionBtn');
             const luckyIndex = Math.floor(Math.random() * prizesList.length);
-            canvas.style.transform = `rotate(${360 * 5 + (luckyIndex * 45)}deg)`;
-            btn.disabled = true;
+            const rotation = (360 * 5) + (luckyIndex * (360 / prizesList.length));
+            canvas.style.transform = `rotate(${rotation}deg)`;
+            
+            document.getElementById('spinActionBtn').disabled = true;
             setTimeout(() => {
-                document.getElementById('resultOutput').innerHTML = `مبروك ${userName}! ربحت: ${prizesList[luckyIndex]}`;
-                localStorage.setItem('lastSpinDate', new Date().toDateString());
-                startTimer();
+                document.getElementById('resultOutput').innerHTML = `تهانينا ${userData.name}!<br>لقد ربحت: <strong>${prizesList[luckyIndex]}</strong>`;
             }, 5000);
-        }
-
-        function startTimer() {
-            const btn = document.getElementById('spinActionBtn');
-            btn.disabled = true;
-            const update = () => {
-                const diff = new Date(new Date().setHours(24,0,0,0)) - new Date();
-                btn.innerText = `عد غداً: ${Math.floor(diff/3600000)}:${Math.floor((diff%3600000)/60000)}:${Math.floor((diff%60000)/1000)}`;
-            };
-            setInterval(update, 1000); update();
         }
     </script>
 </body>
