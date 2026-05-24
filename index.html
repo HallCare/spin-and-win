@@ -23,10 +23,11 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
             position: relative;
         }
 
+        /* حاوية عناصر العناية والبشرة العائمة في الخلفية */
         .floating-icons-container {
             position: absolute;
             top: 0;
@@ -40,16 +41,28 @@
 
         .floating-icon {
             position: absolute;
-            font-size: 24px;
-            opacity: 0.15;
-            animation: floatAnimation 14s linear infinite;
+            font-size: 28px;
+            opacity: 0.18;
+            filter: drop-shadow(0 2px 5px rgba(140, 98, 57, 0.15));
+            animation: floatAnimation 12s linear infinite;
+            bottom: -50px;
         }
 
         @keyframes floatAnimation {
-            0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
-            10% { opacity: 0.2; }
-            90% { opacity: 0.2; }
-            100% { transform: translateY(-10vh) rotate(360deg) scale(1.1); opacity: 0; }
+            0% { 
+                transform: translateY(0) rotate(0deg) scale(0.8); 
+                opacity: 0; 
+            }
+            15% { 
+                opacity: 0.25; 
+            }
+            85% { 
+                opacity: 0.25; 
+            }
+            100% { 
+                transform: translateY(-115vh) rotate(360deg) scale(1.2); 
+                opacity: 0; 
+            }
         }
 
         .container {
@@ -58,15 +71,16 @@
             width: 90%;
             padding: 40px 25px;
             box-sizing: border-box;
-            background: rgba(255, 255, 255, 0.12); 
+            background: rgba(255, 255, 255, 0.15); 
             border-radius: 24px;
-            backdrop-filter: blur(10px); 
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 15px 35px rgba(140, 98, 57, 0.04);
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 20px 45px rgba(140, 98, 57, 0.06);
             z-index: 5;
+            position: relative;
         }
 
-        /* تعديل الشعار لمنع الاقتصاص الدائري المزعج والحفاظ على أبعاد الهوية البصرية للصالون */
         .logo-box {
             width: 180px; 
             height: auto;
@@ -114,7 +128,7 @@
         .form-group input {
             width: 100%;
             padding: 15px 16px;
-            border: 1.5px solid rgba(140, 98, 57, 0.15);
+            border: 1.5px solid rgba(140, 98, 57, 0.18);
             border-radius: 16px; 
             background-color: var(--input-bg);
             font-size: 15px;
@@ -131,7 +145,7 @@
         .form-group input:focus {
             border-color: var(--accent-color);
             background-color: #ffffff;
-            transform: scale(1.025); 
+            transform: scale(1.02); 
             box-shadow: 0 5px 15px rgba(140, 98, 57, 0.05);
         }
 
@@ -139,6 +153,7 @@
             color: #bfa38a;
         }
 
+        /* أزرار مضافة إليها تأثير اللمعان الاحترافي */
         .btn-main {
             background-color: var(--accent-color);
             color: white;
@@ -155,6 +170,26 @@
             display: inline-block;
             text-decoration: none;
             margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-main::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 30%;
+            height: 200%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            transform: rotate(25deg);
+            animation: shineEffect 4s ease-in-out infinite;
+        }
+
+        @keyframes shineEffect {
+            0% { left: -60%; }
+            15% { left: 130%; }
+            100% { left: 130%; }
         }
 
         .btn-main:hover {
@@ -169,6 +204,11 @@
             box-shadow: none !important;
         }
 
+        .btn-main:disabled::after {
+            display: none;
+        }
+
+        /* زر لينك تري المضاف إليه أنيميشن النبض المتناسق لجذب النقرات */
         .btn-insta {
             background-color: var(--insta-color);
             color: white;
@@ -189,11 +229,18 @@
             box-shadow: 0 4px 12px rgba(214, 41, 118, 0.2);
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             font-family: 'Tajawal', sans-serif;
+            animation: pulseAttention 2s infinite;
+        }
+
+        @keyframes pulseAttention {
+            0% { transform: scale(1); box-shadow: 0 4px 12px rgba(214, 41, 118, 0.2); }
+            50% { transform: scale(1.03); box-shadow: 0 6px 20px rgba(214, 41, 118, 0.45); }
+            100% { transform: scale(1); box-shadow: 0 4px 12px rgba(214, 41, 118, 0.2); }
         }
 
         .btn-insta:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 18px rgba(214, 41, 118, 0.35);
+            animation-play-state: paused;
+            transform: scale(1.04);
         }
 
         .screen {
@@ -263,10 +310,13 @@
 <body>
 
     <div class="floating-icons-container">
-        <div class="floating-icon" style="left: 8%; top: 20%; animation-delay: 0s;">✨</div>
-        <div class="floating-icon" style="left: 25%; top: 45%; animation-delay: 3s;">🌸</div>
-        <div class="floating-icon" style="left: 75%; top: 15%; animation-delay: 1s;">✨</div>
-        <div class="floating-icon" style="left: 88%; top: 60%; animation-delay: 5s;">💄</div>
+        <div class="floating-icon" style="left: 5%; animation-delay: 0s; animation-duration: 11s;">🧴</div>
+        <div class="floating-icon" style="left: 15%; animation-delay: 3s; animation-duration: 14s;">✨</div>
+        <div class="floating-icon" style="left: 28%; animation-delay: 1s; animation-duration: 12s;">💄</div>
+        <div class="floating-icon" style="left: 45%; animation-delay: 5s; animation-duration: 15s;">🪞</div>
+        <div class="floating-icon" style="left: 65%; animation-delay: 2s; animation-duration: 13s;">✨</div>
+        <div class="floating-icon" style="left: 78%; animation-delay: 7s; animation-duration: 11s;">🧴</div>
+        <div class="floating-icon" style="left: 92%; animation-delay: 4s; animation-duration: 16s;">💄</div>
     </div>
 
     <div class="container">
@@ -307,154 +357,4 @@
             </div>
 
             <div id="resultOutput" class="result-message"></div>
-            <button id="spinActionBtn" class="btn-main" onclick="startSpinAction()">أدر العجلة الآن</button>
-        </div>
-    </div>
-
-    <script>
-        let userData = {};
-        let isSpinning = false;
-
-        const weightedPrizes = [
-            { text: 'خصم ٢٠٪', weight: 5 },
-            { text: 'تقسيمة ١٠ مللي', weight: 3 },
-            { text: 'خصم ٥٪', weight: 25 },
-            { text: 'دهن مسك مجاني', weight: 2 },
-            { text: 'خصم ١٠٪', weight: 15 },
-            { text: 'حظ أوفر', weight: 35 },
-            { text: 'خصم ١٥٪', weight: 10 },
-            { text: 'تقسيمة ٦ مللي', weight: 5 }
-        ];
-
-        const prizesList = weightedPrizes.map(p => p.text);
-
-        function navigateToScreen2() {
-            const name = document.getElementById('userName').value.trim();
-            const phone = document.getElementById('userPhone').value.trim();
-            const phoneRegex = /^(05)\d{8}$/;
-
-            if (name.length < 3) {
-                alert('الرجاء إدخال الاسم الكريم الثلاثي.');
-                return;
-            }
-            if (!phoneRegex.test(phone)) {
-                alert('الرجاء إدخال رقم جوال صحيح مكون من 10 أرقام ويبدأ بـ 05.');
-                return;
-            }
-
-            userData = { name: name, phone: phone };
-            
-            document.getElementById('screen1').classList.remove('active-screen');
-            document.getElementById('screen2').classList.add('active-screen');
-        }
-
-        function unlockWheelButton() {
-            document.getElementById('startPlayBtn').disabled = false;
-        }
-
-        function navigateToScreen3() {
-            document.getElementById('screen2').classList.remove('active-screen');
-            document.getElementById('screen3').classList.add('active-screen');
-            drawWheelStructure();
-        }
-
-        function drawWheelStructure() {
-            const canvas = document.getElementById('wheelCanvas');
-            const ctx = canvas.getContext('2d');
-            const sectionsCount = prizesList.length;
-            const arcSize = (2 * Math.PI) / sectionsCount;
-            const center = canvas.width / 2;
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            for (let i = 0; i < sectionsCount; i++) {
-                const angle = i * arcSize;
-                ctx.fillStyle = (i % 2 === 0) ? '#b07d53' : '#d9b48f';
-                
-                ctx.beginPath();
-                ctx.moveTo(center, center);
-                ctx.arc(center, center, center - 5, angle, angle + arcSize);
-                ctx.closePath();
-                ctx.fill();
-
-                ctx.strokeStyle = '#8c6239';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                ctx.save();
-                ctx.translate(center, center);
-                ctx.rotate(angle + arcSize / 2);
-                ctx.textAlign = "right";
-                ctx.textBaseline = "middle";
-                ctx.fillStyle = (i % 2 === 0) ? '#fffaf5' : '#8c6239';
-                ctx.font = "bold 15px 'Tajawal', Arial";
-                ctx.fillText(prizesList[i], center - 30, 0);
-                ctx.restore();
-            }
-
-            ctx.beginPath();
-            ctx.arc(center, center, 15, 0, 2 * Math.PI);
-            ctx.fillStyle = '#f5e4d3';
-            ctx.strokeStyle = '#8c6239';
-            ctx.lineWidth = 3;
-            ctx.fill();
-            ctx.stroke();
-        }
-
-        function getRandomPrizeIndex() {
-            let num = Math.random() * 100;
-            let currentSum = 0;
-            for (let i = 0; i < weightedPrizes.length; i++) {
-                currentSum += weightedPrizes[i].weight;
-                if (num <= currentSum) return i;
-            }
-            return 5;
-        }
-
-        function startSpinAction() {
-            if (isSpinning) return;
-
-            if (localStorage.getItem('hallCareSpunToday')) {
-                document.getElementById('resultOutput').innerHTML = "عذراً! لقد شاركت في السحب اليوم بالفعل.<br>عد إلينا غداً لفرصة جديدة ⏳";
-                disableSpinButton();
-                return;
-            }
-
-            isSpinning = true;
-            const canvas = document.getElementById('wheelCanvas');
-            const totalSlices = prizesList.length;
-            const degreesPerSlice = 360 / totalSlices;
-            const luckyIndex = getRandomPrizeIndex();
-            
-            const targetOffset = 270 - (luckyIndex * degreesPerSlice) - (degreesPerSlice / 2);
-            const finalRotation = (360 * 6) + targetOffset;
-
-            canvas.style.transform = `rotate(${finalRotation}deg)`;
-
-            setTimeout(() => {
-                isSpinning = false;
-                const wonPrize = prizesList[luckyIndex];
-                const displayArea = document.getElementById('resultOutput');
-
-                if (wonPrize === 'حظ أوفر') {
-                    displayArea.innerHTML = `حظ أوفر المرة القادمة يا <strong>${userData.name}</strong>! 🤍<br>نسعد جداً بزيارتك وتجربتك القادمة.`;
-                } else {
-                    displayArea.innerHTML = `تهانينا يا <strong>${userData.name}</strong>! 🎉<br>لقد ربحت معنا: <span style="color:var(--primary-color); font-size:18px;">${wonPrize}</span><br>كود الجائزة الفوري: <strong>CARE2026</strong>`;
-                }
-
-                localStorage.setItem('hallCareSpunToday', 'true');
-                disableSpinButton();
-            }, 5000);
-        }
-
-        function disableSpinButton() {
-            const btn = document.getElementById('spinActionBtn');
-            btn.innerText = "عد إلينا غداً";
-            btn.disabled = true;
-            btn.style.backgroundColor = "#b3b3b3";
-            btn.style.boxShadow = "none";
-            btn.style.transform = "none !important";
-        }
-    </script>
-</body>
-</html>
+            <button id="spinActionBtn" class="btn-main" onclick="startSpinAction
