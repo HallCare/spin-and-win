@@ -3,20 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عجلة الحظ - صالة العناية | Hall Care</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;800&display=swap" rel="stylesheet">
+    <title>عجلة الحظ - صالة العناية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-color: #f5e4d3; --primary-color: #8c6239; --accent-color: #b07d53; }
+        :root { --bg-color: #f5e4d3; --primary-color: #8c6239; --btn-color: #b07d53; }
         body { margin: 0; font-family: 'Tajawal', sans-serif; background-color: var(--bg-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { text-align: center; max-width: 480px; width: 90%; padding: 30px; background: rgba(255, 255, 255, 0.2); border-radius: 24px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); }
-        .logo { width: 150px; margin-bottom: 20px; }
-        .btn-main { background-color: var(--accent-color); color: white; border: none; padding: 15px 40px; border-radius: 30px; cursor: pointer; font-weight: bold; width: 85%; margin-top: 15px; }
-        .btn-main:disabled { background-color: #a0a0a0; cursor: not-allowed; }
+        
+        .container { text-align: center; max-width: 400px; width: 90%; padding: 40px 25px; background: rgba(255, 255, 255, 0.5); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .logo { width: 120px; margin-bottom: 20px; }
+        h1 { color: var(--primary-color); font-size: 18px; margin-bottom: 20px; }
+        
+        input { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: none; box-sizing: border-box; text-align: center; font-family: inherit; }
+        .btn-main { background-color: var(--btn-color); color: white; border: none; padding: 15px; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold; font-family: inherit; }
+        .btn-main:disabled { background-color: #a0a0a0; }
+
         .screen { display: none; }
         .active-screen { display: block; }
-        .wheel-canvas-container { width: 320px; height: 320px; margin: 20px auto; border-radius: 50%; border: 8px solid var(--primary-color); overflow: hidden; }
+        
+        .wheel-canvas-container { width: 280px; height: 280px; margin: 20px auto; border-radius: 50%; border: 6px solid var(--primary-color); overflow: hidden; }
         #wheelCanvas { width: 100%; height: 100%; transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1); }
-        .result-message { font-size: 18px; font-weight: bold; color: var(--primary-color); margin: 15px 0; }
     </style>
 </head>
 <body>
@@ -26,7 +31,8 @@
 
         <div id="screen1" class="screen active-screen">
             <h1>مرحباً بك في سحب صالة العناية</h1>
-            <input type="text" id="userName" placeholder="الاسم الكريم" style="width: 80%; padding: 12px; border-radius: 10px; border: none; margin-bottom: 10px;"><br>
+            <input type="text" id="userName" placeholder="الاسم الكريم">
+            <input type="tel" id="userPhone" placeholder="رقم الجوال">
             <button class="btn-main" onclick="navigateToScreen2()">التالي</button>
         </div>
 
@@ -40,17 +46,18 @@
             <div class="wheel-canvas-container">
                 <canvas id="wheelCanvas" width="400" height="400"></canvas>
             </div>
-            <div id="resultOutput" class="result-message"></div>
+            <div id="resultOutput" style="font-weight:bold; color:var(--primary-color); margin-bottom:10px;"></div>
             <button id="spinActionBtn" class="btn-main" onclick="startSpinAction()">أدر العجلة الآن</button>
         </div>
     </div>
 
     <script>
-        const prizesList = ['خصم ٢٠٪', 'تقسيمة ١٠ مللي', 'خصم ٥٪', 'مسك مجاني', 'خصم ١٠٪', 'حظ أوفر', 'خصم ١٥٪', 'تقسيمة ٦ مللي'];
-        let userData = { name: "" };
+        const prizesList = ['٢٠٪', '١٠ مللي', '٥٪', 'مسك', '١٠٪', 'حظ أوفر', '١٥٪', '٦ مللي'];
+        let userName = "";
 
         function navigateToScreen2() {
-            userData.name = document.getElementById('userName').value;
+            userName = document.getElementById('userName').value;
+            if(!userName) return alert("الرجاء إدخال الاسم");
             document.getElementById('screen1').classList.remove('active-screen');
             document.getElementById('screen2').classList.add('active-screen');
         }
@@ -59,52 +66,31 @@
             document.getElementById('screen2').classList.remove('active-screen');
             document.getElementById('screen3').classList.add('active-screen');
             drawWheel();
-            checkEligibility();
+            if (localStorage.getItem('lastSpinDate') === new Date().toDateString()) startTimer();
         }
 
         function drawWheel() {
-            const canvas = document.getElementById('wheelCanvas');
-            const ctx = canvas.getContext('2d');
-            const center = 200;
-            const sliceAngle = (2 * Math.PI) / prizesList.length;
-
-            prizesList.forEach((prize, i) => {
-                const angle = i * sliceAngle;
+            const ctx = document.getElementById('wheelCanvas').getContext('2d');
+            const slice = (2 * Math.PI) / prizesList.length;
+            prizesList.forEach((p, i) => {
+                ctx.beginPath(); ctx.moveTo(200, 200);
+                ctx.arc(200, 200, 200, i * slice, (i + 1) * slice);
                 ctx.fillStyle = (i % 2 === 0) ? '#b07d53' : '#d9b48f';
-                ctx.beginPath();
-                ctx.moveTo(center, center);
-                ctx.arc(center, center, 200, angle, angle + sliceAngle);
                 ctx.fill();
-                
-                ctx.save();
-                ctx.translate(center, center);
-                ctx.rotate(angle + sliceAngle / 2);
-                ctx.textAlign = "right";
-                ctx.fillStyle = "#fff";
-                ctx.font = "bold 16px Arial";
-                ctx.fillText(prize, 180, 5);
-                ctx.restore();
+                ctx.save(); ctx.translate(200, 200); ctx.rotate(i * slice + slice / 2);
+                ctx.fillStyle = "#fff"; ctx.font = "bold 20px Tajawal";
+                ctx.fillText(p, 100, 10); ctx.restore();
             });
-        }
-
-        function checkEligibility() {
-            const lastSpin = localStorage.getItem('lastSpinDate');
-            if (lastSpin === new Date().toDateString()) {
-                startTimer();
-            }
         }
 
         function startSpinAction() {
             const canvas = document.getElementById('wheelCanvas');
             const btn = document.getElementById('spinActionBtn');
             const luckyIndex = Math.floor(Math.random() * prizesList.length);
-            const rotation = (360 * 5) + (luckyIndex * (360 / prizesList.length));
-            
-            canvas.style.transform = `rotate(${rotation}deg)`;
+            canvas.style.transform = `rotate(${360 * 5 + (luckyIndex * 45)}deg)`;
             btn.disabled = true;
-
             setTimeout(() => {
-                document.getElementById('resultOutput').innerHTML = `تهانينا ${userData.name}! ربحت: ${prizesList[luckyIndex]}`;
+                document.getElementById('resultOutput').innerHTML = `مبروك ${userName}! ربحت: ${prizesList[luckyIndex]}`;
                 localStorage.setItem('lastSpinDate', new Date().toDateString());
                 startTimer();
             }, 5000);
@@ -114,16 +100,10 @@
             const btn = document.getElementById('spinActionBtn');
             btn.disabled = true;
             const update = () => {
-                const now = new Date();
-                const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-                const diff = tomorrow - now;
-                const h = Math.floor(diff / 3600000);
-                const m = Math.floor((diff % 3600000) / 60000);
-                const s = Math.floor((diff % 60000) / 1000);
-                btn.innerText = `عد إلينا غداً: ${h}:${m}:${s}`;
+                const diff = new Date(new Date().setHours(24,0,0,0)) - new Date();
+                btn.innerText = `عد غداً: ${Math.floor(diff/3600000)}:${Math.floor((diff%3600000)/60000)}:${Math.floor((diff%60000)/1000)}`;
             };
-            setInterval(update, 1000);
-            update();
+            setInterval(update, 1000); update();
         }
     </script>
 </body>
