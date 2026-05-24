@@ -366,36 +366,40 @@
 
         const prizesList = weightedPrizes.map(p => p.text);
 
+        // الدالة المصلحة والجديدة تماماً للانتقال
         function navigateToScreen2() {
             const nameInput = document.getElementById('userName');
             const phoneInput = document.getElementById('userPhone');
             
+            if (!nameInput || !phoneInput) return;
+
             const name = nameInput.value.trim();
             let phone = phoneInput.value.trim();
 
-            // تحقق بسيط ومرن جداً لتجنب أي تعليق بسبب المسافات أو نوعية الأسماء
-            if (!name || name.length < 2) {
-                alert('الرجاء إدخال اسم صحيح.');
+            // 1. التحقق من الاسم
+            if (name === "" || name.length < 2) {
+                alert('الرجاء إدخال الاسم الكريم أولاً.');
                 return;
             }
 
-            if (!phone) {
+            // 2. التحقق من الهاتف
+            if (phone === "") {
                 alert('الرجاء إدخال رقم الجوال.');
                 return;
             }
 
-            // تعديل تلقائي في حال أدخل المستخدم 9 أرقام تبدأ بـ 5 مباشرة
+            // تعديل تلقائي ذكي إذا بدأ بـ 5 وبطول 9 أرقام
             if (phone.length === 9 && phone.startsWith('5')) {
                 phone = '0' + phone;
                 phoneInput.value = phone;
             }
 
-            // التحقق من أن رقم الجوال يتكون فقط من أرقام وبطول مناسب
             if (phone.length < 9 || isNaN(phone)) {
-                alert('يرجى التأكد من كتابة رقم الجوال بشكل صحيح.');
+                alert('يرجى كتابة رقم الجوال بشكل صحيح (أرقام فقط).');
                 return;
             }
 
+            // حفظ البيانات والانتقال الفوري للشاشة التالية
             userData = { name: name, phone: phone };
             
             document.getElementById('screen1').classList.remove('active-screen');
@@ -403,7 +407,8 @@
         }
 
         function unlockWheelButton() {
-            document.getElementById('startPlayBtn').disabled = false;
+            const btn = document.getElementById('startPlayBtn');
+            if(btn) btn.disabled = false;
         }
 
         function navigateToScreen3() {
@@ -414,6 +419,7 @@
 
         function drawWheelStructure() {
             const canvas = document.getElementById('wheelCanvas');
+            if (!canvas) return;
             const ctx = canvas.getContext('2d');
             const sectionsCount = prizesList.length;
             const arcSize = (2 * Math.PI) / sectionsCount;
@@ -503,6 +509,7 @@
 
         function disableSpinButton() {
             const btn = document.getElementById('spinActionBtn');
+            if (!btn) return;
             btn.innerText = "عد إلينا غداً";
             btn.disabled = true;
             btn.style.backgroundColor = "#b3b3b3";
