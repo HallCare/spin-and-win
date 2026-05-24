@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>عجلة الحظ - صالة العناية | Hall Care</title>
+
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@500;800&family=Playfair+Display:ital,wght=1,600&display=swap" rel="stylesheet">
+
+    <!-- Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+    <!-- QR CODE -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+
     <style>
         :root {
-            --bg-color: #f5e4d3;      
-            --primary-color: #8c6239; 
-            --accent-color: #b07d53;  
-            --input-bg: #fffbf7;      
-            --insta-color: #d62976;   
+            --bg-color: #f5e4d3;
+            --primary-color: #8c6239;
+            --accent-color: #b07d53;
+            --input-bg: #fffbf7;
+            --insta-color: #d62976;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
@@ -29,8 +43,6 @@
 
         .floating-icons-container {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
@@ -46,52 +58,53 @@
         }
 
         @keyframes floatAnimation {
-            0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
-            10% { opacity: 0.2; }
-            90% { opacity: 0.2; }
-            100% { transform: translateY(-10vh) rotate(360deg) scale(1.1); opacity: 0; }
+            0% {
+                transform: translateY(110vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.2;
+            }
+
+            90% {
+                opacity: 0.2;
+            }
+
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         .container {
             text-align: center;
             max-width: 480px;
-            width: 90%;
+            width: 92%;
             padding: 40px 25px;
-            box-sizing: border-box;
-            background: rgba(255, 255, 255, 0.12); 
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 24px;
-            backdrop-filter: blur(10px); 
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 15px 35px rgba(140, 98, 57, 0.04);
+            box-shadow: 0 15px 35px rgba(140, 98, 57, 0.05);
             z-index: 5;
         }
 
-        /* تعديل سحري لإخفاء إطار اللوجو تماماً ودمجه مع الكرت ليكون طائراً وراقياً */
         .logo-box {
             width: 160px;
-            height: auto;
-            margin: 0 auto 15px auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            border-radius: 18px; /* تدوير ناعم جداً ومخفي للحواف */
-            box-shadow: 0 4px 15px rgba(140, 98, 57, 0.06); /* ظل ناعم للغاية يدمج اللوجو بالخلفية */
+            margin: auto;
+            margin-bottom: 15px;
         }
 
         .logo {
             width: 100%;
-            height: auto;
-            display: block;
-            object-fit: contain;
         }
 
         h1 {
             color: var(--primary-color);
             font-size: 20px;
-            font-weight: 800;
+            line-height: 1.7;
             margin-bottom: 25px;
-            line-height: 1.6;
         }
 
         .spin-win-text {
@@ -100,100 +113,75 @@
             font-style: italic;
             color: var(--accent-color);
             display: block;
-            margin-top: 6px;
+            margin-top: 5px;
         }
 
         .form-group {
-            margin-bottom: 16px;
-            text-align: right;
             width: 85%;
-            margin-left: auto;
-            margin-right: auto;
+            margin: auto;
+            margin-bottom: 16px;
         }
 
         .form-group input {
             width: 100%;
-            padding: 15px 16px;
-            border: 1.5px solid rgba(140, 98, 57, 0.15);
-            border-radius: 16px; 
-            background-color: var(--input-bg);
+            padding: 15px;
+            border-radius: 16px;
+            border: 1px solid rgba(140, 98, 57, 0.15);
+            background: var(--input-bg);
             font-size: 15px;
-            box-sizing: border-box;
-            outline: none;
             text-align: center;
-            font-family: 'Tajawal', sans-serif;
+            font-family: inherit;
+            outline: none;
+            transition: 0.3s;
             font-weight: bold;
             color: var(--primary-color);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
         }
 
-        .form-group input:hover,
         .form-group input:focus {
             border-color: var(--accent-color);
-            background-color: #ffffff;
-            transform: scale(1.025); 
-            box-shadow: 0 5px 15px rgba(140, 98, 57, 0.05);
+            transform: scale(1.02);
+            background: white;
         }
 
-        .form-group input::placeholder {
-            color: #bfa38a;
+        .btn-main,
+        .btn-insta {
+            width: 85%;
+            border: none;
+            border-radius: 30px;
+            padding: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+            transition: 0.3s;
         }
 
         .btn-main {
-            background-color: var(--accent-color);
+            background: var(--accent-color);
             color: white;
-            border: none;
-            padding: 15px 45px;
-            font-size: 17px;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(176,125,83,0.2);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            font-weight: bold;
-            width: 85%;
-            font-family: 'Tajawal', sans-serif;
-            display: inline-block;
-            text-decoration: none;
             margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(176, 125, 83, 0.25);
         }
 
-        .btn-main:hover {
-            transform: scale(1.03); 
-            box-shadow: 0 6px 20px rgba(176,125,83,0.35);
+        .btn-main:hover,
+        .btn-insta:hover {
+            transform: scale(1.03);
         }
 
         .btn-main:disabled {
-            background-color: #b3b3b3 !important;
+            background: #bcbcbc !important;
             cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none !important;
         }
 
         .btn-insta {
-            background-color: var(--insta-color);
+            background: var(--insta-color);
             color: white;
-            border: none;
-            padding: 14px 35px;
-            font-size: 16px;
-            border-radius: 30px;
-            cursor: pointer;
-            margin-bottom: 15px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            font-weight: bold;
             text-decoration: none;
-            width: 85%;
-            box-sizing: border-box;
-            box-shadow: 0 4px 12px rgba(214, 41, 118, 0.2);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            font-family: 'Tajawal', sans-serif;
-        }
-
-        .btn-insta:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 18px rgba(214, 41, 118, 0.35);
+            margin-bottom: 15px;
         }
 
         .screen {
@@ -202,19 +190,26 @@
 
         .active-screen {
             display: block;
-            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: fadeIn 0.4s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .wheel-outer-wrapper {
             position: relative;
-            margin: 20px auto 30px auto;
             width: 300px;
             height: 300px;
+            margin: 20px auto 30px;
         }
 
         .wheel-outer-wrapper::before {
@@ -223,8 +218,6 @@
             top: -14px;
             left: 50%;
             transform: translateX(-50%);
-            width: 0;
-            height: 0;
             border-left: 16px solid transparent;
             border-right: 16px solid transparent;
             border-top: 26px solid var(--primary-color);
@@ -243,79 +236,168 @@
         #wheelCanvas {
             width: 100%;
             height: 100%;
-            display: block;
             border-radius: 50%;
-            transform: rotate(0deg);
             transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
-            will-change: transform;
         }
 
         .result-message {
             font-size: 16px;
-            font-weight: bold;
             color: var(--primary-color);
-            margin: 15px auto;
-            line-height: 1.6;
-            max-width: 85%;
+            line-height: 1.8;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        #countdownBox {
+            margin-top: 15px;
+            color: var(--primary-color);
+            line-height: 1.7;
+            font-weight: bold;
+        }
+
+        #qrCodeBox {
+            background: white;
+            width: 170px;
+            height: 170px;
+            margin: auto;
+            padding: 10px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
     </style>
 </head>
+
 <body>
 
+    <!-- صوت -->
+    <audio id="spinSound" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Icons -->
     <div class="floating-icons-container">
-        <div class="floating-icon" style="left: 8%; top: 20%; animation-delay: 0s;">✨</div>
-        <div class="floating-icon" style="left: 25%; top: 45%; animation-delay: 3s;">🌸</div>
-        <div class="floating-icon" style="left: 75%; top: 15%; animation-delay: 1s;">✨</div>
-        <div class="floating-icon" style="left: 88%; top: 60%; animation-delay: 5s;">💄</div>
+        <div class="floating-icon" style="left:8%;top:20%;animation-delay:0s;">✨</div>
+        <div class="floating-icon" style="left:25%;top:45%;animation-delay:3s;">🌸</div>
+        <div class="floating-icon" style="left:75%;top:15%;animation-delay:1s;">💄</div>
+        <div class="floating-icon" style="left:88%;top:60%;animation-delay:5s;">✨</div>
     </div>
 
     <div class="container">
+
+        <!-- Logo -->
         <div class="logo-box">
-            <img id="projectLogo" src="Hallcare.png" alt="صالة العناية | Hall Care" class="logo" onerror="this.src='logo.png'; this.onerror=null;">
+            <img src="Hallcare.png" class="logo">
         </div>
 
+        <!-- SCREEN 1 -->
         <div id="screen1" class="screen active-screen">
-            <h1>مرحباً بك في سحب صالة العناية <span class="spin-win-text">Spin & Win</span></h1>
-            
+
+            <h1>
+                مرحباً بك في سحب صالة العناية
+                <span class="spin-win-text">Spin & Win</span>
+            </h1>
+
             <div class="form-group">
                 <input type="text" id="userName" placeholder="الاسم الكريم الثلاثي">
             </div>
+
             <div class="form-group">
                 <input type="tel" id="userPhone" placeholder="رقم الجوال (05xxxxxxxx)" maxlength="10">
             </div>
 
-            <button class="btn-main" onclick="navigateToScreen2()">التالي</button>
+            <button class="btn-main" onclick="navigateToScreen2()">
+                التالي
+            </button>
+
         </div>
 
+        <!-- SCREEN 2 -->
         <div id="screen2" class="screen">
-            <h1>تابعنا على حساب إنستغرام<br>لتفعيل العجلة وبدء اللعب</h1>
-            
-            <a href="https://linktr.ee/HALLCARE?gad_source=1" target="_blank" class="btn-insta" onclick="unlockWheelButton()">
-                <span>📸</span> افتح الرابط وتابعنا هنا
+
+            <h1>
+                تابعنا على إنستغرام
+                <br>
+                لتفعيل العجلة 🎉
+            </h1>
+
+            <a href="https://linktr.ee/HALLCARE?gad_source=1"
+                target="_blank"
+                class="btn-insta"
+                onclick="unlockWheelButton()">
+
+                📸 افتح الرابط وتابعنا هنا
+
             </a>
-            
-            <button id="startPlayBtn" class="btn-main" disabled onclick="navigateToScreen3()">إبدأ اللعب الآن</button>
+
+            <!-- QR -->
+            <div style="margin-bottom:20px;">
+
+                <p style="color:#8c6239;font-weight:bold;">
+                    أو امسح الكود 📱
+                </p>
+
+                <div id="qrCodeBox"></div>
+
+            </div>
+
+            <button id="startPlayBtn"
+                class="btn-main"
+                disabled
+                onclick="navigateToScreen3()">
+
+                ابدأ اللعب الآن
+
+            </button>
+
         </div>
 
+        <!-- SCREEN 3 -->
         <div id="screen3" class="screen">
-            <h1>أدر العجلة وحظاً موفقاً!</h1>
-            
+
+            <h1>
+                أدر العجلة وحظاً موفقاً 🎯
+            </h1>
+
             <div class="wheel-outer-wrapper">
+
                 <div class="wheel-canvas-container">
-                    <canvas id="wheelCanvas" width="400" height="400"></canvas>
+
+                    <canvas id="wheelCanvas"
+                        width="400"
+                        height="400"></canvas>
+
                 </div>
+
             </div>
 
             <div id="resultOutput" class="result-message"></div>
-            <button id="spinActionBtn" class="btn-main" onclick="startSpinAction()">أدر العجلة الآن</button>
+
+            <div id="countdownBox"></div>
+
+            <button id="spinActionBtn"
+                class="btn-main"
+                onclick="startSpinAction()">
+
+                أدر العجلة الآن
+
+            </button>
+
         </div>
+
     </div>
 
     <script>
+
         let userData = {};
         let isSpinning = false;
 
+        const instagramLink = "https://linktr.ee/HALLCARE?gad_source=1";
+
         const weightedPrizes = [
+
             { text: 'خصم ٢٠٪', weight: 5 },
             { text: 'تقسيمة ١٠ مللي', weight: 3 },
             { text: 'خصم ٥٪', weight: 25 },
@@ -324,137 +406,438 @@
             { text: 'حظ أوفر', weight: 35 },
             { text: 'خصم ١٥٪', weight: 10 },
             { text: 'تقسيمة ٦ مللي', weight: 5 }
+
         ];
 
         const prizesList = weightedPrizes.map(p => p.text);
 
+        /* ===================== */
+        /* QR CODE */
+        /* ===================== */
+
+        window.onload = () => {
+
+            new QRCode(document.getElementById("qrCodeBox"), {
+
+                text: instagramLink,
+                width: 140,
+                height: 140
+
+            });
+
+            checkCooldown();
+        };
+
+        /* ===================== */
+        /* SCREEN 2 */
+        /* ===================== */
+
         function navigateToScreen2() {
-            const name = document.getElementById('userName').value.trim();
-            const phone = document.getElementById('userPhone').value.trim();
+
+            const name =
+                document.getElementById('userName').value.trim();
+
+            const phone =
+                document.getElementById('userPhone').value.trim();
+
             const phoneRegex = /^(05)\d{8}$/;
 
             if (name.length < 3) {
-                alert('الرجاء إدخال الاسم الكريم الثلاثي.');
-                return;
-            }
-            if (!phoneRegex.test(phone)) {
-                alert('الرجاء إدخال رقم جوال صحيح مكون من 10 أرقام ويبدأ بـ 05.');
+
+                alert('الرجاء إدخال الاسم الكريم الثلاثي');
+
                 return;
             }
 
-            userData = { name: name, phone: phone };
-            
-            document.getElementById('screen1').classList.remove('active-screen');
-            document.getElementById('screen2').classList.add('active-screen');
+            if (!phoneRegex.test(phone)) {
+
+                alert('أدخل رقم جوال صحيح يبدأ بـ 05');
+
+                return;
+            }
+
+            userData = {
+                name,
+                phone
+            };
+
+            document.getElementById('screen1')
+                .classList.remove('active-screen');
+
+            document.getElementById('screen2')
+                .classList.add('active-screen');
         }
+
+        /* ===================== */
+        /* ENABLE BUTTON */
+        /* ===================== */
 
         function unlockWheelButton() {
-            document.getElementById('startPlayBtn').disabled = false;
+
+            document.getElementById('startPlayBtn')
+                .disabled = false;
         }
 
+        /* ===================== */
+        /* SCREEN 3 */
+        /* ===================== */
+
         function navigateToScreen3() {
-            document.getElementById('screen2').classList.remove('active-screen');
-            document.getElementById('screen3').classList.add('active-screen');
+
+            document.getElementById('screen2')
+                .classList.remove('active-screen');
+
+            document.getElementById('screen3')
+                .classList.add('active-screen');
+
             drawWheelStructure();
         }
 
+        /* ===================== */
+        /* DRAW WHEEL */
+        /* ===================== */
+
         function drawWheelStructure() {
-            const canvas = document.getElementById('wheelCanvas');
-            const ctx = canvas.getContext('2d');
-            const sectionsCount = prizesList.length;
-            const arcSize = (2 * Math.PI) / sectionsCount;
-            const center = canvas.width / 2;
+
+            const canvas =
+                document.getElementById('wheelCanvas');
+
+            const ctx =
+                canvas.getContext('2d');
+
+            const sectionsCount =
+                prizesList.length;
+
+            const arcSize =
+                (2 * Math.PI) / sectionsCount;
+
+            const center =
+                canvas.width / 2;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             for (let i = 0; i < sectionsCount; i++) {
+
                 const angle = i * arcSize;
-                ctx.fillStyle = (i % 2 === 0) ? '#b07d53' : '#d9b48f';
-                
+
+                ctx.fillStyle =
+                    (i % 2 === 0)
+                        ? '#b07d53'
+                        : '#d9b48f';
+
                 ctx.beginPath();
+
                 ctx.moveTo(center, center);
-                ctx.arc(center, center, center - 5, angle, angle + arcSize);
+
+                ctx.arc(
+                    center,
+                    center,
+                    center - 5,
+                    angle,
+                    angle + arcSize
+                );
+
                 ctx.closePath();
+
                 ctx.fill();
 
                 ctx.strokeStyle = '#8c6239';
+
                 ctx.lineWidth = 2;
+
                 ctx.stroke();
 
                 ctx.save();
+
                 ctx.translate(center, center);
+
                 ctx.rotate(angle + arcSize / 2);
+
                 ctx.textAlign = "right";
-                ctx.textBaseline = "middle";
-                ctx.fillStyle = (i % 2 === 0) ? '#fffaf5' : '#8c6239';
-                ctx.font = "bold 15px 'Tajawal', Arial";
+
+                ctx.fillStyle =
+                    (i % 2 === 0)
+                        ? '#fffaf5'
+                        : '#8c6239';
+
+                ctx.font = "bold 15px Tajawal";
+
                 ctx.fillText(prizesList[i], center - 30, 0);
+
                 ctx.restore();
             }
 
             ctx.beginPath();
+
             ctx.arc(center, center, 15, 0, 2 * Math.PI);
+
             ctx.fillStyle = '#f5e4d3';
-            ctx.strokeStyle = '#8c6239';
-            ctx.lineWidth = 3;
+
             ctx.fill();
+
+            ctx.strokeStyle = '#8c6239';
+
+            ctx.lineWidth = 3;
+
             ctx.stroke();
         }
 
+        /* ===================== */
+        /* RANDOM PRIZE */
+        /* ===================== */
+
         function getRandomPrizeIndex() {
+
             let num = Math.random() * 100;
+
             let currentSum = 0;
+
             for (let i = 0; i < weightedPrizes.length; i++) {
+
                 currentSum += weightedPrizes[i].weight;
-                if (num <= currentSum) return i;
+
+                if (num <= currentSum) {
+
+                    return i;
+                }
             }
+
             return 5;
         }
 
+        /* ===================== */
+        /* START SPIN */
+        /* ===================== */
+
         function startSpinAction() {
+
             if (isSpinning) return;
 
-            if (localStorage.getItem('hallCareSpunToday')) {
-                document.getElementById('resultOutput').innerHTML = "عذراً! لقد شاركت في السحب اليوم بالفعل.<br>عد إلينا غداً لفرصة جديدة ⏳";
-                disableSpinButton();
+            if (localStorage.getItem('hallCareSpinTime')) {
+
+                showRemainingTime();
+
                 return;
             }
 
             isSpinning = true;
-            const canvas = document.getElementById('wheelCanvas');
-            const totalSlices = prizesList.length;
-            const degreesPerSlice = 360 / totalSlices;
-            const luckyIndex = getRandomPrizeIndex();
-            
-            const targetOffset = 270 - (luckyIndex * degreesPerSlice) - (degreesPerSlice / 2);
-            const finalRotation = (360 * 6) + targetOffset;
 
-            canvas.style.transform = `rotate(${finalRotation}deg)`;
+            const spinSound =
+                document.getElementById('spinSound');
+
+            spinSound.currentTime = 0;
+
+            spinSound.play();
+
+            const canvas =
+                document.getElementById('wheelCanvas');
+
+            const totalSlices =
+                prizesList.length;
+
+            const degreesPerSlice =
+                360 / totalSlices;
+
+            const luckyIndex =
+                getRandomPrizeIndex();
+
+            const targetOffset =
+                270 -
+                (luckyIndex * degreesPerSlice) -
+                (degreesPerSlice / 2);
+
+            const finalRotation =
+                (360 * 6) + targetOffset;
+
+            canvas.style.transform =
+                `rotate(${finalRotation}deg)`;
 
             setTimeout(() => {
+
                 isSpinning = false;
-                const wonPrize = prizesList[luckyIndex];
-                const displayArea = document.getElementById('resultOutput');
+
+                const wonPrize =
+                    prizesList[luckyIndex];
+
+                const displayArea =
+                    document.getElementById('resultOutput');
+
+                const next24Hours =
+                    Date.now() + (24 * 60 * 60 * 1000);
+
+                localStorage.setItem(
+                    'hallCareSpinTime',
+                    next24Hours
+                );
+
+                sendDataToGoogleSheets(wonPrize);
 
                 if (wonPrize === 'حظ أوفر') {
-                    displayArea.innerHTML = `حظ أوفر المرة القادمة يا <strong>${userData.name}</strong>! 🤍<br>نسعد جداً بزيارتك وتجربتك القادمة.`;
+
+                    displayArea.innerHTML =
+                        `
+                        حظ أوفر يا
+                        <strong>${userData.name}</strong>
+                        🤍
+                        `;
+
                 } else {
-                    displayArea.innerHTML = `تهانينا يا <strong>${userData.name}</strong>! 🎉<br>لقد ربحت معنا: <span style="color:var(--primary-color); font-size:18px;">${wonPrize}</span><br>كود الجائزة الفوري: <strong>CARE2026</strong>`;
+
+                    displayArea.innerHTML =
+                        `
+                        تهانينا يا
+                        <strong>${userData.name}</strong>
+                        🎉
+                        <br><br>
+                        لقد ربحت:
+                        <br>
+                        <span style="font-size:20px;color:#8c6239;">
+                            ${wonPrize}
+                        </span>
+                        `;
+
+                    confetti({
+
+                        particleCount: 200,
+                        spread: 100,
+                        origin: { y: 0.6 }
+
+                    });
                 }
 
-                localStorage.setItem('hallCareSpunToday', 'true');
                 disableSpinButton();
+
+                showRemainingTime();
+
             }, 5000);
         }
 
+        /* ===================== */
+        /* DISABLE BUTTON */
+        /* ===================== */
+
         function disableSpinButton() {
-            const btn = document.getElementById('spinActionBtn');
-            btn.innerText = "عد إلينا غداً";
+
+            const btn =
+                document.getElementById('spinActionBtn');
+
             btn.disabled = true;
-            btn.style.backgroundColor = "#b3b3b3";
-            btn.style.boxShadow = "none";
-            btn.style.transform = "none !important";
+
+            btn.innerText = "تم اللعب اليوم";
         }
+
+        /* ===================== */
+        /* COUNTDOWN */
+        /* ===================== */
+
+        function showRemainingTime() {
+
+            const countdownBox =
+                document.getElementById('countdownBox');
+
+            const savedTime =
+                localStorage.getItem('hallCareSpinTime');
+
+            if (!savedTime) return;
+
+            const interval = setInterval(() => {
+
+                const now = Date.now();
+
+                const distance =
+                    savedTime - now;
+
+                if (distance <= 0) {
+
+                    clearInterval(interval);
+
+                    localStorage.removeItem('hallCareSpinTime');
+
+                    countdownBox.innerHTML =
+                        "يمكنك اللعب الآن 🎉";
+
+                    document.getElementById('spinActionBtn')
+                        .disabled = false;
+
+                    return;
+                }
+
+                const hours =
+                    Math.floor(distance / (1000 * 60 * 60));
+
+                const minutes =
+                    Math.floor(
+                        (distance % (1000 * 60 * 60))
+                        / (1000 * 60)
+                    );
+
+                const seconds =
+                    Math.floor(
+                        (distance % (1000 * 60))
+                        / 1000
+                    );
+
+                countdownBox.innerHTML =
+                    `
+                    يمكنك اللعب بعد:
+                    <br>
+                    ${hours} ساعة
+                    ${minutes} دقيقة
+                    ${seconds} ثانية
+                    `;
+            }, 1000);
+        }
+
+        /* ===================== */
+        /* CHECK COOLDOWN */
+        /* ===================== */
+
+        function checkCooldown() {
+
+            if (localStorage.getItem('hallCareSpinTime')) {
+
+                disableSpinButton();
+
+                showRemainingTime();
+            }
+        }
+
+        /* ===================== */
+        /* GOOGLE SHEETS */
+        /* ===================== */
+
+        function sendDataToGoogleSheets(prize) {
+
+            const scriptURL =
+                "PUT_YOUR_GOOGLE_SCRIPT_URL_HERE";
+
+            fetch(scriptURL, {
+
+                method: 'POST',
+
+                mode: 'no-cors',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify({
+
+                    name: userData.name,
+
+                    phone: userData.phone,
+
+                    prize: prize,
+
+                    date: new Date().toLocaleString()
+
+                })
+
+            });
+        }
+
     </script>
+
 </body>
+
 </html>
