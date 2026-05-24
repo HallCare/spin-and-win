@@ -66,17 +66,16 @@
             z-index: 5;
         }
 
-        /* تعديل سحري لإخفاء إطار اللوجو تماماً ودمجه مع الكرت ليكون طائراً وراقياً */
+        /* تعديل الشعار لمنع الاقتصاص الدائري المزعج والحفاظ على أبعاد الهوية البصرية للصالون */
         .logo-box {
-            width: 160px;
+            width: 180px; 
             height: auto;
             margin: 0 auto 15px auto;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            border-radius: 18px; /* تدوير ناعم جداً ومخفي للحواف */
-            box-shadow: 0 4px 15px rgba(140, 98, 57, 0.06); /* ظل ناعم للغاية يدمج اللوجو بالخلفية */
+            background: transparent;
         }
 
         .logo {
@@ -84,6 +83,7 @@
             height: auto;
             display: block;
             object-fit: contain;
+            border-radius: 0; 
         }
 
         h1 {
@@ -288,10 +288,10 @@
         </div>
 
         <div id="screen2" class="screen">
-            <h1>تابعنا على حساب إنستغرام<br>لتفعيل العجلة وبدء اللعب</h1>
+            <h1>تابعنا على حساباتنا<br>لتفعيل العجلة وبدء اللعب</h1>
             
             <a href="https://linktr.ee/HALLCARE?gad_source=1" target="_blank" class="btn-insta" onclick="unlockWheelButton()">
-                <span>📸</span> افتح الرابط وتابعنا هنا
+                <span>🔗</span> افتح الرابط وتابعنا من هنا
             </a>
             
             <button id="startPlayBtn" class="btn-main" disabled onclick="navigateToScreen3()">إبدأ اللعب الآن</button>
