@@ -70,28 +70,14 @@
             position: relative;
         }
 
-        /* تعديل الحاوية لتصبح مستطيلة تماماً وبدون أي زوايا دائرية حادة تشوه اللوجو */
-        .logo-box {
-            width: 100%;
-            max-width: 200px;
-            margin: 0 auto 20px auto;
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 8px;
-            box-shadow: 0 4px 15px rgba(140, 98, 57, 0.08);
-            box-sizing: border-box;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
+        /* تنسيق اللوجو مباشرة بعد حذف الحاوية البيضاء ليصبح مدمجاً بانسجام */
         .logo {
             width: 100%;
+            max-width: 160px;
             height: auto;
-            max-height: 120px;
-            object-fit: contain; /* يضمن بقاء أبعاد اللوجو كاملة بدون قص */
-            border-radius: 0 !important; /* إلغاء أي دورة إجبارية من المتصفح */
+            margin: 0 auto 20px auto;
             display: block;
+            object-fit: contain;
         }
 
         h1 {
@@ -312,9 +298,7 @@
     </div>
 
     <div class="container">
-        <div class="logo-box">
-            <img id="projectLogo" src="Hallcare.png" alt="صالة العناية | Hall Care" class="logo" onerror="this.src='logo.png'; this.onerror=null;">
-        </div>
+        <img id="projectLogo" src="Hallcare.png" alt="صالة العناية | Hall Care" class="logo" onerror="this.src='logo.png'; this.onerror=null;">
 
         <div id="screen1" class="screen active-screen">
             <h1>مرحباً بك في سحب صالة العناية <span class="spin-win-text">Spin & Win</span></h1>
@@ -497,9 +481,4 @@
             btn.innerText = "عد إلينا غداً";
             btn.disabled = true;
             btn.style.backgroundColor = "#b3b3b3";
-            btn.style.boxShadow = "none";
-            btn.style.transform = "none !important";
-        }
-    </script>
-</body>
-</html>
+            btn.style.boxShadow
